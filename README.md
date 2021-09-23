@@ -1,5 +1,7 @@
 # dotfiles
 
+There is no magic here. The bash script just creates symbolic links from `~/dotfiles`.
+
 ```shell
 # >>> start
 
