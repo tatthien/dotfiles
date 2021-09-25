@@ -27,6 +27,8 @@ Plug 'airblade/vim-gitgutter'
 
 " PHP
 Plug 'arnaud-lb/vim-php-namespace', {'for': 'php'}
+
+Plug 'jiangmiao/auto-pairs'
 call plug#end()
 
 colorscheme gruvbox
@@ -91,7 +93,7 @@ nnoremap <silent> fn :FloatermNext<CR>
 let g:floaterm_position = 'bottom'
 let g:floaterm_width = 0.99
 let g:floaterm_height = 0.4
-let g:floaterm_title = 'Terminal'
+let g:floaterm_title = '🎏'
 
 " Config: tmuxline
 let g:tmuxline_preset = {
