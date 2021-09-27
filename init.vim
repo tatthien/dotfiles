@@ -54,6 +54,7 @@ set showcmd                  " Show me what I'm typing
 set noswapfile               " Don't use swapfile
 set nobackup                 " Don't create annoying backup files
 set fileformats=unix,dos,mac " Prefer Unix over Windows over OS 9 formats
+set ignorecase
 set smartcase
 
 " Tabsize
