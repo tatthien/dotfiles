@@ -1,17 +1,24 @@
 call plug#begin(stdpath('config') . '/plugged')
 
+" Files: searching, tree
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'preservim/nerdtree'
+
+" Floaterm
 Plug 'voldikss/vim-floaterm'
 
+" Autocomplete
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+" Status line
 Plug 'itchyny/lightline.vim'
 Plug 'edkolev/tmuxline.vim'
 
+" Code commenting
 Plug 'tpope/vim-commentary'
 
+" Code highlighting
 Plug 'elzr/vim-json', {'for' : 'json'}
 Plug 'posva/vim-vue'
 Plug 'pangloss/vim-javascript'
@@ -21,8 +28,10 @@ Plug 'digitaltoad/vim-pug', {'for': 'vue'}
 
 Plug 'Yggdroot/indentLine'
 
+" Theme
 Plug 'gruvbox-community/gruvbox'
 
+" Git
 Plug 'airblade/vim-gitgutter'
 
 Plug 'jiangmiao/auto-pairs'
@@ -32,6 +41,9 @@ Plug 'SirVer/ultisnips'
 
 " Go
 Plug 'fatih/vim-go'
+
+" Tagbar: a class outline viewer for Vim
+Plug 'preservim/tagbar'
 
 call plug#end()
 
@@ -79,6 +91,8 @@ inoremap ww <Esc>:w<CR>
 inoremap jj <Esc>
 inoremap jk <Esc>
 tnoremap <Esc> <C-\><C-n>
+
+nnoremap <Leader>sv :source $MYVIMRC<CR>
 
 " Config: nerdtree
 nnoremap cc :NERDTreeToggle<CR>
@@ -147,3 +161,8 @@ let g:UltiSnipsJumpForwardTrigger='<tab>'
 let g:UltiSnipsJumpBackwardTrigger='<s-tab>'
 let g:UltiSnipsListSnippets='<c-l>'
 let g:UltiSnipsSnippetDirectories=[$HOME.'/dotfiles/vim-snippets']
+
+" Config: tagbar
+nnoremap <C-t> :TagbarToggle<CR>
+let g:tagbar_autofocus = 1
+let g:tagbar_compact = 1
