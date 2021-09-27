@@ -11,11 +11,11 @@ starship init fish | source
 
 #----- ALIAS ------
 # Edit dotfiles
-alias cfish='nvim ~/.config/fish/config.fish'
-alias cnvim='nvim ~/.config/nvim/init.vim'
-alias calacritty='nvim ~/.config/alacritty/alacritty.yml'
-alias ctmux='nvim ~/.tmux.conf'
-alias cstarship='nvim ~/.config/starship.toml'
+alias cfish='nvim ~/dotfiles/config.fish'
+alias cnvim='nvim ~/dotfiles/init.vim'
+alias calacritty='nvim ~/dotfiles/alacritty/alacritty.yml'
+alias ctmux='nvim ~/dotfiles/.tmux.conf'
+alias cstarship='nvim ~/dotfiles/starship.toml'
 
 # Kubernetes
 alias k='kubectl'

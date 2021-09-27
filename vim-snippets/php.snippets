@@ -1,0 +1,31 @@
+priority -10
+
+# var_dump for WordPress
+snippet dump "var_dump(...)"
+echo '<pre>'
+var_dump(${1:var});
+echo '</pre>'
+endsnippet
+
+# Laravel job
+snippet ljob "Laravel job"
+<?php
+
+namespace ${1:namespace}
+
+use Illuminate\Foundation\Bus\Dispatchable;
+
+class ${2:class}
+{
+	use Dispatchable;
+
+	public function __construct()
+	{
+
+	}
+
+	public function handle() {
+
+	}
+}
+endsnippet

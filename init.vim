@@ -25,18 +25,17 @@ Plug 'gruvbox-community/gruvbox'
 
 Plug 'airblade/vim-gitgutter'
 
-" PHP
-Plug 'arnaud-lb/vim-php-namespace', {'for': 'php'}
-
 Plug 'jiangmiao/auto-pairs'
+
+" Snippet
+Plug 'SirVer/ultisnips'
+
+" Go
+Plug 'fatih/vim-go'
+
 call plug#end()
 
 colorscheme gruvbox
-
-inoremap ww <Esc>:w<CR>
-inoremap jj <Esc>
-inoremap jk <Esc>
-tnoremap <Esc> <C-\><C-n>
 
 set nocompatible
 filetype off
@@ -65,11 +64,20 @@ set expandtab
 autocmd Filetype php setlocal tabstop=4 shiftwidth=4
 autocmd FileType go setlocal noexpandtab tabstop=4 shiftwidth=4
 
+" Ensure tabs don't get converted to spaces in Makefiles.
+autocmd Filetype make setlocal noexpandtab
+
+" Config: Keys binding
 " Better split switching
 map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
+
+inoremap ww <Esc>:w<CR>
+inoremap jj <Esc>
+inoremap jk <Esc>
+tnoremap <Esc> <C-\><C-n>
 
 " Config: nerdtree
 nnoremap cc :NERDTreeToggle<CR>
@@ -78,7 +86,6 @@ nnoremap cf :NERDTreeFind<CR>
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 let g:NERDTreeMinimalUI = 1
-let g:NERDTreeMinimalMenu = 1
 
 " Config: fzf
 nnoremap <C-f> :Files<CR>
@@ -117,3 +124,25 @@ let g:vim_markdown_frontmatter = 1
 let g:vim_markdown_new_list_item_indent = 2
 let g:vim_markdown_no_extensions_in_markdown = 1
 
+" Config: vim-go
+let g:go_imports_mode="gopls"
+let g:go_imports_autosave=1
+
+augroup go
+  autocmd!
+
+  autocmd FileType go nmap <silent> <Leader>r <Plug>(go-run)
+  autocmd FileType go nmap <silent> <Leader>t <Plug>(go-test)
+augroup END
+
+" Config: provider
+" https://neovim.io/doc/user/provider.html
+let g:python3_host_prog = '/usr/local/bin/python3'
+let g:python_host_prog = '/usr/bin/python'
+
+" Config: snippet
+let g:UltiSnipsExpandTrigger='<tab>'
+let g:UltiSnipsJumpForwardTrigger='<tab>'  
+let g:UltiSnipsJumpBackwardTrigger='<s-tab>'
+let g:UltiSnipsListSnippets='<c-l>'
+let g:UltiSnipsSnippetDirectories=[$HOME.'/dotfiles/vim-snippets']
