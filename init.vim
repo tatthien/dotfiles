@@ -19,7 +19,6 @@ Plug 'edkolev/tmuxline.vim'
 Plug 'tpope/vim-commentary'
 
 " Code highlighting
-Plug 'elzr/vim-json', {'for' : 'json'}
 Plug 'posva/vim-vue'
 Plug 'pangloss/vim-javascript'
 Plug 'cespare/vim-toml'
@@ -47,40 +46,53 @@ Plug 'preservim/tagbar'
 
 call plug#end()
 
+set termguicolors
+let g:gruvbox_italic=1
 colorscheme gruvbox
 
+" Enable italics (this line must be placed after colorscheme)
+highlight Comment cterm=italic
+
 set nocompatible
-filetype off
+
+filetype on
+filetype plugin on
 filetype plugin indent on
 
 set laststatus=2
 set encoding=utf-8              " Set default encoding to UTF-8
 set autoread                    " Automatically reread changed files without asking me anything
-set autoindent                  
+               
 set backspace=indent,eol,start  " Makes backspace key more powerful.
 set incsearch                   " Shows the match while typing
 set hlsearch                    " Highlight found searches
-set number                   " Show line numbers
+set number                      " Show line numbers
 set relativenumber
-set showcmd                  " Show me what I'm typing
-set noswapfile               " Don't use swapfile
-set nobackup                 " Don't create annoying backup files
-set fileformats=unix,dos,mac " Prefer Unix over Windows over OS 9 formats
+set showcmd                     " Show me what I'm typing
+set noswapfile                  " Don't use swapfile
+set nobackup                    " Don't create annoying backup files
+set fileformats=unix,dos,mac    " Prefer Unix over Windows over OS 9 formats
+
+set expandtab
+set shiftwidth=4
+set tabstop=4
+set softtabstop=4
+set autoindent   
+set smartindent
+
 set ignorecase
 set smartcase
 
 " Tabsize
-set tabstop=2
-set shiftwidth=2
-set expandtab
-
-autocmd Filetype php setlocal tabstop=4 shiftwidth=4
+autocmd FileType css setlocal tabstop=2 softtabstop=2 shiftwidth=2 
+autocmd FileType html setlocal tabstop=2 softtabstop=2 shiftwidth=2 
+autocmd FileType javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2 
+autocmd FileType json setlocal tabstop=2 softtabstop=2 shiftwidth=2 
+autocmd FileType php setlocal noexpandtab tabstop=4 softtabstop=4 shiftwidth=4
 autocmd FileType go setlocal noexpandtab tabstop=4 shiftwidth=4
+autocmd FileType make setlocal noexpandtab
 
-" Ensure tabs don't get converted to spaces in Makefiles.
-autocmd Filetype make setlocal noexpandtab
-
-" Config: Keys binding
+" Config: Keys mapping
 " Better split switching
 map <C-j> <C-W>j
 map <C-k> <C-W>k
@@ -92,18 +104,38 @@ inoremap jj <Esc>
 inoremap jk <Esc>
 tnoremap <Esc> <C-\><C-n>
 
+" Enable movement by screen line instead of movement by line for j, k
+nnoremap j gj
+nnoremap k gk
+
+" Toggle wrap
+nnoremap <leader>z :set wrap!<CR>
+
+" vim-plug
+nnoremap <leader>p :PlugInstall<CR>
+nnoremap <leader>u :PlugUpdate<CR>
+
+" Source nvim easily
 nnoremap <Leader>sv :source $MYVIMRC<CR>
+
+" Copy & page
+noremap <C-c> "*y
+noremap <C-v> "*p
 
 " Config: nerdtree
 nnoremap cc :NERDTreeToggle<CR>
 nnoremap cf :NERDTreeFind<CR>
 
+let NERDTreeShowHidden=1
+let NERDTreeIgnore=['\.swp$', '\.git$', '\.vscode$', '\.idea$']
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 let g:NERDTreeMinimalUI = 1
 
 " Config: fzf
 nnoremap <C-f> :Files<CR>
+nnoremap <C-p> :GFiles<CR>
+nnoremap ; :Buffer<CR>
 nnoremap ag :Ag<CR>
 nnoremap w :b<space>
 
@@ -114,7 +146,7 @@ nnoremap <silent> fn :FloatermNext<CR>
 
 let g:floaterm_position = 'bottom'
 let g:floaterm_width = 0.99
-let g:floaterm_height = 0.4
+let g:floaterm_height = 0.5
 let g:floaterm_title = '🎏'
 
 " Config: tmuxline
@@ -141,6 +173,8 @@ let g:vim_markdown_no_extensions_in_markdown = 1
 
 " Config: vim-go
 let g:go_imports_mode="gopls"
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
 let g:go_imports_autosave=1
 
 augroup go
