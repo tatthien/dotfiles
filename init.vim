@@ -1,3 +1,83 @@
+call plug#begin(stdpath('config') . '/plugged')
+
+" Files: searching, tree
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'preservim/nerdtree'
+
+" Floaterm
+Plug 'voldikss/vim-floaterm'
+
+" Autocomplete
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Status line
+Plug 'itchyny/lightline.vim'
+Plug 'edkolev/tmuxline.vim'
+
+" Code commenting
+Plug 'tpope/vim-commentary'
+
+" Code highlighting
+Plug 'posva/vim-vue'
+Plug 'pangloss/vim-javascript'
+Plug 'cespare/vim-toml'
+Plug 'plasticboy/vim-markdown'
+Plug 'digitaltoad/vim-pug', {'for': 'vue'}
+
+Plug 'Yggdroot/indentLine'
+
+" Theme
+Plug 'gruvbox-community/gruvbox'
+
+" Git
+Plug 'airblade/vim-gitgutter'
+
+Plug 'jiangmiao/auto-pairs'
+
+" Snippet
+Plug 'SirVer/ultisnips'
+
+" Go
+Plug 'fatih/vim-go'
+
+" Tagbar: a class outline viewer for Vim
+Plug 'preservim/tagbar'
+
+call plug#end()
+
+set termguicolors
+let g:gruvbox_italic=1
+colorscheme gruvbox
+
+" Enable italics (this line must be placed after colorscheme)
+highlight Comment cterm=italic
+
+set nocompatible
+
+filetype on
+filetype plugin on
+filetype plugin indent on
+
+set laststatus=2
+set encoding=utf-8              " Set default encoding to UTF-8
+set autoread                    " Automatically reread changed files without asking me anything
+
+set backspace=indent,eol,start  " Makes backspace key more powerful.
+set incsearch                   " Shows the match while typing
+set hlsearch                    " Highlight found searches
+set number                      " Show line numbers
+set relativenumber
+set showcmd                     " Show me what I'm typing
+set noswapfile                  " Don't use swapfile
+set nobackup                    " Don't create annoying backup files
+set fileformats=unix,dos,mac    " Prefer Unix over Windows over OS 9 formats
+
+set autoindent   
+set smartindent
+
+set ignorecase
+set smartcase
 
 autocmd FileType css setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
 autocmd FileType html setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
@@ -54,7 +134,7 @@ nnoremap cc :NERDTreeToggle<CR>
 nnoremap cf :NERDTreeFind<CR>
 
 let NERDTreeShowHidden=1
-let NERDTreeIgnore=['\.swp$', '\.git$', '\.vscode$', '\.idea$']
+let NERDTreeIgnore=['\.swp$', '\.git$', '\.vscode$', '\.idea$', '.DS_Store']
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 let g:NERDTreeMinimalUI = 1
