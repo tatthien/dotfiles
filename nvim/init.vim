@@ -1,50 +1,4 @@
-call plug#begin(stdpath('config') . '/plugged')
-
-" Files: searching, tree
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'preservim/nerdtree'
-
-" Floaterm
-Plug 'voldikss/vim-floaterm'
-
-" Autocomplete
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-" Status line
-Plug 'itchyny/lightline.vim'
-Plug 'edkolev/tmuxline.vim'
-
-" Code commenting
-Plug 'tpope/vim-commentary'
-
-" Code highlighting
-Plug 'posva/vim-vue'
-Plug 'pangloss/vim-javascript'
-Plug 'cespare/vim-toml'
-Plug 'plasticboy/vim-markdown'
-Plug 'digitaltoad/vim-pug', {'for': 'vue'}
-
-Plug 'Yggdroot/indentLine'
-
-" Theme
-Plug 'gruvbox-community/gruvbox'
-
-" Git
-Plug 'airblade/vim-gitgutter'
-
-Plug 'jiangmiao/auto-pairs'
-
-" Snippet
-Plug 'SirVer/ultisnips'
-
-" Go
-Plug 'fatih/vim-go'
-
-" Tagbar: a class outline viewer for Vim
-Plug 'preservim/tagbar'
-
-call plug#end()
+source $HOME/.config/nvim/plug.vim
 
 set termguicolors
 let g:gruvbox_italic=1
@@ -60,7 +14,7 @@ filetype plugin on
 filetype plugin indent on
 
 set laststatus=2
-set encoding=utf-8              " Set default encoding to UTF-8
+set encoding=UTF-8              " Set default encoding to UTF-8
 set autoread                    " Automatically reread changed files without asking me anything
 
 set backspace=indent,eol,start  " Makes backspace key more powerful.
@@ -74,7 +28,6 @@ set nobackup                    " Don't create annoying backup files
 set fileformats=unix,dos,mac    " Prefer Unix over Windows over OS 9 formats
 
 set autoindent   
-set smartindent
 
 set ignorecase
 set smartcase
@@ -82,9 +35,10 @@ set smartcase
 autocmd FileType css setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
 autocmd FileType html setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
 autocmd FileType javascript setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
+autocmd FileType typescript setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
 autocmd FileType json setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
 
-autocmd FileType php setlocal noexpandtab  tabstop=4 softtabstop=4 shiftwidth=4
+autocmd FileType php setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
 autocmd FileType go setlocal noexpandtab tabstop=4 shiftwidth=4
 autocmd FileType make setlocal noexpandtab
 
@@ -134,14 +88,14 @@ nnoremap cc :NERDTreeToggle<CR>
 nnoremap cf :NERDTreeFind<CR>
 
 let NERDTreeShowHidden=1
-let NERDTreeIgnore=['\.swp$', '\.git$', '\.vscode$', '\.idea$', '.DS_Store']
+let NERDTreeIgnore=['\.swp$', '\.git$', '\.vscode$', '\.idea$', '.DS_Store', 'node_modules$']
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 let g:NERDTreeMinimalUI = 1
 
 " Config: fzf
-nnoremap <C-f> :Files<CR>
-nnoremap <C-p> :GFiles<CR>
+nnoremap ff :Files<CR>
+nnoremap gf :GFiles<CR>
 nnoremap ; :Buffer<CR>
 nnoremap ag :Ag<CR>
 nnoremap w :b<space>
@@ -168,18 +122,8 @@ let g:tmuxline_preset = {
 
 let g:tmuxline_powerline_separators = 0
 
-" Config: markdown
-let g:vim_markdown_folding_disabled = 1
-let g:vim_markdown_fenced_languages = ['go=go', 'viml=vim', 'bash=sh']
-let g:vim_markdown_conceal = 0
-let g:vim_markdown_conceal_code_blocks = 0
-let g:vim_markdown_toml_frontmatter = 1
-let g:vim_markdown_frontmatter = 1
-let g:vim_markdown_new_list_item_indent = 2
-let g:vim_markdown_no_extensions_in_markdown = 1
-
 " Config: vim-go
-let g:go_imports_mode="gopls"
+let g:go_imports_mode='gopls'
 let g:go_def_mode='gopls'
 let g:go_info_mode='gopls'
 let g:go_imports_autosave=1
@@ -195,15 +139,3 @@ augroup END
 " https://neovim.io/doc/user/provider.html
 let g:python3_host_prog = '/usr/local/bin/python3'
 let g:python_host_prog = '/usr/bin/python'
-
-" Config: snippet
-let g:UltiSnipsExpandTrigger='<tab>'
-let g:UltiSnipsJumpForwardTrigger='<tab>'  
-let g:UltiSnipsJumpBackwardTrigger='<s-tab>'
-let g:UltiSnipsListSnippets='<c-l>'
-let g:UltiSnipsSnippetDirectories=[$HOME.'/dotfiles/vim-snippets']
-
-" Config: tagbar
-nnoremap <C-t> :TagbarToggle<CR>
-let g:tagbar_autofocus = 1
-let g:tagbar_compact = 1

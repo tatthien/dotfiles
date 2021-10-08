@@ -1,6 +1,7 @@
 #!/bin/bash
 
-ln -sf ~/dotfiles/init.vim ~/.config/nvim/init.vim
+ln -s ~/dotfiles/nvim ~/.config/nvim
+
 ln -sf ~/dotfiles/alacritty/alacritty.yml ~/.config/alacritty/alacritty.yml
 ln -sf ~/dotfiles/alacritty/color.yml ~/.config/alacritty/color.yml
 ln -sf ~/dotfiles/.tmux.conf ~/.tmux.conf
