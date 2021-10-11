@@ -7,6 +7,10 @@ colorscheme gruvbox
 " Enable italics (this line must be placed after colorscheme)
 highlight Comment cterm=italic
 
+" Highlight line
+set cursorline
+hi Cursorline term=bold cterm=bold guibg=Grey20
+
 set nocompatible
 
 filetype on
