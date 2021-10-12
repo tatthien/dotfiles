@@ -1,15 +1,20 @@
 source $HOME/.config/nvim/plug.vim
 
-set termguicolors
-let g:gruvbox_italic=1
-colorscheme gruvbox
+if (has('termguicolors'))
+  set termguicolors
+endif
+
+colorscheme material
+let g:material_terminal_italics = 1
+let g:material_theme_style = 'default'
+let g:lightline = { 'colorscheme': 'material_vim' }
 
 " Enable italics (this line must be placed after colorscheme)
 highlight Comment cterm=italic
 
 " Highlight line
 set cursorline
-hi Cursorline term=bold cterm=bold guibg=Grey20
+highlight Cursorline term=bold cterm=bold guibg=#37474f
 
 set nocompatible
 

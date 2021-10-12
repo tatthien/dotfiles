@@ -1,7 +1,9 @@
 set -gx PATH $HOME/go/bin $PATH
 set -gx PATH $HOME/adb-fastboot/platform-tools $PATH
 set -gx PATH $HOME/.deno/bin $PATH
-# set -gx TERM xterm-256color-italic
+
+# Terminfo
+set -gx TERM xterm-256color-italic
 
 set -U fish_greeting
 
@@ -13,6 +15,7 @@ set -U fish_greeting
 starship init fish | source
 
 #----- ALIAS ------
+
 # Edit dotfiles
 alias cfish='nvim ~/dotfiles/config.fish'
 alias cnvim='nvim ~/dotfiles/init.vim'
