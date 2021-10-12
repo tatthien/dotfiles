@@ -81,16 +81,20 @@ nnoremap k gk
 " Toggle wrap
 nnoremap <leader>z :set wrap!<CR>
 
-" vim-plug
-nnoremap <leader>p :PlugInstall<CR>
-nnoremap <leader>u :PlugUpdate<CR>
-
 " Source nvim easily
 nnoremap <Leader>sv :source $MYVIMRC<CR>
 
 " Copy & page
 noremap <C-c> "*y
 noremap <C-v> "*p
+
+" Re-indent entire buffer
+noremap <Leader>re gg=G
+
+"Config: vim-plug
+nnoremap <leader>p :PlugInstall<CR>
+nnoremap <leader>u :PlugUpdate<CR>
+
 
 " Config: nerdtree
 nnoremap cc :NERDTreeToggle<CR>
