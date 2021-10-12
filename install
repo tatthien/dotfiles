@@ -1,10 +1,9 @@
 #!/bin/bash
 
-ln -s ~/dotfiles/nvim ~/.config/nvim
-
-ln -sf ~/dotfiles/alacritty/alacritty.yml ~/.config/alacritty/alacritty.yml
-ln -sf ~/dotfiles/alacritty/color.yml ~/.config/alacritty/color.yml
-ln -sf ~/dotfiles/.tmux.conf ~/.tmux.conf
-ln -sf ~/dotfiles/starship.toml ~/.config
-ln -sf ~/dotfiles/config.fish ~/.config/fish
-ln -sf ~/dotfiles/gitignore ~/.config/.gitignore
+ln -sfv ~/dotfiles/nvim ~/.config
+ln -sfv ~/dotfiles/alacritty ~/.config
+ln -sfv ~/dotfiles/.tmux.conf ~/.tmux.conf
+ln -sfv ~/dotfiles/tmuxline ~/.config/tmuxline
+ln -sfv ~/dotfiles/starship.toml ~/.config
+ln -sfv ~/dotfiles/config.fish ~/.config/fish
+ln -sfv ~/dotfiles/gitignore ~/.config/.gitignore
