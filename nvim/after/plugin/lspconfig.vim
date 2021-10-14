@@ -41,7 +41,6 @@ lua << EOF
   capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
   
   -- Enable LSP
-  --                 js,ts       vue      go       php
   local servers = { 'tsserver', 'vuels', 'gopls', 'intelephense' }
   for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
