@@ -1,6 +1,6 @@
 # Configuration for Alacritty, the GPU enhanced terminal emulator
 import:
-  - "/Users/thien/.config/alacritty/color-material.yml"
+  - "/Users/thien/.config/alacritty/color-onedark.yml"
 
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables

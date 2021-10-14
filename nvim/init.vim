@@ -1,20 +1,12 @@
 source $HOME/.config/nvim/plug.vim
-
-if (has('termguicolors'))
-  set termguicolors
-endif
-
-colorscheme material
-let g:material_terminal_italics = 1
-let g:material_theme_style = 'default'
-let g:lightline = { 'colorscheme': 'material_vim' }
+source $HOME/.config/nvim/color.vim
 
 " Enable italics (this line must be placed after colorscheme)
 highlight Comment cterm=italic
 
 " Highlight line
 set cursorline
-highlight Cursorline term=bold cterm=bold guibg=#37474f
+highlight Cursorline term=bold cterm=bold
 
 set nocompatible
 
@@ -134,6 +126,11 @@ let g:tmuxline_preset = {
       \'options' : {'status-justify' : 'left', 'status-position' : 'top'}}
 
 let g:tmuxline_powerline_separators = 0
+
+" Config: lightline
+let g:lightline = {
+  \ 'colorscheme': 'onedark',
+  \ }
 
 " Config: vim-go
 let g:go_imports_mode='gopls'

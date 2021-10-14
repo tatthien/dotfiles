@@ -11,8 +11,11 @@ Plug 'itchyny/lightline.vim'
 Plug 'edkolev/tmuxline.vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
+
+" Theme
 Plug 'gruvbox-community/gruvbox'
-Plug 'kaicataldo/material.vim', { 'branch': 'main' }
+Plug 'joshdick/onedark.vim'
+
 Plug 'airblade/vim-gitgutter'
 Plug 'fatih/vim-go'
 Plug 'Yggdroot/indentLine'
