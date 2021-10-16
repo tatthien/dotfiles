@@ -8,11 +8,17 @@ error_symbol = "[✗](bold red)"
 vicmd_symbol = "[v](bold green)"
 
 [nodejs]
-format = "[🤖$version](bold green) "
+format = "[ $version](bold green) "
 
 [git_branch]
-symbol = "🌱"
+symbol = " "
 
 [git_status]
 staged = '+${count}'
 style = "bold red"
+
+[php]
+symbol = " "
+
+[golang]
+symbol = ' '
