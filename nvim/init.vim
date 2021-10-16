@@ -1,5 +1,6 @@
 source $HOME/.config/nvim/plug.vim
 source $HOME/.config/nvim/color.vim
+source $HOME/.config/nvim/maps.vim
 
 " Enable italics (this line must be placed after colorscheme)
 highlight Comment cterm=italic
@@ -55,39 +56,9 @@ autocmd Filetype json
   \ let g:indentLine_setConceal = 0 |
   \ let g:vim_json_syntax_conceal = 0
 
-" Config: Keys mapping
-" Better split switching
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
-
-inoremap ww <Esc>:w<CR>
-inoremap jj <Esc>
-inoremap jk <Esc>
-tnoremap <Esc> <C-\><C-n>
-
-" Enable movement by screen line instead of movement by line for j, k
-nnoremap j gj
-nnoremap k gk
-
-" Toggle wrap
-nnoremap <leader>z :set wrap!<CR>
-
-" Source nvim easily
-nnoremap <Leader>sv :source $MYVIMRC<CR>
-
-" Copy & page
-noremap <C-c> "*y
-noremap <C-v> "*p
-
-" Re-indent entire buffer
-noremap <Leader>re gg=G
-
 "Config: vim-plug
 nnoremap <leader>p :PlugInstall<CR>
 nnoremap <leader>u :PlugUpdate<CR>
-
 
 " Config: nerdtree
 nnoremap cc :NERDTreeToggle<CR>
