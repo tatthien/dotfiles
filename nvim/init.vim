@@ -43,10 +43,11 @@ autocmd FileType php setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
 autocmd FileType go setlocal noexpandtab tabstop=4 shiftwidth=4
 autocmd FileType make setlocal noexpandtab
 
-autocmd BufNewFile,BufRead  *.vue setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
-autocmd BufNewFile,BufRead  *.vim setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
-autocmd BufNewFile,BufRead  *.fish setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
-autocmd BufNewFile,BufRead  *.proto setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
+autocmd BufNewFile,BufRead *.vue setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
+autocmd BufNewFile,BufRead *.vim setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
+autocmd BufNewFile,BufRead *.fish setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
+autocmd BufNewFile,BufRead *.proto setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
+autocmd BufNewFile,BufRead *.md set filetype=markdown 
 
 " Fix json file without any quotes
 " https://stackoverflow.com/questions/40601818/vim-displays-json-file-without-any-quotes
@@ -113,7 +114,7 @@ nnoremap <silent> fn :FloatermNext<CR>
 let g:floaterm_position = 'bottom'
 let g:floaterm_width = 0.99
 let g:floaterm_height = 0.5
-let g:floaterm_title = '🎏'
+let g:floaterm_title = ' '
 
 " Config: tmuxline
 let g:tmuxline_preset = {
