@@ -5,8 +5,8 @@ Plug 'junegunn/fzf.vim'
 Plug 'preservim/nerdtree'
 Plug 'voldikss/vim-floaterm'
 Plug 'ryanoasis/vim-devicons'
-Plug 'digitaltoad/vim-pug'
-Plug 'posva/vim-vue'
+" Plug 'digitaltoad/vim-pug'
+" Plug 'posva/vim-vue'
 Plug 'itchyny/lightline.vim'
 Plug 'edkolev/tmuxline.vim'
 Plug 'tpope/vim-commentary'
@@ -18,7 +18,6 @@ Plug 'joshdick/onedark.vim'
 
 Plug 'airblade/vim-gitgutter'
 Plug 'fatih/vim-go'
-Plug 'Yggdroot/indentLine'
 
 " Lsp + autocomplete + treesitter
 Plug 'neovim/nvim-lspconfig'
