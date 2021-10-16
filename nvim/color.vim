@@ -1,4 +1,5 @@
 if (has('termguicolors'))
+  syntax enable
   set termguicolors
 endif
 
