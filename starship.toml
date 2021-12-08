@@ -19,6 +19,7 @@ style = "bold red"
 
 [php]
 symbol = " "
+disabled = true
 
 [golang]
 symbol = ' '

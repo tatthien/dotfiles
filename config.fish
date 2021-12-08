@@ -2,26 +2,25 @@ set -gx PATH $HOME/go/bin $PATH
 set -gx PATH $HOME/adb-fastboot/platform-tools $PATH
 set -gx PATH $HOME/.deno/bin $PATH
 
+set -gx EDITOR nvim
+
 # Terminfo
 set -gx TERM xterm-256color-italic
 
+# Disable fish greeting
 set -U fish_greeting
 
 # tabtab source for packages
 # uninstall by removing these lines
 [ -f ~/.config/tabtab/__tabtab.fish ]; and . ~/.config/tabtab/__tabtab.fish; or true
 
+# Direnv
+direnv hook fish | source
+
 # Starship
 starship init fish | source
 
 #----- ALIAS ------
-
-# Edit dotfiles
-alias cfish='nvim ~/dotfiles/config.fish'
-alias cnvim='nvim ~/dotfiles/init.vim'
-alias calacritty='nvim ~/dotfiles/alacritty/alacritty.yml'
-alias ctmux='nvim ~/dotfiles/.tmux.conf'
-alias cstarship='nvim ~/dotfiles/starship.toml'
 
 # Kubernetes
 alias k='kubectl'
@@ -33,10 +32,6 @@ alias sail='bash vendor/bin/sail'
 # Beehive
 alias b='bash beehive'
 alias bs='b docker:start'
-alias bxt='b docker:exec:tenant'
-alias bxo='b docker:exec:opc'
-
-alias ls='exa --long --header --git --all --icons'
 
 # Serverless
 alias s='serverless'
@@ -46,5 +41,25 @@ alias v='nvim'
 
 #----- ALIAS ------
 
+# FUNCTIONS
+
+# ls alternative
+function ls
+  exa --long --header --git --all --icons $argv
+end
+
+# Beehive containers "docker exec" shorthand.
+function bxt
+  docker exec -it beehive_tenant_apiserver /bin/sh $argv
+end
+
+function bxo
+  docker exec -it beehive_opc_apiserver /bin/sh $argv
+end
+
+function bxd
+  docker exec -it beehive_mariadb /bin/sh $argv
+end
+
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/thien/google-cloud-sdk/path.fish.inc' ]; . '/Users/thien/google-cloud-sdk/path.fish.inc'; end
+if [ -f '/Users/thien/Downloads/google-cloud-sdk/path.fish.inc' ]; . '/Users/thien/Downloads/google-cloud-sdk/path.fish.inc'; end
