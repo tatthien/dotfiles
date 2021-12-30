@@ -4,7 +4,6 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'preservim/nerdtree'
 Plug 'voldikss/vim-floaterm'
-Plug 'ryanoasis/vim-devicons'
 Plug 'digitaltoad/vim-pug'
 Plug 'posva/vim-vue'
 Plug 'itchyny/lightline.vim'

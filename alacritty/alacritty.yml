@@ -55,17 +55,17 @@ scrolling:
 font:
   # The normal (roman) font face to use.
   normal:
-    family: JetBrainsMono Nerd Font
+    family: Input
     style: Regular
 
   # The bold font face
   bold:
-    family: JetBrainsMono Nerd Font
+    family: Input
     style: Bold
 
   # The italic font face
   italic:
-    family: JetBrainsMono Nerd Font
+    family: Input
     style: Italic
 
   # Point size of the font

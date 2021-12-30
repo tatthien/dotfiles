@@ -7,19 +7,13 @@ success_symbol = "[❯](bold green)"     # The "success_symbol" segment is being
 error_symbol = "[✗](bold red)"
 vicmd_symbol = "[v](bold green)"
 
-[nodejs]
-format = "[ $version](bold green) "
-
-[git_branch]
-symbol = " "
-
 [git_status]
 staged = '+${count}'
 style = "bold red"
 
-[php]
-symbol = " "
+[gcloud]
 disabled = true
 
-[golang]
-symbol = ' '
+[nodejs]
+symbol = "⬢ "
+version_format = "${raw}"
