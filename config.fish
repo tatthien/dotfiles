@@ -45,9 +45,9 @@ alias v='nvim'
 # FUNCTIONS
 
 # ls alternative
-function ls
-  exa --long --header --git --all --icons $argv
-end
+# function ls
+  # exa --long --header --git --all --icons $argv
+# end
 
 # Beehive containers "docker exec" shorthand.
 function bxt
