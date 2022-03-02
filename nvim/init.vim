@@ -86,7 +86,7 @@ nnoremap <silent> fn :FloatermNext<CR>
 let g:floaterm_position = 'bottom'
 let g:floaterm_width = 0.99
 let g:floaterm_height = 0.5
-let g:floaterm_title = ' '
+let g:floaterm_title = '💈'
 
 " Config: tmuxline
 let g:tmuxline_preset = {
