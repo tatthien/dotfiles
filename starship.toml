@@ -11,9 +11,15 @@ vicmd_symbol = "[v](bold green)"
 staged = '+${count}'
 style = "bold red"
 
+[git_branch]
+symbol = "🌱"
+
 [gcloud]
 disabled = true
 
 [nodejs]
 symbol = "⬢ "
 version_format = "${raw}"
+
+[aws]
+symbol = "⛅"
