@@ -92,7 +92,7 @@ let g:tmuxline_preset = {
       \'a'    : '#S',
       \'win'  : '#I #W',
       \'cwin' : '#I #W',
-      \'x'    : '#{spotify} | %A',
+      \'x'    : '#{weather} | %A',
       \'y'    : '%d-%m-%Y %H:%M',
       \'z'    : ' #h',
       \'options' : {'status-justify' : 'left', 'status-position' : 'top'}}
