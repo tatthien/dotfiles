@@ -2,7 +2,7 @@ source $HOME/.config/nvim/plug.vim
 source $HOME/.config/nvim/color.vim
 source $HOME/.config/nvim/maps.vim
 
-" Enable italics (this line must be placed after colorscheme)
+" Enable italics (this line must be placed after colorscheme);
 highlight Comment cterm=italic
 
 " Highlight line
@@ -86,15 +86,14 @@ nnoremap <silent> fn :FloatermNext<CR>
 let g:floaterm_position = 'bottom'
 let g:floaterm_width = 0.99
 let g:floaterm_height = 0.5
-let g:floaterm_title = '💈'
 
 " Config: tmuxline
 let g:tmuxline_preset = {
       \'a'    : '#S',
       \'win'  : '#I #W',
       \'cwin' : '#I #W',
-      \'x'    : '%a',
-      \'y'    : '%Y-%m-%d %H:%M',
+      \'x'    : '#{spotify} | %A',
+      \'y'    : '%d-%m-%Y %H:%M',
       \'z'    : ' #h',
       \'options' : {'status-justify' : 'left', 'status-position' : 'top'}}
 
@@ -102,7 +101,7 @@ let g:tmuxline_powerline_separators = 0
 
 " Config: lightline
 let g:lightline = {
-  \ 'colorscheme': 'onedark',
+  \ 'colorscheme': 'powerline',
   \ }
 
 " Config: vim-go
