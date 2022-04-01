@@ -1,6 +1,6 @@
 # Configuration for Alacritty, the GPU enhanced terminal emulator
 import:
-  - "/Users/thien/.config/alacritty/color-gruvbox.yml"
+  - "/Users/thien/.config/alacritty/color-ayu-mirage.yml"
 
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables
@@ -56,17 +56,17 @@ scrolling:
 font:
   # The normal (roman) font face to use.
   normal:
-    family: Input
+    family: JetBrainsMono Nerd Font
     style: Regular
 
   # The bold font face
   bold:
-    family: Input
+    family: JetBrainsMono Nerd Font
     style: Bold
 
   # The italic font face
   italic:
-    family: Input
+    family: JetBrainsMono Nerd Font
     style: Italic
 
   # Point size of the font
@@ -76,7 +76,7 @@ font:
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
   offset:
     x: 0
-    y: 0
+    y: 6
 
   # Glyh offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increase the x offset to move the glyph to

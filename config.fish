@@ -42,25 +42,5 @@ alias v='nvim'
 
 #----- ALIAS ------
 
-# FUNCTIONS
-
-# ls alternative
-# function ls
-  # exa --long --header --git --all --icons $argv
-# end
-
-# Beehive containers "docker exec" shorthand.
-function bxt
-  docker exec -it beehive_tenant_apiserver /bin/sh $argv
-end
-
-function bxo
-  docker exec -it beehive_opc_apiserver /bin/sh $argv
-end
-
-function bxd
-  docker exec -it beehive_mariadb /bin/sh $argv
-end
-
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/thien/Downloads/google-cloud-sdk/path.fish.inc' ]; . '/Users/thien/Downloads/google-cloud-sdk/path.fish.inc'; end

@@ -94,15 +94,22 @@ let g:tmuxline_preset = {
       \'cwin' : '#I #W',
       \'x'    : '#{weather} | %A',
       \'y'    : '%d-%m-%Y %H:%M',
-      \'z'    : ' #h',
+      \'z'    : ' #h',
       \'options' : {'status-justify' : 'left', 'status-position' : 'top'}}
 
 let g:tmuxline_powerline_separators = 0
 
 " Config: lightline
 let g:lightline = {
-  \ 'colorscheme': 'powerline',
-  \ }
+      \ 'colorscheme': 'ayu_dark',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead'
+      \ },
+      \ }
 
 " Config: vim-go
 let g:go_imports_mode='gopls'

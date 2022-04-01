@@ -11,9 +11,12 @@ Plug 'edkolev/tmuxline.vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 
+Plug 'ryanoasis/vim-devicons'
+
 " Theme
 Plug 'gruvbox-community/gruvbox'
 Plug 'joshdick/onedark.vim'
+Plug 'ayu-theme/ayu-vim'
 
 Plug 'airblade/vim-gitgutter'
 Plug 'fatih/vim-go'
@@ -28,5 +31,6 @@ Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'L3MON4D3/LuaSnip'
 Plug 'onsails/lspkind-nvim'
+
 call plug#end()
 
