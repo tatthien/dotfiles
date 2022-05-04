@@ -126,7 +126,7 @@ cursor:
   #   - ▇ Block
   #   - _ Underline
   #   - | Beam
-  style: Block
+  style: Beam
   unfocused_hollow: false
 
 live_config_reload: true
