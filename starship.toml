@@ -25,5 +25,11 @@ disabled = true
 symbol = " "
 version_format = "${raw}"
 
+[package]
+symbol = " "
+
+[golang]
+symbol = " "
+
 [aws]
 symbol = "  "
