@@ -16,14 +16,14 @@ staged = '+${count}'
 style = "bold red"
 
 [git_branch]
-symbol = "🌱 "
+symbol = " "
 
 [gcloud]
 disabled = true
 
 [nodejs]
-symbol = " "
+symbol = " "
 version_format = "${raw}"
 
 [aws]
-symbol = "⛅ "
+symbol = "  "
