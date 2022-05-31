@@ -22,7 +22,7 @@
     "extensions.autoUpdate": "onlyEnabledExtensions",
     "extensions.ignoreRecommendations": true,
     "window.dialogStyle": "custom",
-    "window.nativeTabs": true, // this is great, macOS only
+    "window.nativeTabs": false, // this is great, macOS only
     "window.titleBarStyle": "custom",
     "workbench.activityBar.visible": true,
     "files.eol": "\n",
@@ -46,13 +46,25 @@
     "volar.codeLens.pugTools": false,
     "volar.codeLens.scriptSetupTools": true,
     "volar.completion.preferredTagNameCase": "pascal",
-    "volar.showWelcomePage": false,
-    "volar.takeOverMode.enabled": true,
+    "volar.takeOverMode.enabled": false,
     "prettier.enable": false,
     "prettier.printWidth": 200,
     "prettier.semi": false,
     "prettier.singleQuote": true,
     "cSpell.userWords": [
+        "CATEX",
+        "directus",
+        "gigapress",
+        "mockdate",
         "vite"
     ],
+    "editor.linkedEditing": true,
+    "go.toolsManagement.autoUpdate": true,
+    "redhat.telemetry.enabled": false,
+    "editor.bracketPairColorization.enabled": false,
+    "protoc": {
+        "options": [
+            "--proto_path=proto",
+        ]
+    }
 }
