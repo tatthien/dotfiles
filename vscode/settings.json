@@ -34,7 +34,7 @@
     "terminal.integrated.persistentSessionReviveProcess": "never",
     "terminal.integrated.tabs.enabled": true,
     "terminal.integrated.fontSize": 14,
-    "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font",
+    "terminal.integrated.fontFamily": "Input Nerd Font",
     "diffEditor.ignoreTrimWhitespace": false,
     "github.copilot.enable": {
         "*": true,
