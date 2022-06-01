@@ -5,9 +5,6 @@ set -gx PATH $HOME/flutter/bin $PATH
 
 set -gx EDITOR nvim
 
-# Terminfo
-set -gx TERM xterm-256color-italic
-
 # Disable fish greeting
 set -U fish_greeting
 
@@ -27,20 +24,21 @@ starship init fish | source
 alias k='kubectl'
 alias m='minikube'
 
-# Laravel on Sail
-alias sail='bash vendor/bin/sail'
-
-# Beehive
-alias b='bash beehive'
-alias bs='b docker:start'
-
 # Serverless
 alias s='serverless'
 
 # Vim
-alias v='nvim'
+alias vim='nvim'
 
+# Docker
+alias dc='docker-compose'
+
+alias gs='git status'
+alias gh='git checkout'
+alias gc='git commit'
+alias ga='git add'
 #----- ALIAS ------
+
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/thien/Downloads/google-cloud-sdk/path.fish.inc' ]; . '/Users/thien/Downloads/google-cloud-sdk/path.fish.inc'; end
