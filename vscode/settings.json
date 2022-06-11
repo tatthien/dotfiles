@@ -1,11 +1,11 @@
 {
-    "workbench.colorTheme": "Ayu Mirage Bordered",
+    "workbench.colorTheme": "Vitesse Dark Soft",
     "workbench.iconTheme": "file-icons",
     "workbench.productIconTheme": "icons-carbon",
     "editor.inlineSuggest.enabled": true,
-    "editor.fontFamily": "Input",
+    "editor.fontFamily": "JetBrainsMono Nerd Font",
     "editor.fontSize": 14,
-    "editor.lineHeight": 22,
+    "editor.lineHeight": 26,
     "editor.minimap.enabled": false,
     "editor.fontLigatures": "'zero'",
     "editor.glyphMargin": true,
@@ -13,6 +13,7 @@
     "editor.codeActionsOnSave": {
         "source.fixAll": false,
         "source.fixAll.eslint": true,
+        "source.fixAll.stylelint": true,
         "source.organizeImports": false
     },
     "editor.formatOnSave": false,
@@ -22,7 +23,6 @@
     "extensions.autoUpdate": "onlyEnabledExtensions",
     "extensions.ignoreRecommendations": true,
     "window.dialogStyle": "custom",
-    "window.nativeTabs": false, // this is great, macOS only
     "window.titleBarStyle": "custom",
     "workbench.activityBar.visible": true,
     "files.eol": "\n",
@@ -34,13 +34,14 @@
     "terminal.integrated.persistentSessionReviveProcess": "never",
     "terminal.integrated.tabs.enabled": true,
     "terminal.integrated.fontSize": 14,
-    "terminal.integrated.fontFamily": "Input Nerd Font",
+    "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font",
     "diffEditor.ignoreTrimWhitespace": false,
     "github.copilot.enable": {
         "*": true,
-        "markdown": true,
+        "yaml": false,
         "plaintext": false,
-        "yaml": false
+        "markdown": true,
+        "typescript": false
     },
     "volar.autoCompleteRefs": false,
     "volar.codeLens.pugTools": false,
@@ -53,10 +54,19 @@
     "prettier.singleQuote": true,
     "cSpell.userWords": [
         "CATEX",
+        "consola",
         "directus",
+        "esno",
         "gigapress",
+        "Iosevka",
         "mockdate",
-        "vite"
+        "pinia",
+        "stylelint",
+        "tatthien",
+        "thien",
+        "upsert",
+        "vite",
+        "wysiyyg"
     ],
     "editor.linkedEditing": true,
     "go.toolsManagement.autoUpdate": true,

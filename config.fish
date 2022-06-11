@@ -5,6 +5,9 @@ set -gx PATH $HOME/flutter/bin $PATH
 
 set -gx EDITOR nvim
 
+# Terminfo
+set -gx TERM xterm-256color-italic
+
 # Disable fish greeting
 set -U fish_greeting
 
@@ -37,6 +40,8 @@ alias gs='git status'
 alias gh='git checkout'
 alias gc='git commit'
 alias ga='git add'
+alias gf='git diff'
+alias gp='git push'
 #----- ALIAS ------
 
 

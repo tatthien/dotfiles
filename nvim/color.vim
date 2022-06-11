@@ -4,8 +4,8 @@ if (has('termguicolors'))
 endif
 
 " let g:gruvbox_italic = 1
-" let g:gruvbox_italicize_strings = 1
-" let g:gruvbox_contrast_dark = 'hard'
+" let g:gruvbox_italicize_strings = 0
+" let g:gruvbox_contrast_dark = 'medium'
 " colorscheme gruvbox
 
 " let g:onedark_terminal_italics = 1
