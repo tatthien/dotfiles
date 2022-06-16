@@ -11,5 +11,7 @@ endif
 " let g:onedark_terminal_italics = 1
 " colorscheme onedark
 
-let ayucolor="mirage"
-colorscheme ayu
+" let ayucolor="mirage"
+" colorscheme ayu
+
+colorscheme vitesse
