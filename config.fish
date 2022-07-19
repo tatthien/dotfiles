@@ -2,6 +2,7 @@ set -gx PATH $HOME/go/bin $PATH
 set -gx PATH $HOME/adb-fastboot/platform-tools $PATH
 set -gx PATH $HOME/.deno/bin $PATH
 set -gx PATH $HOME/flutter/bin $PATH
+set -gx PATH $HOME/.cargo/bin $PATH
 
 set -gx EDITOR nvim
 
