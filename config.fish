@@ -34,15 +34,10 @@ alias s='serverless'
 # Vim
 alias vim='nvim'
 
-# Docker
-alias dc='docker-compose'
-
-alias gs='git status'
-alias gh='git checkout'
-alias gc='git commit'
-alias ga='git add'
-alias gf='git diff'
-alias gp='git push'
+if type -q exa
+  alias ll "exa -l -g --icons"
+  alias lla "ll -a"
+end
 #----- ALIAS ------
 
 
