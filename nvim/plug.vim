@@ -1,10 +1,11 @@
 call plug#begin(stdpath('config') . '/plugged')
 
-Plug 'preservim/nerdtree'
+" Plug 'preservim/nerdtree'
 Plug 'voldikss/vim-floaterm'
 
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
+Plug 'kyazdani42/nvim-tree.lua'
 
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'

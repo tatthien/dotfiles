@@ -65,15 +65,8 @@ autocmd Filetype json
 nnoremap <leader>p :PlugInstall<CR>
 nnoremap <leader>u :PlugUpdate<CR>
 
-" Config: nerdtree
-nnoremap cc :NERDTreeToggle<CR>
-nnoremap cf :NERDTreeFind<CR>
-
-let NERDTreeShowHidden=1
-let NERDTreeIgnore=['\.swp$', '\.git$', '\.vscode$', '\.idea$', '.DS_Store', 'node_modules$']
-let g:NERDTreeDirArrowExpandable = '▸'
-let g:NERDTreeDirArrowCollapsible = '▾'
-let g:NERDTreeMinimalUI = 1
+" Config: nvim-tree.vim
+nnoremap nn :NvimTreeToggle<CR>
 
 " Config: floaterm
 nnoremap <silent> ft :FloatermNew<CR>
