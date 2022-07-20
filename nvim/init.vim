@@ -34,11 +34,14 @@ set autoindent
 set ignorecase
 set smartcase
 
+set shell=fish
+
 autocmd FileType css setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
 autocmd FileType html setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
 autocmd FileType javascript setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
 autocmd FileType typescript setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
 autocmd FileType json setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
+autocmd FileType yaml setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
 
 autocmd FileType php setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
 autocmd FileType go setlocal noexpandtab tabstop=4 shiftwidth=4
@@ -50,6 +53,7 @@ autocmd BufNewFile,BufRead *.vim setlocal expandtab tabstop=2 softtabstop=2 shif
 autocmd BufNewFile,BufRead *.fish setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
 autocmd BufNewFile,BufRead *.proto setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
 autocmd BufNewFile,BufRead *.md set filetype=markdown 
+autocmd BufNewFile,BufRead *.mdx set filetype=markdown 
 
 " Fix json file without any quotes
 " https://stackoverflow.com/questions/40601818/vim-displays-json-file-without-any-quotes
@@ -71,13 +75,6 @@ let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 let g:NERDTreeMinimalUI = 1
 
-" Config: fzf
-nnoremap ff :Files<CR>
-nnoremap gf :GFiles<CR>
-nnoremap ; :Buffer<CR>
-nnoremap ag :Ag<CR>
-nnoremap w :b<space>
-
 " Config: floaterm
 nnoremap <silent> ft :FloatermNew<CR>
 nnoremap <silent> tt :FloatermToggle<CR>
@@ -86,30 +83,6 @@ nnoremap <silent> fn :FloatermNext<CR>
 let g:floaterm_position = 'bottom'
 let g:floaterm_width = 0.99
 let g:floaterm_height = 0.5
-
-" Config: tmuxline
-let g:tmuxline_preset = {
-      \'a'    : '#S',
-      \'win'  : '#I #W',
-      \'cwin' : '#I #W',
-      \'x'    : '%A',
-      \'y'    : '%d-%m-%Y %H:%M',
-      \'z'    : ' #h',
-      \'options' : {'status-justify' : 'left', 'status-position' : 'top'}}
-
-let g:tmuxline_powerline_separators = 0
-
-" Config: lightline
-let g:lightline = {
-      \ 'colorscheme': 'ayu_dark',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'FugitiveHead'
-      \ },
-      \ }
 
 " Config: vim-go
 let g:go_imports_mode='gopls'
@@ -128,3 +101,4 @@ augroup END
 " https://neovim.io/doc/user/provider.html
 let g:python3_host_prog = '/usr/local/bin/python3'
 let g:python_host_prog = '/usr/bin/python'
+
