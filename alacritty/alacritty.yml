@@ -1,5 +1,5 @@
 import:
-  - "/Users/thien/.config/alacritty/color-vitesse.yml"
+  - "~/.config/alacritty/color-rsms.yml"
 
 env:
   TERM: xterm-256color
