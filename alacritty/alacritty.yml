@@ -36,7 +36,7 @@ font:
   italic:
     family: JetBrainsMono Nerd Font
     style: Italic
-  size: 14.5
+  size: 14
   offset:
     x: 0
     y: 6
@@ -47,7 +47,6 @@ font:
 
 debug:
   render_timer: false
-
 
 bell:
   animation: EaseOutExpo
