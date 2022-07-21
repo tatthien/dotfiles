@@ -7,7 +7,7 @@ require("nvim-tree").setup({
       list = {
         { key = "u", action = "dir_up" },
         { key = "<C-s>", action = "split" },
-        { key = "v", action = "split" },
+        { key = "v", action = "vsplit" },
       },
     },
   },
@@ -19,6 +19,11 @@ require("nvim-tree").setup({
     custom = {
       "^.git$"
     }
+  },
+  update_focused_file = {
+    enable = true,
+    update_root = false,
+    ignore_list = {},
   },
 })
 END
