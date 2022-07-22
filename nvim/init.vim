@@ -61,18 +61,6 @@ autocmd Filetype json
   \ let g:indentLine_setConceal = 0 |
   \ let g:vim_json_syntax_conceal = 0
 
-"Config: vim-plug
-nnoremap <leader>p :PlugInstall<CR>
-nnoremap <leader>u :PlugUpdate<CR>
-
-" Config: nvim-tree.vim
-nnoremap nn :NvimTreeToggle<CR>
-
-" Config: floaterm
-nnoremap <silent> ft :FloatermNew<CR>
-nnoremap <silent> tt :FloatermToggle<CR>
-nnoremap <silent> fn :FloatermNext<CR>
-
 let g:floaterm_position = 'bottom'
 let g:floaterm_width = 0.99
 let g:floaterm_height = 0.5

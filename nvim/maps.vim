@@ -30,3 +30,24 @@ noremap <Leader>re gg=G
 nnoremap H gT
 nnoremap L gt
 
+" Quickly open buffers
+nnoremap w :b<space>
+
+" ---------------
+" Plugin mapping
+" ---------------
+
+" vim-plug
+nnoremap <leader>p :PlugInstall<CR>
+nnoremap <leader>u :PlugUpdate<CR>
+
+" nvim-tree.vim
+nnoremap cc :NvimTreeToggle<CR>
+nnoremap cf :NvimTreeFindFile<CR>
+
+" floaterm
+nnoremap <silent> ft :FloatermNew<CR>
+nnoremap <silent> tt :FloatermToggle<CR>
+nnoremap <silent> fn :FloatermNext<CR>
+
+
