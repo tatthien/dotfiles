@@ -8,6 +8,8 @@ require("nvim-tree").setup({
         { key = "u", action = "dir_up" },
         { key = "<C-s>", action = "split" },
         { key = "v", action = "vsplit" },
+        { key = "c", action = "" },
+        { key = "<C-c>", action = "copy" },
       },
     },
   },
