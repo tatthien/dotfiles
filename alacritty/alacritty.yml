@@ -1,5 +1,5 @@
 import:
-  - "~/.config/alacritty/color-rsms.yml"
+  - "~/.config/alacritty/colors/rsms.yml"
 
 env:
   TERM: xterm-256color
@@ -38,8 +38,8 @@ font:
     style: Italic
   size: 14
   offset:
-    x: 0
-    y: 6
+    x: 1
+    y: 10
   glyph_offset:
     x: 0
     y: 0
