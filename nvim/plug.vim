@@ -12,8 +12,8 @@ Plug 'tpope/vim-fugitive'
 
 Plug 'ryanoasis/vim-devicons'
 
-Plug 'airblade/vim-gitgutter'
 Plug 'fatih/vim-go'
+Plug 'lewis6991/gitsigns.nvim'
 
 " Lsp + autocomplete + treesitter
 Plug 'neovim/nvim-lspconfig'
@@ -33,6 +33,16 @@ Plug 'L3MON4D3/LuaSnip'
 
 " Theme
 Plug 'kvrohit/rasmus.nvim'
+Plug 'joshdick/onedark.vim'
+Plug 'flrnprz/plastic.vim'
+Plug 'rakr/vim-one'
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+
+" Indention
+Plug 'lukas-reineke/indent-blankline.nvim'
+
+" Editorconfig
+Plug 'editorconfig/editorconfig-vim'
 
 call plug#end()
 
