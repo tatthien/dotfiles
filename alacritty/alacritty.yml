@@ -28,15 +28,15 @@ scrolling:
 # Font configuration (changes require restart)
 font:
   normal:
-    family: JetBrainsMono Nerd Font
+    family: Iosevka Nerd Font
     style: Regular
   bold:
-    family: JetBrainsMono Nerd Font
+    family: Iosevka Nerd Font
     style: Bold
   italic:
-    family: JetBrainsMono Nerd Font
+    family: Iosevka Nerd Font
     style: Italic
-  size: 14
+  size: 15
   offset:
     x: 1
     y: 10
