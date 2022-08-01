@@ -61,6 +61,27 @@ autocmd Filetype json
   \ let g:indentLine_setConceal = 0 |
   \ let g:vim_json_syntax_conceal = 0
 
+
+" Config: provider
+" https://neovim.io/doc/user/provider.html
+let g:python3_host_prog = '/usr/local/bin/python3'
+let g:python_host_prog = '/usr/bin/python'
+
+" Triger `autoread` when files changes on disk
+" https://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim/383044#383044
+" https://vi.stackexchange.com/questions/13692/prevent-focusgained-autocmd-running-in-command-line-editing-mode
+autocmd FocusGained,BufEnter,CursorHold,CursorHoldI *
+  \ if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif
+
+" Notification after file change
+" https://vi.stackexchange.com/questions/13091/autocmd-event-for-autoread
+autocmd FileChangedShellPost *
+  \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl NoneA
+
+" ---------------------
+"  PLUGIN CONFIG
+" ---------------------
+" Config: floatterm
 let g:floaterm_position = 'bottom'
 let g:floaterm_width = 0.99
 let g:floaterm_height = 0.5
@@ -73,7 +94,6 @@ let g:go_imports_autosave=1
 
 augroup go
   autocmd!
-
   autocmd FileType go nmap <silent> <Leader>r <Plug>(go-run)
   autocmd FileType go nmap <silent> <Leader>t <Plug>(go-test)
 augroup END
