@@ -33,6 +33,7 @@ nnoremap L gt
 " Quickly open buffers
 nnoremap w :b<space>
 
+nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 " ---------------
 " Plugin mapping
 " ---------------
