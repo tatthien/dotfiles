@@ -45,3 +45,35 @@ end
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/thien/Downloads/google-cloud-sdk/path.fish.inc' ]; . '/Users/thien/Downloads/google-cloud-sdk/path.fish.inc'; end
+
+# pnpm
+set -gx PNPM_HOME "/Users/thien/Library/pnpm"
+set -gx PATH "$PNPM_HOME" $PATH
+# pnpm end
+
+#--- FUNCTIONS ------
+function qq
+  clear
+
+  set logpath "$TMPDIR/q"
+  if [[ -z "$TMPDIR" ]]; then
+      set logpath "/tmp/q"
+  end
+
+  if [[ ! -f "$logpath" ]]; then
+      echo 'Q LOG' > "$logpath"
+  end
+
+  tail -100f -- "$logpath"
+end
+
+function rmqq
+  set logpath "$TMPDIR/q"
+  if [[ -z "$TMPDIR" ]]; then
+      set logpath "/tmp/q"
+  end
+  if [[ -f "$logpath" ]]; then
+      rm "$logpath"
+  end
+  qq
+end
