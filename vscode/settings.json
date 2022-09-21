@@ -1,11 +1,15 @@
+
+
+
 {
-    "workbench.colorTheme": "Vitesse Dark Soft",
+    "workbench.colorTheme": "GitHub Dark",
     "workbench.iconTheme": "file-icons",
     "workbench.productIconTheme": "icons-carbon",
     "editor.inlineSuggest.enabled": true,
     "editor.fontFamily": "JetBrainsMono Nerd Font",
+    // "editor.fontFamily": "iMWritingMonoS Nerd Font",
     "editor.fontSize": 14,
-    "editor.lineHeight": 24,
+    "editor.lineHeight":  24,
     "editor.minimap.enabled": false,
     "editor.fontLigatures": "'zero'",
     "editor.glyphMargin": true,
@@ -17,6 +21,16 @@
         "source.organizeImports": false
     },
     "editor.formatOnSave": false,
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+          {
+            "scope": "comment",
+            "settings": {
+              "fontStyle": "italic"
+            }
+          }
+        ]
+    },      
     "explorer.confirmDelete": false,
     "explorer.confirmDragAndDrop": false,
     "workbench.tree.indent": 10,
@@ -30,7 +44,6 @@
     "files.simpleDialog.enable": true,
     "terminal.integrated.cursorBlinking": true,
     "terminal.integrated.cursorStyle": "line",
-    "terminal.integrated.fontWeight": "300",
     "terminal.integrated.persistentSessionReviveProcess": "never",
     "terminal.integrated.tabs.enabled": true,
     "terminal.integrated.fontSize": 14,
@@ -54,17 +67,27 @@
     "prettier.singleQuote": true,
     "cSpell.userWords": [
         "CATEX",
+        "clientcmd",
+        "clientset",
         "composables",
         "consola",
         "directus",
         "esno",
+        "Firestore",
+        "formkit",
         "gigapress",
+        "headlessui",
+        "heroicons",
         "Iosevka",
+        "kubeconfig",
         "mockdate",
         "Nuxt",
+        "nuxtjs",
         "pinia",
+        "pnpm",
         "Satoshi",
         "stylelint",
+        "tailwindcss",
         "tatthien",
         "thien",
         "unslash",
