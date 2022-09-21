@@ -1,35 +1,75 @@
 # Inserts a blank line between shell prompts
 add_newline = true
 
-# Replace the "❯" symbol in the prompt with "➜"
-[character]                            # The name of the module we are configuring is "character"
-success_symbol = "[❯](bold green)"     # The "success_symbol" segment is being set to "➜" with the color "bold green"
+# Which is equivalent to
+format = """
+$username\
+$hostname\
+$localip\
+$shlvl\
+$singularity\
+$directory\
+$vcsh\
+$git_branch\
+$git_commit\
+$git_state\
+$git_metrics\
+$git_status\
+$hg_branch\
+$docker_context\
+$package\
+$c\
+$cmake\
+$cobol\
+$daml\
+$dart\
+$golang\
+$helm\
+$nodejs\
+$php\
+$python\
+$terraform\
+$memory_usage\
+$aws\
+$gcloud\
+$kubernetes\
+$env_var\
+$custom\
+$sudo\
+$cmd_duration\
+$line_break\
+$jobs\
+$battery\
+$time\
+$status\
+$container\
+$shell\
+$character"""
+
+[character]
+success_symbol = "[❯](bold green)"
 error_symbol = "[✗](bold red)"
 vicmd_symbol = "[v](bold green)"
 
 [directory]
-truncation_length = 5
+truncation_length = 8
 format = "[$path]($style)[$lock_symbol]($lock_style) "
-
-[git_status]
-staged = '+${count}'
-style = "bold red"
-
-[git_branch]
-symbol = " "
 
 [gcloud]
 disabled = true
 
 [nodejs]
-symbol = " "
+format = "[📦$version](bold green) "
 version_format = "${raw}"
 
-[package]
-symbol = " "
-
-[golang]
-symbol = " "
+[kubernetes]
+format = '[$symbol$context( \($namespace\))]($style) '
+symbol = '🚢'
+style = "cyan bold"
+disabled = false
 
 [aws]
-symbol = "  "
+symbol = '🌥️ '
+
+[git_branch]
+symbol = "🌱 "
