@@ -41,8 +41,17 @@ if (has('termguicolors'))
   " colorscheme vitesse
   
   " Tokyonight
-  let g:tokyonight_style = "night"
-  let g:tokyonight_italic_functions = 1
-  colorscheme tokyonight
+  " let g:tokyonight_style = "storm"
+  " let g:tokyonight_italic_functions = 1
+  " colorscheme tokyonight
+  
+  " Github
+  let g:github_function_style = "italic"
+  let g:github_sidebars = ["qf", "vista_kind", "terminal", "packer"]
+  let g:github_colors = {
+    \ 'hint': 'orange',
+    \ 'error': '#ff0000'
+  \ }
+  colorscheme github_dark
 endif
 

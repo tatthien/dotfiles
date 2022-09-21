@@ -4,7 +4,7 @@ call plug#begin(stdpath('config') . '/plugged')
 Plug 'voldikss/vim-floaterm'
 
 Plug 'nvim-lualine/lualine.nvim'
-Plug 'kyazdani42/nvim-web-devicons'
+" Plug 'kyazdani42/nvim-web-devicons'
 Plug 'kyazdani42/nvim-tree.lua'
 
 Plug 'tpope/vim-commentary'
@@ -32,11 +32,12 @@ Plug 'onsails/lspkind-nvim'
 Plug 'L3MON4D3/LuaSnip'
 
 " Theme
-Plug 'kvrohit/rasmus.nvim'
-Plug 'joshdick/onedark.vim'
-Plug 'flrnprz/plastic.vim'
-Plug 'rakr/vim-one'
-Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+" Plug 'kvrohit/rasmus.nvim'
+" Plug 'joshdick/onedark.vim'
+" Plug 'flrnprz/plastic.vim'
+" Plug 'rakr/vim-one'
+" Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+Plug 'projekt0n/github-nvim-theme'
 
 " Indention
 Plug 'lukas-reineke/indent-blankline.nvim'
