@@ -52,6 +52,6 @@ if (has('termguicolors'))
     \ 'hint': 'orange',
     \ 'error': '#ff0000'
   \ }
-  colorscheme github_dark
+  colorscheme github_dark_default
 endif
 
