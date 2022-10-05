@@ -3,7 +3,10 @@ source $HOME/.config/nvim/color.vim
 source $HOME/.config/nvim/maps.vim
 
 " Enable italics (this line must be placed after colorscheme);
-highlight Comment cterm=italic
+hi Comment cterm=italic
+hi Folded ctermfg=12 guifg=#313A47 guibg=#0d1117
+hi LineNr guifg=#313a47
+hi StatusLine guifg=#0d111 guibg=#313A47
 
 " Highlight line
 set cursorline
