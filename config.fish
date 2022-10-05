@@ -40,6 +40,8 @@ if type -q exa
   alias ll "exa -l -g --icons"
   alias lla "ll -a"
 end
+
+alias znv "cd $HOME/Dropbox/notes && vim"
 #----- ALIAS ------
 
 
@@ -53,27 +55,27 @@ set -gx PATH "$PNPM_HOME" $PATH
 
 #--- FUNCTIONS ------
 function qq
-  clear
+    clear
 
-  set logpath "$TMPDIR/q"
-  if [[ -z "$TMPDIR" ]]; then
-      set logpath "/tmp/q"
-  end
+    set logpath "$TMPDIR/q"
+    if test -z "$TMPDIR"
+        set logpath "/tmp/q"
+    end
 
-  if [[ ! -f "$logpath" ]]; then
-      echo 'Q LOG' > "$logpath"
-  end
+    if test ! -f "$logpath"
+        echo 'Q LOG' > "$logpath"
+    end
 
-  tail -100f -- "$logpath"
+    tail -100f -- "$logpath"
 end
 
 function rmqq
-  set logpath "$TMPDIR/q"
-  if [[ -z "$TMPDIR" ]]; then
-      set logpath "/tmp/q"
-  end
-  if [[ -f "$logpath" ]]; then
-      rm "$logpath"
-  end
-  qq
+    set logpath "$TMPDIR/q"
+    if test -z "$TMPDIR"
+        set logpath "/tmp/q"
+    end
+    if test -f "$logpath"
+        rm "$logpath"
+    end
+    qq
 end

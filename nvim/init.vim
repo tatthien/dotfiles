@@ -23,13 +23,14 @@ set backspace=indent,eol,start  " Makes backspace key more powerful.
 set incsearch                   " Shows the match while typing
 set hlsearch                    " Highlight found searches
 set number                      " Show line numbers
-" set relativenumber
+set relativenumber
 set showcmd                     " Show me what I'm typing
 set noswapfile                  " Don't use swapfile
 set nobackup                    " Don't create annoying backup files
 set fileformats=unix,dos,mac    " Prefer Unix over Windows over OS 9 formats
 set noshowmode                  " Don't show the default -- INSERT -- mode because the mode information is displayed in the statusline
-set autoindent   
+set autoindent 
+set foldmethod=manual
 
 set ignorecase
 set smartcase
@@ -47,7 +48,7 @@ autocmd FileType php setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
 autocmd FileType go setlocal noexpandtab tabstop=4 shiftwidth=4
 autocmd FileType make setlocal noexpandtab
 
-autocmd BufNewFile,BufRead *.vue setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
+autocmd BufNewFile,BufRead *.vue set filetype=html setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
 autocmd BufNewFile,BufRead *.scss setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
 autocmd BufNewFile,BufRead *.vim setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
 autocmd BufNewFile,BufRead *.fish setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 

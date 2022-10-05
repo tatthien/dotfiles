@@ -2,8 +2,7 @@
 
 
 {
-    "workbench.colorTheme": "GitHub Dark",
-    "workbench.iconTheme": "file-icons",
+    "workbench.colorTheme": "GitHub Dark Default",
     "workbench.productIconTheme": "icons-carbon",
     "editor.inlineSuggest.enabled": true,
     "editor.fontFamily": "JetBrainsMono Nerd Font",
@@ -80,7 +79,9 @@
         "heroicons",
         "Iosevka",
         "kubeconfig",
+        "Kuber",
         "mockdate",
+        "mysqlinstance",
         "Nuxt",
         "nuxtjs",
         "pinia",

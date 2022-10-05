@@ -12,7 +12,7 @@ Plug 'tpope/vim-fugitive'
 
 Plug 'ryanoasis/vim-devicons'
 
-Plug 'fatih/vim-go'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'lewis6991/gitsigns.nvim'
 
 " Lsp + autocomplete + treesitter
@@ -44,6 +44,9 @@ Plug 'lukas-reineke/indent-blankline.nvim'
 
 " Editorconfig
 Plug 'editorconfig/editorconfig-vim'
+
+" Toggle the visibility of comments
+Plug 'segeljakt/vim-stealth'
 
 call plug#end()
 
