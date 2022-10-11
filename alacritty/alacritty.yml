@@ -1,5 +1,5 @@
 import:
-  - "~/.config/alacritty/colors/github-dark.yml"
+  - "~/.config/alacritty/colors/tokyonight-night.yml"
 
 env:
   TERM: xterm-256color
@@ -9,10 +9,11 @@ window:
     columns: 160
     lines: 48
   padding:
-    x: 2
-    y: 2
+    x: 0
+    y: 0
   dynamic_padding: false
   dynamic_title: true
+  startup_mode: Maximized
   decorations: full
   opacity: 1
 
@@ -21,7 +22,7 @@ draw_bold_text_with_bright_colors: true
 scrolling:
   history: 10000
   multiplier: 3
-
+# Test
 font:
   normal:
     family: Liga SFMono Nerd Font
@@ -31,11 +32,14 @@ font:
     style: Bold
   italic:
     family: Liga SFMono Nerd Font
-    style: Italic
-  size: 15
+    style: Regular Italic
+  bold_italic:
+    family: Liga SFMono Nerd Font
+    style: Bold Italic
+  size: 14
   offset:
-    x: 1
-    y: 10
+    x: 0
+    y: 4
   glyph_offset:
     x: 0
     y: 0

@@ -1,10 +1,6 @@
 call plug#begin(stdpath('config') . '/plugged')
 
-" Plug 'preservim/nerdtree'
-Plug 'voldikss/vim-floaterm'
-
 Plug 'nvim-lualine/lualine.nvim'
-" Plug 'kyazdani42/nvim-web-devicons'
 Plug 'kyazdani42/nvim-tree.lua'
 
 Plug 'tpope/vim-commentary'
@@ -30,14 +26,11 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'onsails/lspkind-nvim'
 Plug 'L3MON4D3/LuaSnip'
+Plug 'plasticboy/vim-markdown'
 
 " Theme
-" Plug 'kvrohit/rasmus.nvim'
-" Plug 'joshdick/onedark.vim'
-" Plug 'flrnprz/plastic.vim'
-" Plug 'rakr/vim-one'
-" Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 Plug 'projekt0n/github-nvim-theme'
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 
 " Indention
 Plug 'lukas-reineke/indent-blankline.nvim'
@@ -47,6 +40,12 @@ Plug 'editorconfig/editorconfig-vim'
 
 " Toggle the visibility of comments
 Plug 'segeljakt/vim-stealth'
+
+" Integrate direnv
+Plug 'direnv/direnv.vim'
+
+" Vim Wiki
+Plug 'vimwiki/vimwiki'
 
 call plug#end()
 

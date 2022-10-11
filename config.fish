@@ -35,6 +35,7 @@ alias s='serverless'
 
 # Vim
 alias vim='nvim'
+alias evim='vim ~/dotfiles/nvim/'
 
 if type -q exa
   alias ll "exa -l -g --icons"

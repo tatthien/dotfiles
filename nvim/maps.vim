@@ -30,10 +30,12 @@ noremap <Leader>re gg=G
 nnoremap H gT
 nnoremap L gt
 
-" Quickly open buffers
+" Quickly open buffers & explorer
 nnoremap w :b<space>
+nnoremap e :e<space>
 
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
+
 " ---------------
 " Plugin mapping
 " ---------------
@@ -45,10 +47,4 @@ nnoremap <leader>u :PlugUpdate<CR>
 " nvim-tree.vim
 nnoremap cc :NvimTreeToggle<CR>
 nnoremap cf :NvimTreeFindFile<CR>
-
-" floaterm
-nnoremap <silent> ft :FloatermNew<CR>
-nnoremap <silent> tt :FloatermToggle<CR>
-nnoremap <silent> fn :FloatermNext<CR>
-
 
