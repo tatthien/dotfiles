@@ -31,8 +31,7 @@ nnoremap H gT
 nnoremap L gt
 
 " Quickly open buffers & explorer
-nnoremap w :b<space>
-nnoremap e :e<space>
+nnoremap w :b<space> nnoremap e :e<space>
 
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 
@@ -48,3 +47,8 @@ nnoremap <leader>u :PlugUpdate<CR>
 nnoremap cc :NvimTreeToggle<CR>
 nnoremap cf :NvimTreeFindFile<CR>
 
+" Finding color schema code quickly
+nnoremap <leader>1 :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name")
+      \ . '> trans<' . synIDattr(synID(line("."),col("."),0),"name")
+      \ . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")
+      \ . ">"<CR>

@@ -47,5 +47,6 @@ Plug 'direnv/direnv.vim'
 " Vim Wiki
 Plug 'vimwiki/vimwiki'
 
+
 call plug#end()
 

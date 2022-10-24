@@ -2,18 +2,47 @@ source $HOME/.config/nvim/plug.vim
 source $HOME/.config/nvim/color.vim
 source $HOME/.config/nvim/maps.vim
 
-" Enable italics (this line must be placed after colorscheme);
+" Schema: variables, helper functions
+let s:Background = "#1a1b26"
+let s:Red = "#f7768e"
+let s:Orange = "#ff9e64"
+let s:Yellow = "#e0af68"
+let s:Green = "#9ece6a"
+let s:Green_1 = "#7ee787"
+let s:Purple = "#9d7cd8"
+let s:Cyan = "#7dcfff"
+let s:Magenta = "#bb9af7"
+let s:White = "#ffffff"
+let s:Blue = "#7aa2f7"
+let s:Comment = "#565f89"
+let s:bold = "bold"
+let s:italic="italic"
+let s:underline = "underline"
+let s:none = "none"
+
+function s:h(group, fg, bg, style)
+  exec "hi " . a:group
+        \ . " guifg=" . a:fg
+        \ . " guibg=" . a:bg
+        \ . " gui=" . a:style
+endfunction
+
 hi Comment cterm=italic
-hi Folded ctermfg=12 guifg=#565f89 guibg=#1a1b26
-hi StatusLine guifg=#565f89 guibg=#313A47
-hi VimwikiHeader1 gui=bold guifg=#f7768e
-hi VimwikiHeader2 gui=bold guifg=#7ee787
-hi VimwikiHeader3 gui=bold guifg=#A5D6FF
-hi VimwikiHeader4 gui=bold guifg=#d2a8ff
-hi VimwikiHeader5 gui=bold guifg=#00FFFF
-hi VimwikiHeader6 gui=bold guifg=#ffa657
-hi VimwikiBold gui=bold guifg=#ffa657
-hi VimwikiLink gui=underline guifg=#00ffff
+call s:h("Folded", "#565f89", s:Background, s:none)
+call s:h("typescriptCommentTodo", s:White, s:Orange, s:bold)
+call s:h("VimwikiHeader1", s:Red, s:Background, s:bold)
+call s:h("VimwikiHeader2", s:Green_1, s:Background, s:bold)
+call s:h("VimwikiHeader3", s:Cyan, s:Background, s:bold)
+call s:h("VimwikiHeader4", s:Magenta, s:Background, s:bold)
+call s:h("VimwikiHeader5", "#00ffff", s:Background, s:bold)
+call s:h("VimwikiHeader6", s:Orange, s:Background, s:bold)
+call s:h("vimCommentTitle", s:Cyan, s:Background, s:bold)
+call s:h("VimwikiTodo", s:White, s:Orange, s:bold)
+call s:h("VimwikiLink", "#00ffff", s:Background, s:underline)
+call s:h("VimwikiCode", s:Orange, s:Background, s:none)
+call s:h("VimwikiBold", s:Orange, s:Background, s:bold)
+call s:h("VimwikiItalic", s:Blue, s:Background, s:italic)
+call s:h("yamlBlockMappingKey", "#00ffff", s:Background, s:none)
 hi Cursorline term=bold cterm=bold
 
 " Highlight line
@@ -29,9 +58,7 @@ syntax on
 
 " Common settings
 set laststatus=2
-set encoding=UTF-8              " Set default encoding to UTF-8
-set autoread                    " Automatically reread changed files without asking me anything
-set backspace=indent,eol,start  " Makes backspace key more powerful.
+set encoding=UTF-8              " Set default encoding to UTF-8 set autoread                    " Automatically reread changed files without asking me anything set backspace=indent,eol,start  " Makes backspace key more powerful.
 set incsearch                   " Shows the match while typing
 set hlsearch                    " Highlight found searches
 set number                      " Show line numbers
@@ -64,23 +91,23 @@ set fillchars=fold:\ "
 " Using fish
 set shell=fish
 
-autocmd FileType css setlocal expandtab tabstop=2 softtabstop=2 shiftwidth
-autocmd FileType html setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
-autocmd FileType javascript setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
-autocmd FileType typescript setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
-autocmd FileType json setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
-autocmd FileType yaml setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
+autocmd FileType css setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+autocmd FileType html setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+autocmd FileType javascript setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+autocmd FileType typescript setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+autocmd FileType json setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+autocmd FileType yaml setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
 autocmd FileType php setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
 autocmd FileType go setlocal noexpandtab tabstop=4 shiftwidth=4
 autocmd FileType make setlocal noexpandtab
 
-autocmd BufNewFile,BufRead *.vue setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 filetype=html 
-autocmd BufNewFile,BufRead *.scss setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
-autocmd BufNewFile,BufRead *.vim setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
-autocmd BufNewFile,BufRead *.fish setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
-autocmd BufNewFile,BufRead *.proto setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 
+autocmd BufNewFile,BufRead *.vue setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 filetype=html
+autocmd BufNewFile,BufRead *.scss setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+autocmd BufNewFile,BufRead *.vim setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+autocmd BufNewFile,BufRead *.fish setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+autocmd BufNewFile,BufRead *.proto setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
 autocmd BufNewFile,BufRead *.md setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
-autocmd BufNewFile,BufRead *.mdx set filetype=markdown 
+autocmd BufNewFile,BufRead *.mdx set filetype=markdown
 autocmd BufWritePost *.go normal! zv
 
 " Fix json file without any quotes

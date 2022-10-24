@@ -1,5 +1,5 @@
 if !exists('g:loaded_nvim_treesitter')
-  echom "Not loaded treesitter"
+  echo "Not loaded treesitter"
   finish
 endif
 
@@ -24,7 +24,9 @@ require'nvim-treesitter.configs'.setup {
     "css",
     "scss",
     "javascript",
-    "go"
+    "typescript",
+    "go",
+    "vue"
   },
   autotag = {
     enable = true,

@@ -4,15 +4,6 @@ if (has('termguicolors'))
   set wildoptions=pum
   set pumblend=5
   set background=dark
- 
-  " Github
-  " let g:github_comment_style = "italic"
-  " let g:github_sidebars = ["qf", "vista_kind", "terminal", "packer"]
-  " let g:github_colors = {
-  "   \ 'hint': 'orange',
-  "   \ 'error': '#ff0000'
-  " \ }
-  " colorscheme github_dark_default
 endif
 
 lua << EOF

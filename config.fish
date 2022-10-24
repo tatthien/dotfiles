@@ -1,15 +1,14 @@
+set -gx EDITOR nvim
+set -gx TERM xterm-256color-italic
 set -gx PATH $HOME/go/bin $PATH
 set -gx PATH $HOME/adb-fastboot/platform-tools $PATH
 set -gx PATH $HOME/.deno/bin $PATH
 set -gx PATH $HOME/flutter/bin $PATH
 set -gx PATH $HOME/.cargo/bin $PATH
-set -gx EDITOR nvim
 set -gx PNPM_HOME "/Users/thien/Library/pnpm"
 set -gx PATH "$PNPM_HOME" $PATH
 set -gx PATH /Applications/Postgres.app/Contents/Versions/latest/bin $PATH
-
-# Terminfo
-set -gx TERM xterm-256color-italic
+set -gx PATH $PATH $HOME/.krew/bin
 
 # Disable fish greeting
 set -U fish_greeting
@@ -24,37 +23,54 @@ direnv hook fish | source
 # Starship
 starship init fish | source
 
-#----- ALIAS ------
-
-# Kubernetes
+###### ALIAS ######
 alias k='kubectl'
 alias m='minikube'
-
-# Serverless
 alias s='serverless'
-
-# Vim
 alias vim='nvim'
 alias evim='vim ~/dotfiles/nvim/'
-
 if type -q exa
   alias ll "exa -l -g --icons"
   alias lla "ll -a"
 end
-
-alias znv "cd $HOME/Dropbox/notes && vim"
-#----- ALIAS ------
-
+###### ALIAS ######
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/thien/Downloads/google-cloud-sdk/path.fish.inc' ]; . '/Users/thien/Downloads/google-cloud-sdk/path.fish.inc'; end
 
-# pnpm
-set -gx PNPM_HOME "/Users/thien/Library/pnpm"
-set -gx PATH "$PNPM_HOME" $PATH
-# pnpm end
+###### COLORSCHEME ######
+set -l foreground c0caf5
+set -l selection 33467c
+set -l comment 565f89
+set -l red f7768e
+set -l orange ff9e64
+set -l yellow e0af68
+set -l green 9ece6a
+set -l purple 9d7cd8
+set -l cyan 7dcfff
+set -l pink bb9af7
+set -g fish_color_normal $foreground
+set -g fish_color_command $cyan
+set -g fish_color_keyword $pink
+set -g fish_color_quote $yellow
+set -g fish_color_redirection $foreground
+set -g fish_color_end $orange
+set -g fish_color_error $red
+set -g fish_color_param $purple
+set -g fish_color_comment $comment
+set -g fish_color_selection --background=$selection
+set -g fish_color_search_match --background=$selection
+set -g fish_color_operator $green
+set -g fish_color_escape $pink
+set -g fish_color_autosuggestion $comment
+set -g fish_pager_color_progress $comment
+set -g fish_pager_color_prefix $cyan
+set -g fish_pager_color_completion $foreground
+set -g fish_pager_color_description $comment
+set -g fish_pager_color_selected_background --background=$selection
+###### COLORSCHEME ######
 
-#--- FUNCTIONS ------
+###### FUNCTIONS ######
 function qq
     clear
 
@@ -80,3 +96,4 @@ function rmqq
     end
     qq
 end
+###### FUNCTIONS ######
