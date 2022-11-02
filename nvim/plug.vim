@@ -1,13 +1,9 @@
 call plug#begin(stdpath('config') . '/plugged')
 
-Plug 'nvim-lualine/lualine.nvim'
 Plug 'kyazdani42/nvim-tree.lua'
-
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
-
 Plug 'ryanoasis/vim-devicons'
-
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'lewis6991/gitsigns.nvim'
 
@@ -29,7 +25,6 @@ Plug 'L3MON4D3/LuaSnip'
 Plug 'plasticboy/vim-markdown'
 
 " Theme
-Plug 'projekt0n/github-nvim-theme'
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 
 " Indention
@@ -46,7 +41,6 @@ Plug 'direnv/direnv.vim'
 
 " Vim Wiki
 Plug 'vimwiki/vimwiki'
-
 
 call plug#end()
 

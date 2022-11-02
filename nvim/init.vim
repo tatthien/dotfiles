@@ -28,6 +28,8 @@ function s:h(group, fg, bg, style)
 endfunction
 
 hi Comment cterm=italic
+hi Cursorline term=bold cterm=bold
+hi StatusLine guibg=s:Background
 call s:h("Folded", "#565f89", s:Background, s:none)
 call s:h("typescriptCommentTodo", s:White, s:Orange, s:bold)
 call s:h("VimwikiHeader1", s:Red, s:Background, s:bold)
@@ -43,7 +45,6 @@ call s:h("VimwikiCode", s:Orange, s:Background, s:none)
 call s:h("VimwikiBold", s:Orange, s:Background, s:bold)
 call s:h("VimwikiItalic", s:Blue, s:Background, s:italic)
 call s:h("yamlBlockMappingKey", "#00ffff", s:Background, s:none)
-hi Cursorline term=bold cterm=bold
 
 " Highlight line
 set cursorline
@@ -69,7 +70,7 @@ set nobackup                    " Don't create annoying backup files
 set notimeout
 set fileformats=unix,dos,mac    " Prefer Unix over Windows over OS 9 formats
 set noshowmode                  " Don't show the default -- INSERT -- mode because the mode information is displayed in the statusline
-set autoindent 
+set autoindent
 set ruler
 set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png,*.ico
 set wildignore+=*.pdf,*.psd
@@ -77,7 +78,6 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 set wildignore+=node_modules/*,bower_components/*
 set ignorecase
 set smartcase
-
 set list
 set listchars=tab:···,trail:●,precedes:«,extends:»
 
