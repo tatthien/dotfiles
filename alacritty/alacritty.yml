@@ -36,10 +36,10 @@ font:
   bold_italic:
     family: Liga SFMono Nerd Font
     style: Bold Italic
-  size: 14
+  size: 14.5
   offset:
     x: 0
-    y: 4
+    y: 6
   glyph_offset:
     x: 0
     y: 0
@@ -89,4 +89,4 @@ hints:
        mods: None
      binding:
        key: U
-       mods: Control|Shift      
+       mods: Control|Shift
