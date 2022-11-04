@@ -6,6 +6,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'ryanoasis/vim-devicons'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'lewis6991/gitsigns.nvim'
+Plug 'nvim-lualine/lualine.nvim'
 
 " Lsp + autocomplete + treesitter
 Plug 'neovim/nvim-lspconfig'
