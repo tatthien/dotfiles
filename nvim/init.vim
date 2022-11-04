@@ -8,9 +8,10 @@ let s:Red = "#f7768e"
 let s:Orange = "#ff9e64"
 let s:Yellow = "#e0af68"
 let s:Green = "#9ece6a"
-let s:Green_1 = "#7ee787"
+let s:Green1 = "#7ee787"
 let s:Purple = "#9d7cd8"
 let s:Cyan = "#7dcfff"
+let s:Cyan1 = "#00ffff"
 let s:Magenta = "#bb9af7"
 let s:White = "#ffffff"
 let s:Blue = "#7aa2f7"
@@ -30,21 +31,24 @@ endfunction
 hi Comment cterm=italic
 hi Cursorline term=bold cterm=bold
 hi StatusLine guibg=s:Background
-call s:h("Folded", "#565f89", s:Background, s:none)
+call s:h("Folded", s:Comment, s:Background, s:none)
 call s:h("typescriptCommentTodo", s:White, s:Orange, s:bold)
 call s:h("VimwikiHeader1", s:Red, s:Background, s:bold)
-call s:h("VimwikiHeader2", s:Green_1, s:Background, s:bold)
+call s:h("VimwikiHeader2", s:Green1, s:Background, s:bold)
 call s:h("VimwikiHeader3", s:Cyan, s:Background, s:bold)
 call s:h("VimwikiHeader4", s:Magenta, s:Background, s:bold)
-call s:h("VimwikiHeader5", "#00ffff", s:Background, s:bold)
+call s:h("VimwikiHeader5", s:Cyan1, s:Background, s:bold)
 call s:h("VimwikiHeader6", s:Orange, s:Background, s:bold)
 call s:h("vimCommentTitle", s:Cyan, s:Background, s:bold)
-call s:h("VimwikiTodo", s:White, s:Orange, s:bold)
-call s:h("VimwikiLink", "#00ffff", s:Background, s:underline)
+call s:h("VimwikiTodo", s:Orange, s:Background, s:bold)
+call s:h("VimwikiLink", s:Cyan1, s:Background, s:underline)
 call s:h("VimwikiCode", s:Orange, s:Background, s:none)
 call s:h("VimwikiBold", s:Orange, s:Background, s:bold)
 call s:h("VimwikiItalic", s:Blue, s:Background, s:italic)
-call s:h("yamlBlockMappingKey", "#00ffff", s:Background, s:none)
+call s:h("VimwikiHR", s:Orange, s:Background, s:italic)
+call s:h("yamlBlockMappingKey", s:Cyan1, s:Background, s:none)
+call s:h("GitSignsAdd", s:Green1, s:Background, s:none)
+call s:h("GitSignsChange", s:Orange, s:Background, s:none)
 
 " Highlight line
 set cursorline
