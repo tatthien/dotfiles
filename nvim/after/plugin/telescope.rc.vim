@@ -22,6 +22,11 @@ telescope.setup{
         ["q"] = actions.close
       },
     },
-  }
+  },
+  pickers = {
+    find_files = {
+      hidden = true,
+    }
+  },
 }
 EOF
