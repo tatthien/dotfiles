@@ -43,5 +43,7 @@ Plug 'direnv/direnv.vim'
 " Vim Wiki
 Plug 'vimwiki/vimwiki'
 
+Plug 'norcalli/nvim-colorizer.lua'
+
 call plug#end()
 
