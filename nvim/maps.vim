@@ -31,7 +31,8 @@ nnoremap H gT
 nnoremap L gt
 
 " Quickly open buffers & explorer
-nnoremap w :b<space> nnoremap e :e<space>
+nnoremap w :b<space>
+nnoremap e :e<space>
 
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 
