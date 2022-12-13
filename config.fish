@@ -1,5 +1,6 @@
 set -gx EDITOR nvim
 set -gx TERM xterm-256color-italic
+set -gx VOLTA_HOME $HOME/.volta
 set -gx PATH $HOME/go/bin $PATH
 set -gx PATH $HOME/adb-fastboot/platform-tools $PATH
 set -gx PATH $HOME/.deno/bin $PATH
@@ -9,6 +10,7 @@ set -gx PNPM_HOME "/Users/thien/Library/pnpm"
 set -gx PATH "$PNPM_HOME" $PATH
 set -gx PATH /Applications/Postgres.app/Contents/Versions/latest/bin $PATH
 set -gx PATH $PATH $HOME/.krew/bin
+set -gx PATH $PATH $VOLTA_HOME
 
 # Disable fish greeting
 set -U fish_greeting
@@ -97,3 +99,5 @@ function rmqq
     qq
 end
 ###### FUNCTIONS ######
+set -gx VOLTA_HOME "$HOME/.volta"
+set -gx PATH "$VOLTA_HOME/bin" $PATH

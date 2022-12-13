@@ -7,5 +7,5 @@ ln -sfv ~/dotfiles/tmuxline ~/.config/tmuxline
 ln -sfv ~/dotfiles/starship.toml ~/.config
 ln -sfv ~/dotfiles/config.fish ~/.config/fish
 ln -sfv ~/dotfiles/gitignore ~/.config/.gitignore
-ln -sfv ~/dotfiles/gitignore ~/.config/.gitignore
-ln -sfv ~/dotfiles/vscode/settings.json ~/Library/Application\ Support/Code/User/settings.json
+
+git config --global core.excludesfile ~/.config/.gitignore
