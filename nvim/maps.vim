@@ -53,3 +53,7 @@ nnoremap <leader>1 :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name")
       \ . '> trans<' . synIDattr(synID(line("."),col("."),0),"name")
       \ . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")
       \ . ">"<CR>
+
+" sessionman
+nnoremap sv :SessionSave<CR>
+nnoremap ss :SessionOpen<space>

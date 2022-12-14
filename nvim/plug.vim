@@ -45,5 +45,7 @@ Plug 'vimwiki/vimwiki'
 
 Plug 'norcalli/nvim-colorizer.lua'
 
+Plug 'vim-scripts/sessionman.vim'
+
 call plug#end()
 
