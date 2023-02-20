@@ -47,6 +47,7 @@ call s:h("VimwikiBold", s:Orange, s:Background, s:bold)
 call s:h("VimwikiItalic", s:Blue, s:Background, s:italic)
 call s:h("VimwikiHR", s:Orange, s:Background, s:italic)
 call s:h("yamlBlockMappingKey", s:Cyan1, s:Background, s:none)
+call s:h("yamlFlowMappingKey", s:Cyan1, s:Background, s:none)
 call s:h("GitSignsAdd", s:Green1, s:Background, s:none)
 call s:h("GitSignsChange", s:Orange, s:Background, s:none)
 
@@ -111,6 +112,7 @@ autocmd BufNewFile,BufRead *.vim setlocal expandtab tabstop=2 softtabstop=2 shif
 autocmd BufNewFile,BufRead *.fish setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
 autocmd BufNewFile,BufRead *.proto setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
 autocmd BufNewFile,BufRead *.md setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+autocmd BufNewFile,BufRead *.tf setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
 autocmd BufNewFile,BufRead *.mdx set filetype=markdown
 autocmd BufWritePost *.go normal! zv
 

@@ -41,7 +41,7 @@ lua << EOF
   capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
   
   -- Enable LSP
-  local servers = { 'tsserver', 'vuels', 'gopls', 'intelephense' }
+  local servers = { 'tsserver', 'vuels', 'gopls', 'intelephense', 'terraformls', 'tflint', 'vimls' }
   for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
       on_attach = on_attach,
