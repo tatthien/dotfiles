@@ -168,7 +168,7 @@ let g:python3_host_prog = '/usr/local/bin/python3'
 let g:python_host_prog = '/usr/bin/python'
 
 " Config: vimwiki
-let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_list = [{'path': '~/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/Digital\ Garden/', 'syntax': 'markdown', 'ext': '.md'}]
 
 " Config: vim-markdown
 let g:vim_markdown_fenced_languages = ['go=go', 'viml=vim', 'bash=sh', 'javascript', 'js=javascript', 'json=json', 'css']
