@@ -11,6 +11,7 @@ set -gx PATH "$PNPM_HOME" $PATH
 set -gx PATH /Applications/Postgres.app/Contents/Versions/latest/bin $PATH
 set -gx PATH $PATH $HOME/.krew/bin
 set -gx PATH $PATH $VOLTA_HOME
+set -gx XDG_CONFIG_HOME $HOME/.config
 
 # Disable fish greeting
 set -U fish_greeting
@@ -101,3 +102,6 @@ end
 ###### FUNCTIONS ######
 set -gx VOLTA_HOME "$HOME/.volta"
 set -gx PATH "$VOLTA_HOME/bin" $PATH
+
+# pyenv
+pyenv init - | source
