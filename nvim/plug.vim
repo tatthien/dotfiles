@@ -15,6 +15,7 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'onsails/lspkind-nvim'
 Plug 'L3MON4D3/LuaSnip'
+Plug 'jose-elias-alvarez/null-ls.nvim'
 
 " Theme
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
