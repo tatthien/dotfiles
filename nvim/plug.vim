@@ -33,7 +33,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'ryanoasis/vim-devicons'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'nvim-lualine/lualine.nvim'
-Plug 'sunjon/shade.nvim'
 
 " Languages
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
