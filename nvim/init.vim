@@ -3,14 +3,14 @@ source $HOME/.config/nvim/color.vim
 source $HOME/.config/nvim/maps.vim
 
 " Schema: variables, helper functions
-let s:Background = "#1a1b26"
-let s:Red = "#f7768e"
+let s:Background = "#011627"
+let s:Red = "#fc514e"
 let s:Orange = "#ff9e64"
-let s:Yellow = "#e0af68"
-let s:Green = "#9ece6a"
+let s:Yellow = "#e3d18a"
+let s:Green = "#a1cd5e"
 let s:Green1 = "#7ee787"
-let s:Purple = "#9d7cd8"
-let s:Cyan = "#7dcfff"
+let s:Purple = "#c792ea"
+let s:Cyan = "#7fdbca"
 let s:Cyan1 = "#00ffff"
 let s:Magenta = "#bb9af7"
 let s:White = "#ffffff"
@@ -31,8 +31,10 @@ endfunction
 hi Comment cterm=italic
 hi Cursorline term=bold cterm=bold
 hi StatusLine guibg=s:Background
+
 call s:h("Folded", s:Comment, s:Background, s:none)
 call s:h("typescriptCommentTodo", s:White, s:Orange, s:bold)
+
 call s:h("VimwikiHeader1", s:Red, s:Background, s:bold)
 call s:h("VimwikiHeader2", s:Green1, s:Background, s:bold)
 call s:h("VimwikiHeader3", s:Cyan, s:Background, s:bold)
@@ -46,8 +48,10 @@ call s:h("VimwikiCode", s:Orange, s:Background, s:none)
 call s:h("VimwikiBold", s:Orange, s:Background, s:bold)
 call s:h("VimwikiItalic", s:Blue, s:Background, s:italic)
 call s:h("VimwikiHR", s:Orange, s:Background, s:italic)
+
 call s:h("yamlBlockMappingKey", s:Cyan1, s:Background, s:none)
 call s:h("yamlFlowMappingKey", s:Cyan1, s:Background, s:none)
+
 call s:h("GitSignsAdd", s:Green1, s:Background, s:none)
 call s:h("GitSignsChange", s:Orange, s:Background, s:none)
 
@@ -178,3 +182,8 @@ let g:vim_markdown_toml_frontmatter = 1
 let g:vim_markdown_frontmatter = 1
 let g:vim_markdown_new_list_item_indent = 2
 let g:vim_markdown_no_extensions_in_markdown = 1
+
+" https://github.com/bluz71/vim-nightfly-colors#true-color-terminals
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
