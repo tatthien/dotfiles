@@ -22,6 +22,8 @@ require'nvim-treesitter.configs'.setup {
     "go",
     "vue",
     "hcl",
+    "markdown",
+    "markdown_inline"
   },
   autotag = {
     enable = true,
