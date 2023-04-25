@@ -30,10 +30,8 @@ require('lazy').setup({
     name = 'nightfly', 
     lazy = false, 
     priority = 1000 ,
-    config = function()
-      vim.cmd([[colorscheme nightfly]])
-    end,
   },
+  { "catppuccin/nvim", name = "catppuccin" },
   { 'williamboman/nvim-lsp-installer' },
   { 'windwp/nvim-autopairs' },
   { 'windwp/nvim-ts-autotag' },
