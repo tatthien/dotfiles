@@ -3,6 +3,5 @@
 .nvmrc
 .vscode/
 .notes.md
-.prettierignore
 .envrc
 local-runner.sh

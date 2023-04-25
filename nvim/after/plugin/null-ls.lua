@@ -1,4 +1,3 @@
-lua << END
 local status, null_ls = pcall(require, "null-ls")
 if (not status) then return end
 
@@ -42,4 +41,3 @@ vim.api.nvim_create_user_command(
   end,
   { nargs = 0 }
 )
-END

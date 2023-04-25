@@ -1,8 +1,6 @@
-lua << END
 require('lualine').setup {
   options = {
     icons_enabled = true,
-    theme = 'tokyonight',
     section_separators = { left = ' ', right = ' ' },
     component_separators = { left = ' ', right = ' ' },
     disabled_filetypes = {},
@@ -18,8 +16,7 @@ require('lualine').setup {
       path = 0
     }},
     lualine_x = {
-      { 'diagnostics', sources = { "nvim_diagnostic" }, symbols = { error = ' ', warn = ' ', info = ' ',
-        hint = ' ' } },
+      { 'diagnostics', sources = { "nvim_diagnostic" }, symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' } },
       'encoding',
       'filetype'
     },
@@ -37,4 +34,3 @@ require('lualine').setup {
   tabline = {},
   extensions = {'fugitive'}
 }
-END
