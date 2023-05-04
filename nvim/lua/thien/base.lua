@@ -20,3 +20,6 @@ vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.wrap = false
 vim.opt.mouse = 'a'
+vim.opt.foldmethod = 'indent'
+vim.opt.foldenable = false
+
