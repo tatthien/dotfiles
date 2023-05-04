@@ -47,3 +47,8 @@ vim.keymap.set('n', 'e', ':e<space>')
 vim.keymap.set('n', 'sv', ':SessionSave<CR>')
 vim.keymap.set('n', 'ss', ':SessionOpen<space>')
 
+-- Toggle wrap
+vim.keymap.set('n', '<leader>z', ':set wrap!<CR>')
+
+-- Reindent
+vim.keymap.set('n', '<leader>re', 'gg=G')
