@@ -47,5 +47,7 @@ require('lazy').setup({
   { 'nvim-lualine/lualine.nvim' },
   { 'norcalli/nvim-colorizer.lua' },
   { 'lewis6991/gitsigns.nvim' },
-  { 'vim-scripts/sessionman.vim' }
+  { 'vim-scripts/sessionman.vim' },
+  { 'tpope/vim-commentary' },
+  { 'tpope/vim-fugitive' }
 })
