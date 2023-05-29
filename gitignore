@@ -5,3 +5,4 @@
 .notes.md
 .envrc
 local-runner.sh
+.netlify
