@@ -22,4 +22,4 @@ vim.opt.wrap = false
 vim.opt.mouse = 'a'
 vim.opt.foldmethod = 'indent'
 vim.opt.foldenable = false
-
+vim.opt.swapfile = false
