@@ -32,10 +32,18 @@ alias m='minikube'
 alias s='serverless'
 alias vim='nvim'
 alias evim='vim ~/dotfiles/nvim/'
+
 if type -q exa
   alias ll "exa -l -g --icons"
   alias lla "ll -a"
 end
+
+# Git
+alias gf='git fetch'
+alias gl='git log'
+alias ga='git add'
+alias gc='git commit'
+alias gp='git push'
 ###### ALIAS ######
 
 # The next line updates PATH for the Google Cloud SDK.
