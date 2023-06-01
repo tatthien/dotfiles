@@ -11,10 +11,10 @@ window:
   padding:
     x: 0
     y: 0
-  dynamic_padding: false
+  dynamic_padding: true
   dynamic_title: true
   startup_mode: Maximized
-  decorations: full
+  decorations: None
   opacity: 1
 
 draw_bold_text_with_bright_colors: true
@@ -34,12 +34,12 @@ font:
     family: Hack Nerd Font
     style: Regular Italic
   bold_italic:
-    family: JetBrainsMono Nerd Font
+    family: Hack Nerd Font
     style: Bold Italic
-  size: 14
+  size: 16
   offset:
     x: 0
-    y: 10
+    y: 12
   glyph_offset:
     x: 0
     y: 0
