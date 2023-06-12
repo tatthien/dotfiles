@@ -44,6 +44,7 @@ alias gl='git log'
 alias ga='git add'
 alias gc='git commit'
 alias gp='git push'
+alias gh='git checkout'
 ###### ALIAS ######
 
 # The next line updates PATH for the Google Cloud SDK.
