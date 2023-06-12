@@ -49,5 +49,6 @@ require('lazy').setup({
   { 'lewis6991/gitsigns.nvim' },
   { 'vim-scripts/sessionman.vim' },
   { 'tpope/vim-commentary' },
-  { 'tpope/vim-fugitive' }
+  { 'tpope/vim-fugitive' },
+  { 'vimwiki/vimwiki' }
 })
