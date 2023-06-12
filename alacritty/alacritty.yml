@@ -25,21 +25,21 @@ scrolling:
 
 font:
   normal:
-    family: JetBrainsMono Nerd Font
+    family: MesloLGS Nerd Font
     style: Regular
   bold:
-    family: JetBrainsMono Nerd Font
+    family: MesloLGS Nerd Font
     style: Bold
   italic:
-    family: JetBrainsMono Nerd Font
+    family: MesloLGS Nerd Font
     style: Regular Italic
   bold_italic:
-    family: JetBrainsMono Nerd Font
+    family: MesloLGS Nerd Font
     style: Bold Italic
-  size: 16
+  size: 15
   offset:
     x: 0
-    y: 12
+    y: 4
   glyph_offset:
     x: 0
     y: 0
