@@ -66,6 +66,12 @@ require("lazy").setup({
 		end,
 	},
 	{ "nvim-treesitter/nvim-treesitter-textobjects" },
+	{
+		"nvim-treesitter/nvim-treesitter-context",
+		config = function()
+			require("treesitter-context").setup()
+		end,
+	},
 
 	-- Lsp
 	{
@@ -295,6 +301,8 @@ require("lazy").setup({
 					mini = false,
 					gitsigns = true,
 					treesitter = true,
+					nvimtree = true,
+					vimwiki = true,
 				},
 			})
 			vim.cmd.colorscheme("catppuccin")
@@ -452,202 +460,24 @@ require("lazy").setup({
 	},
 	{
 		"nvim-lualine/lualine.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
-			local lualine = require("lualine")
-			local colors = {
-				bg = "#1A1A28",
-				fg = "#CDD6F4",
-				yellow = "#f9e2af",
-				cyan = "#008080",
-				darkblue = "#081633",
-				green = "#a6e3a1",
-				orange = "#FF8800",
-				violet = "#a9a1e1",
-				magenta = "#c678dd",
-				blue = "#89b4fa",
-				red = "#f38ba8",
-			}
-
-			local conditions = {
-				buffer_not_empty = function()
-					return vim.fn.empty(vim.fn.expand("%:t")) ~= 1
-				end,
-				hide_in_width = function()
-					return vim.fn.winwidth(0) > 80
-				end,
-				check_git_workspace = function()
-					local filepath = vim.fn.expand("%:p:h")
-					local gitdir = vim.fn.finddir(".git", filepath .. ";")
-					return gitdir and #gitdir > 0 and #gitdir < #filepath
-				end,
-			}
-
-			-- Config
-			local config = {
+			require("lualine").setup({
 				options = {
-					-- Disable sections and component separators
-					component_separators = "",
-					section_separators = "",
-					theme = {
-						-- We are going to use lualine_c an lualine_x as left and
-						-- right section. Both are highlighted by c theme .  So we
-						-- are just setting default looks o statusline
-						normal = { c = { fg = colors.fg, bg = colors.bg } },
-						inactive = { c = { fg = colors.fg, bg = colors.bg } },
-					},
+					theme = "catppuccin",
+					component_separators = { left = "", right = "" },
+					section_separators = { left = "", right = "" },
 				},
 				sections = {
-					-- these are to remove the defaults
-					lualine_a = {},
-					lualine_b = {},
-					lualine_y = {},
-					lualine_z = {},
-					-- These will be filled later
-					lualine_c = {},
-					lualine_x = {},
-				},
-				inactive_sections = {
-					-- these are to remove the defaults
-					lualine_a = {},
-					lualine_b = {},
-					lualine_y = {},
-					lualine_z = {},
-					lualine_c = {},
-					lualine_x = {},
-				},
-			}
-
-			-- Inserts a component in lualine_c at left section
-			local function ins_left(component)
-				table.insert(config.sections.lualine_c, component)
-			end
-
-			-- Inserts a component in lualine_x at right section
-			local function ins_right(component)
-				table.insert(config.sections.lualine_x, component)
-			end
-
-			ins_left({
-				function()
-					return ""
-				end,
-				color = { fg = colors.blue }, -- Sets highlighting of component
-				padding = { left = 0, right = 1 }, -- We don't need space before this
-			})
-
-			ins_left({
-				-- mode component
-				function()
-					return ""
-				end,
-				color = function()
-					-- auto change color according to neovims mode
-					local mode_color = {
-						n = colors.red,
-						i = colors.green,
-						v = colors.blue,
-						[""] = colors.blue,
-						V = colors.blue,
-						c = colors.magenta,
-						no = colors.red,
-						s = colors.orange,
-						S = colors.orange,
-						[""] = colors.orange,
-						ic = colors.yellow,
-						R = colors.violet,
-						Rv = colors.violet,
-						cv = colors.red,
-						ce = colors.red,
-						r = colors.cyan,
-						rm = colors.cyan,
-						["r?"] = colors.cyan,
-						["!"] = colors.red,
-						t = colors.red,
-					}
-					return { fg = mode_color[vim.fn.mode()] }
-				end,
-				padding = { right = 1 },
-			})
-
-			ins_left({
-				-- filesize component
-				"filesize",
-				cond = conditions.buffer_not_empty,
-			})
-
-			ins_left({
-				"filename",
-				cond = conditions.buffer_not_empty,
-				color = { fg = colors.magenta, gui = "bold" },
-			})
-
-			ins_left({ "location" })
-
-			ins_left({ "progress", color = { fg = colors.fg, gui = "bold" } })
-
-			ins_left({
-				"diagnostics",
-				sources = { "nvim_diagnostic" },
-				symbols = { error = " ", warn = " ", info = " " },
-				diagnostics_color = {
-					color_error = { fg = colors.red },
-					color_warn = { fg = colors.yellow },
-					color_info = { fg = colors.cyan },
+					lualine_c = {
+						{
+							"filename",
+							file_status = true, -- displays file status (readonly status, modified status)
+							path = 2, -- 0 = just filename, 1 = relative path, 2 = absolute path
+						},
+					},
 				},
 			})
-
-			-- Insert mid section. You can make any number of sections in neovim :)
-			-- for lualine it's any number greater then 2
-			ins_left({
-				function()
-					return "%="
-				end,
-			})
-
-			ins_left({})
-
-			-- Add components to right sections
-			ins_right({
-				"o:encoding", -- option component same as &encoding in viml
-				fmt = string.upper, -- I'm not sure why it's upper case either ;)
-				cond = conditions.hide_in_width,
-				color = { fg = colors.green, gui = "bold" },
-			})
-
-			ins_right({
-				"fileformat",
-				fmt = string.upper,
-				icons_enabled = false, -- I think icons are cool but Eviline doesn't have them. sigh
-				color = { fg = colors.green, gui = "bold" },
-			})
-
-			ins_right({
-				"branch",
-				icon = "",
-				color = { fg = colors.violet, gui = "bold" },
-			})
-
-			ins_right({
-				"diff",
-				-- Is it me or the symbol for modified us really weird
-				symbols = { added = " ", modified = "柳 ", removed = " " },
-				diff_color = {
-					added = { fg = colors.green },
-					modified = { fg = colors.orange },
-					removed = { fg = colors.red },
-				},
-				cond = conditions.hide_in_width,
-			})
-
-			ins_right({
-				function()
-					return ""
-				end,
-				color = { fg = colors.blue },
-				padding = { left = 1 },
-			})
-
-			lualine.setup(config)
 		end,
 	},
 	{
@@ -671,7 +501,12 @@ require("lazy").setup({
 						numhl = "GitSignsChangeNr",
 						linehl = "GitSignsChangeLn",
 					},
-					delete = { hl = "GitSignsDelete", text = "_", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
+					delete = {
+						hl = "GitSignsDelete",
+						text = "_",
+						numhl = "GitSignsDeleteNr",
+						linehl = "GitSignsDeleteLn",
+					},
 					topdelete = {
 						hl = "GitSignsDelete",
 						text = "‾",
@@ -723,7 +558,20 @@ require("lazy").setup({
 	{ "vim-scripts/sessionman.vim" },
 	{ "tpope/vim-commentary" },
 	{ "tpope/vim-fugitive" },
-	{ "vimwiki/vimwiki" },
+
+	-- vimwiki
+	{
+		"vimwiki/vimwiki",
+		config = function()
+			vim.g.vimwiki_list = {
+				{
+					path = "~/vimwiki",
+					syntax = "markdown",
+					ext = ".md",
+				},
+			}
+		end,
+	},
 	{
 		"iamcco/markdown-preview.nvim",
 		build = "cd app && npm install",
@@ -732,6 +580,8 @@ require("lazy").setup({
 			vim.g.mkdp_filetypes = { "markdown" }
 		end,
 	},
+
+	-- vim for golang
 	{
 		"fatih/vim-go",
 		config = function()
@@ -861,9 +711,6 @@ end
 
 hi("VimwikiLink", color_palette.sky, color_palette.base, "underline")
 hi("VimwikiPre", color_palette.overlay2, color_palette.base, "none")
-
--- vimwiki configuration
-vim.cmd(string.format([[ let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}] ]]))
 
 ----------------
 --  MAPPINGS  --
