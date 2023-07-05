@@ -12,6 +12,8 @@ set -gx PATH /Applications/Postgres.app/Contents/Versions/latest/bin $PATH
 set -gx PATH $PATH $HOME/.krew/bin
 set -gx PATH $PATH $VOLTA_HOME
 set -gx XDG_CONFIG_HOME $HOME/.config
+set -gx VOLTA_HOME "$HOME/.volta"
+set -gx PATH "$VOLTA_HOME/bin" $PATH
 
 # Disable fish greeting
 set -U fish_greeting
@@ -30,8 +32,6 @@ starship init fish | source
 alias k='kubectl'
 alias m='minikube'
 alias s='serverless'
-alias vim='nvim'
-alias evim='vim ~/dotfiles/nvim/'
 
 if type -q exa
   alias ll "exa -l -g --icons"
@@ -108,9 +108,11 @@ function rmqq
     end
     qq
 end
+
+function vim --wraps=nvim --description 'alias vim=nvim'
+  nvim $argv
+end
 ###### FUNCTIONS ######
-set -gx VOLTA_HOME "$HOME/.volta"
-set -gx PATH "$VOLTA_HOME/bin" $PATH
 
 # pyenv
 pyenv init - | source
