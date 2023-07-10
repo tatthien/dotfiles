@@ -163,13 +163,19 @@ require("lazy").setup({
 
 			-- Enable LSP
 			local servers =
-				{ "tsserver", "vuels", "gopls", "intelephense", "terraformls", "tflint", "vimls", "tailwindcss" }
+				{ "tsserver", "gopls", "intelephense", "terraformls", "tflint", "vimls", "tailwindcss" }
 			for _, lsp in ipairs(servers) do
 				nvim_lsp[lsp].setup({
 					on_attach = on_attach,
 					capabilities = capabilities,
 				})
 			end
+
+      nvim_lsp.volar.setup {
+        on_attach = on_attach,
+        capabilities = capabilities,
+        filetypes = {'vue'}
+      }
 		end,
 	},
 
