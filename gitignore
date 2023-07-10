@@ -6,3 +6,4 @@
 .envrc
 local-runner.sh
 .netlify
+.madgerc
