@@ -112,6 +112,10 @@ end
 function vim --wraps=nvim --description 'alias vim=nvim'
   nvim $argv
 end
+
+function cat --wraps=bat --description 'alias cat=bat'
+  bat $argv
+end
 ###### FUNCTIONS ######
 
 # pyenv
