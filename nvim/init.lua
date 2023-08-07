@@ -202,15 +202,6 @@ require("lazy").setup({
 				view = {
 					adaptive_size = true,
 					side = "left",
-					mappings = {
-						list = {
-							{ key = "u", action = "dir_up" },
-							{ key = "<C-s>", action = "split" },
-							{ key = "v", action = "vsplit" },
-							{ key = "c", action = "" },
-							{ key = "<C-c>", action = "copy" },
-						},
-					},
 				},
 				renderer = {
 					group_empty = true,
