@@ -163,8 +163,7 @@ require("lazy").setup({
 			capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 			-- Enable LSP
-			local servers =
-				{ "tsserver", "gopls", "intelephense", "terraformls", "tflint", "vimls", "tailwindcss" }
+			local servers = { "tsserver", "gopls", "intelephense", "terraformls", "tflint", "vimls", "tailwindcss" }
 			for _, lsp in ipairs(servers) do
 				nvim_lsp[lsp].setup({
 					on_attach = on_attach,
@@ -172,11 +171,11 @@ require("lazy").setup({
 				})
 			end
 
-      nvim_lsp.volar.setup {
-        on_attach = on_attach,
-        capabilities = capabilities,
-        filetypes = {'vue'}
-      }
+			nvim_lsp.volar.setup({
+				on_attach = on_attach,
+				capabilities = capabilities,
+				filetypes = { "vue" },
+			})
 		end,
 	},
 
@@ -259,10 +258,10 @@ require("lazy").setup({
 		name = "catppuccin",
 		config = function()
 			require("catppuccin").setup({
-				flavour = "macchiato", -- latte, frappe, macchiato, mocha
+				flavour = "mocha", -- latte, frappe, macchiato, mocha
 				background = { -- :h background
 					light = "latte",
-					dark = "macchiato",
+					dark = "mocha",
 				},
 				transparent_background = false,
 				show_end_of_buffer = false, -- show the '~' characters after the end of buffers
