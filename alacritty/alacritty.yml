@@ -1,5 +1,5 @@
 import:
-  - "~/.config/alacritty/colors/catppuccin-macchiato.yml"
+  - "~/.config/alacritty/colors/catppuccin-mocha.yml"
 
 env:
   TERM: xterm-256color
@@ -36,7 +36,7 @@ font:
   bold_italic:
     family: Cousine Nerd Font
     style: Bold Italic
-  size: 16
+  size: 15
   offset:
     x: 0
     y: 8
