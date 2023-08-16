@@ -478,11 +478,10 @@ require("lazy").setup({
 		end,
 	},
 	{
-		"norcalli/nvim-colorizer.lua",
+		"NvChad/nvim-colorizer.lua",
 		config = function()
 			require("colorizer").setup({
-				"*",
-				vim = { names = false },
+			  filetypes = { "*" },
 			})
 		end,
 	},
