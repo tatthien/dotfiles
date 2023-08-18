@@ -86,7 +86,6 @@ require("lazy").setup({
 				ui = {
 					winblend = 10,
 					border = "rounded",
-					kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
 				},
 			})
 
@@ -253,58 +252,21 @@ require("lazy").setup({
 	},
 
 	-- theme
-	{
-		"catppuccin/nvim",
-		name = "catppuccin",
-		config = function()
-			require("catppuccin").setup({
-				flavour = "mocha", -- latte, frappe, macchiato, mocha
-				background = { -- :h background
-					light = "latte",
-					dark = "mocha",
-				},
-				transparent_background = false,
-				show_end_of_buffer = false, -- show the '~' characters after the end of buffers
-				term_colors = false,
-				dim_inactive = {
-					enabled = false,
-					shade = "dark",
-					percentage = 0.15,
-				},
-				no_italic = false, -- Force no italic
-				no_bold = false, -- Force no bold
-				styles = {
-					comments = { "italic" },
-					conditionals = { "italic" },
-					loops = {},
-					functions = {},
-					keywords = {},
-					strings = {},
-					variables = {},
-					numbers = {},
-					booleans = {},
-					properties = {},
-					types = {},
-					operators = {},
-				},
-				color_overrides = {},
-				custom_highlights = {},
-				integrations = {
-					cmp = true,
-					gitsigns = true,
-					nvimtree = true,
-					telescope = true,
-					notify = false,
-					mini = false,
-					gitsigns = true,
-					treesitter = true,
-					nvimtree = true,
-					vimwiki = true,
-				},
-			})
-			vim.cmd.colorscheme("catppuccin")
-		end,
-	},
+  {
+    "EdenEast/nightfox.nvim",
+    config = function() 
+      require("nightfox").setup({
+        options = {
+          styles = {
+            comments = "italic",
+            keywords = "bold",
+            types = "italic,bold",
+          }
+        }
+      })
+      vim.cmd("colorscheme nightfox")
+    end
+  },
 	{
 		"windwp/nvim-autopairs",
 		config = function()
@@ -461,7 +423,7 @@ require("lazy").setup({
 		config = function()
 			require("lualine").setup({
 				options = {
-					theme = "catppuccin",
+					theme = "nightfox",
 					component_separators = { left = "", right = "" },
 					section_separators = { left = "", right = "" },
 				},
@@ -790,3 +752,4 @@ vim.keymap.set("n", "<leader>ll", "<cmd>:Other<CR>", { noremap = true, silent = 
 vim.keymap.set("n", "<leader>lp", "<cmd>:OtherSplit<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>lv", "<cmd>:OtherVSplit<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>lc", "<cmd>:OtherClear<CR>", { noremap = true, silent = true })
+

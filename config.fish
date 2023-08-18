@@ -51,16 +51,21 @@ alias gh='git checkout'
 if [ -f '/Users/thien/Downloads/google-cloud-sdk/path.fish.inc' ]; . '/Users/thien/Downloads/google-cloud-sdk/path.fish.inc'; end
 
 ###### COLORSCHEME ######
-set -l foreground c0caf5
-set -l selection 33467c
-set -l comment 565f89
-set -l red f7768e
-set -l orange ff9e64
-set -l yellow e0af68
-set -l green 9ece6a
-set -l purple 9d7cd8
-set -l cyan 7dcfff
-set -l pink bb9af7
+# Nightfox Color Palette
+# Style: nightfox
+# Upstream: https://github.com/edeneast/nightfox.nvim/raw/main/extra/nightfox/nightfox_fish.fish
+set -l foreground cdcecf
+set -l selection 2b3b51
+set -l comment 738091
+set -l red c94f6d
+set -l orange f4a261
+set -l yellow dbc074
+set -l green 81b29a
+set -l purple 9d79d6
+set -l cyan 63cdcf
+set -l pink d67ad2
+
+# Syntax Highlighting Colors
 set -g fish_color_normal $foreground
 set -g fish_color_command $cyan
 set -g fish_color_keyword $pink
@@ -75,11 +80,12 @@ set -g fish_color_search_match --background=$selection
 set -g fish_color_operator $green
 set -g fish_color_escape $pink
 set -g fish_color_autosuggestion $comment
+
+# Completion Pager Colors
 set -g fish_pager_color_progress $comment
 set -g fish_pager_color_prefix $cyan
 set -g fish_pager_color_completion $foreground
 set -g fish_pager_color_description $comment
-set -g fish_pager_color_selected_background --background=$selection
 ###### COLORSCHEME ######
 
 ###### FUNCTIONS ######
