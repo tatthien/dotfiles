@@ -45,6 +45,7 @@ alias ga='git add'
 alias gc='git commit'
 alias gp='git push'
 alias gh='git checkout'
+alias glo='git log --oneline'
 ###### ALIAS ######
 
 # The next line updates PATH for the Google Cloud SDK.
@@ -121,6 +122,10 @@ end
 
 function cat --wraps=bat --description 'alias cat=bat'
   bat $argv
+end
+
+function gcam
+  git commit -am $argv
 end
 ###### FUNCTIONS ######
 

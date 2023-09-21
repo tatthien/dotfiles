@@ -25,21 +25,21 @@ scrolling:
 
 font:
   normal:
-    family: Cousine Nerd Font
+    family: JetBrainsMono Nerd Font
     style: Regular
   bold:
-    family: Cousine Nerd Font
+    family: JetBrainsMono Nerd Font
     style: Bold
   italic:
-    family: Cousine Nerd Font
+    family: JetBrainsMono Nerd Font
     style: Regular Italic
   bold_italic:
-    family: Cousine Nerd Font
+    family: JetBrainsMono Nerd Font
     style: Bold Italic
   size: 15
   offset:
     x: 0
-    y: 8
+    y: 0
   glyph_offset:
     x: 0
     y: 0
