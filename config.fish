@@ -46,6 +46,7 @@ alias gc='git commit'
 alias gp='git push'
 alias gh='git checkout'
 alias glo='git log --oneline'
+alias gfa='git fetch --all'
 ###### ALIAS ######
 
 # The next line updates PATH for the Google Cloud SDK.

@@ -15,6 +15,18 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- ChangeBackground changes the background mode based on macOS's `Appearance
+-- Credit: https://github.com/fatih/dotfiles/blob/main/init.lua
+local function change_background()
+  local m = vim.fn.system("defaults read -g AppleInterfaceStyle")
+  m = m:gsub("%s+", "") -- trim whitespace
+  if m == "Dark" then
+    vim.o.background = "dark" 
+  else
+    vim.o.background = "light" 
+  end
+end
+
 require("lazy").setup({
 	-- Indent line
 	{
@@ -251,21 +263,17 @@ require("lazy").setup({
 		end,
 	},
 
-	-- theme
-  {
-    "EdenEast/nightfox.nvim",
-    config = function() 
-      require("nightfox").setup({
-        options = {
-          styles = {
-            comments = "italic",
-            keywords = "bold",
-            types = "italic,bold",
-          }
-        }
+	-- colorschema
+  { 
+    "ellisonleao/gruvbox.nvim", 
+    priority = 1000, -- make sure to load this before all the other start plugins
+    config = function ()
+      change_background()
+      require("gruvbox").setup({
+        contrast = "hard"
       })
-      vim.cmd("colorscheme nightfox")
-    end
+      vim.cmd([[colorscheme gruvbox]])
+    end,
   },
 	{
 		"windwp/nvim-autopairs",
@@ -291,11 +299,6 @@ require("lazy").setup({
 			local lspkind = require("lspkind")
 
 			cmp.setup({
-				snippet = {
-					expand = function(args)
-						require("luasnip").lsp_expand(args.body)
-					end,
-				},
 				mapping = cmp.mapping.preset.insert({
 					["<C-d>"] = cmp.mapping.scroll_docs(-4),
 					["<C-f>"] = cmp.mapping.scroll_docs(4),
@@ -370,7 +373,6 @@ require("lazy").setup({
 		end,
 	},
 	{ "onsails/lspkind-nvim" },
-	{ "L3MON4D3/LuaSnip" },
 	{
 		"jose-elias-alvarez/null-ls.nvim",
 		config = function()
@@ -423,7 +425,7 @@ require("lazy").setup({
 		config = function()
 			require("lualine").setup({
 				options = {
-					theme = "nightfox",
+					theme = "gruvbox",
 					component_separators = { left = "", right = "" },
 					section_separators = { left = "", right = "" },
 				},
