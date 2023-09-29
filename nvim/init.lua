@@ -42,17 +42,12 @@ require("lazy").setup({
 	-- Treesitter
 	{
 		"nvim-treesitter/nvim-treesitter",
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter-textobjects',
+    },
+    build = ":TSUpdate",
 		config = function()
 			require("nvim-treesitter.configs").setup({
-				highlight = {
-					enable = true,
-					disable = {},
-					additional_vim_regex_highlighting = true,
-				},
-				indent = {
-					enable = true,
-					disable = {},
-				},
 				ensure_installed = {
 					"toml",
 					"fish",
@@ -65,14 +60,37 @@ require("lazy").setup({
 					"javascript",
 					"typescript",
 					"go",
+          "gomod",
 					"vue",
 					"hcl",
 					"markdown",
 					"markdown_inline",
+          "vimdoc" ,
+          "vim",
+          "bash",
+          "lua",
+				},
+				highlight = {
+					enable = true,
+          -- Disable slow treesitter highlight for large files
+          disable = function(lang, buf)
+            local max_filesize = 100 * 1024 -- 100 KB
+            local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+            if ok and stats and stats.size > max_filesize then
+              return true
+            end
+          end,
+					additional_vim_regex_highlighting = true,
+				},
+				indent = {
+					enable = true,
 				},
 				autotag = {
 					enable = true,
 				},
+        autopairs = {
+          enable = true,
+        },
 				auto_install = true,
 			})
 		end,
@@ -99,6 +117,10 @@ require("lazy").setup({
 					winblend = 10,
 					border = "rounded",
 				},
+        lightbulb = {
+          enable = false,
+          sign = false
+        }
 			})
 
 			local diagnostic = require("lspsaga.diagnostic")
@@ -111,7 +133,7 @@ require("lazy").setup({
 			vim.keymap.set("n", "go", "<Cmd>Lspsaga outline<CR>", opts)
 			vim.keymap.set("n", "gf", "<Cmd>Lspsaga finder<CR>", opts)
 			vim.keymap.set("n", "gd", "<Cmd>Lspsaga lsp_finder<CR>", opts)
-			vim.keymap.set("n", "gl", "<Cmd>Lspsaga show_diagnostic<CR>", opts)
+			vim.keymap.set("n", "gl", "<Cmd>Lspsaga show_buf_diagnostics<CR>", opts)
 
 			-- code action
 			local codeaction = require("lspsaga.codeaction")
@@ -500,40 +522,6 @@ require("lazy").setup({
 			vim.g["go_list_type"] = "quickfix"
 		end,
 	},
-
-	-- alternative files
-	{
-		"rgroli/other.nvim",
-		config = function()
-			require("other-nvim").setup({
-				mappings = {
-					-- go
-					{
-						pattern = "(.*).go$",
-						target = "%1_test.go",
-						context = "test",
-					},
-					{
-						pattern = "(.*)_test.go$",
-						target = "%1.go",
-						context = "file",
-					},
-					-- react
-					-- e.g: Alternative between files, such as Component.tsx and Component.styles.ts
-					{
-						pattern = "(.*).tsx$",
-						target = "%1.styles.ts",
-						context = "style",
-					},
-					{
-						pattern = "(.*).styles.ts$",
-						target = "%1.tsx",
-						context = "component",
-					},
-				},
-			})
-		end,
-	},
 })
 
 --------------
@@ -578,32 +566,8 @@ vim.opt.foldenable = false
 
 -- theme tweaks
 local color_palette = {
-	rosewater = "#F5E0DC",
-	flamingo = "#F2CDCD",
-	pink = "#F5C2E7",
-	mauve = "#CBA6F7",
-	red = "#F38BA8",
-	maroon = "#EBA0AC",
-	peach = "#FAB387",
-	yellow = "#F9E2AF",
-	green = "#A6E3A1",
-	teal = "#94E2D5",
-	sky = "#89DCEB",
-	sapphire = "#74C7EC",
-	blue = "#89B4FA",
-	lavender = "#B4BEFE",
-	text = "#CDD6F4",
-	subtext1 = "#BAC2DE",
-	subtext0 = "#A6ADC8",
-	overlay2 = "#9399B2",
-	overlay1 = "#7F849C",
-	overlay0 = "#6C7086",
-	surface2 = "#585B70",
-	surface1 = "#45475A",
-	surface0 = "#313244",
-	base = "#1E1E2E",
-	mantle = "#181825",
-	crust = "#11111B",
+	-- rosewater = "#F5E0DC",
+	-- flamingo = "#F2CDCD",
 }
 
 -- shortcut for hightlighting
@@ -611,8 +575,8 @@ local function hi(group, fg, bg, style)
 	vim.cmd(string.format([[ hi %s guifg=%s guibg=%s gui=%s ]], group, fg, bg, style))
 end
 
-hi("VimwikiLink", color_palette.sky, color_palette.base, "underline")
-hi("VimwikiPre", color_palette.overlay2, color_palette.base, "none")
+-- hi("VimwikiLink", color_palette.sky, color_palette.base, "underline")
+-- hi("VimwikiPre", color_palette.overlay2, color_palette.base, "none")
 
 ----------------
 --  MAPPINGS  --
@@ -689,3 +653,11 @@ vim.keymap.set("n", "<leader>lp", "<cmd>:OtherSplit<CR>", { noremap = true, sile
 vim.keymap.set("n", "<leader>lv", "<cmd>:OtherVSplit<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>lc", "<cmd>:OtherClear<CR>", { noremap = true, silent = true })
 
+-- diagnostic
+vim.diagnostic.config({
+  virtual_text = false,
+  signs = true,
+  underline = true,
+  -- -- update diagnostic in insert mode will be annoying when the output is too verbose
+  update_in_insert = true,
+})
