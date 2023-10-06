@@ -15,27 +15,13 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- ChangeBackground changes the background mode based on macOS's `Appearance
--- Credit: https://github.com/fatih/dotfiles/blob/main/init.lua
-local function change_background()
-  local m = vim.fn.system("defaults read -g AppleInterfaceStyle")
-  m = m:gsub("%s+", "") -- trim whitespace
-  if m == "Dark" then
-    vim.o.background = "dark" 
-  else
-    vim.o.background = "light" 
-  end
-end
-
 require("lazy").setup({
 	-- Indent line
 	{
 		"lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
 		config = function()
-			require("indent_blankline").setup({
-				show_current_context = true,
-				show_current_context_start = true,
-			})
+			require("ibl").setup()
 		end,
 	},
 
@@ -95,8 +81,7 @@ require("lazy").setup({
 			})
 		end,
 	},
-	{ "nvim-treesitter/nvim-treesitter-textobjects" },
-	{
+	{ "nvim-treesitter/nvim-treesitter-textobjects" }, {
 		"nvim-treesitter/nvim-treesitter-context",
 		config = function()
 			require("treesitter-context").setup()
@@ -246,7 +231,7 @@ require("lazy").setup({
 					},
 				},
 				filters = {
-					dotfiles = false,
+					dotfiles = true,
 					custom = {
 						"^.git$",
 					},
@@ -277,11 +262,12 @@ require("lazy").setup({
 					api.config.mappings.default_on_attach(bufnr)
 
 					vim.keymap.set("n", "u", api.tree.change_root_to_parent, opts("Up"))
-					vim.keymap.set("n", "<C-s>", api.node.open.horizontal, opts("Open: Horizontal Split"))
+					vim.keymap.set("n", "s", api.node.open.horizontal, opts("Open: Horizontal Split"))
 					vim.keymap.set("n", "v", api.node.open.vertical, opts("Open: Vertical Split"))
-					vim.keymap.set("n", "<C-c>", api.fs.copy.node, opts("Copy"))
 				end,
 			})
+      -- Key maps
+      vim.keymap.set("n", "cc", ":NvimTreeToggle<CR>", { noremap = true })
 		end,
 	},
 
@@ -290,7 +276,6 @@ require("lazy").setup({
     "ellisonleao/gruvbox.nvim", 
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function ()
-      change_background()
       require("gruvbox").setup({
         contrast = "hard"
       })
@@ -319,8 +304,14 @@ require("lazy").setup({
 		config = function()
 			local cmp = require("cmp")
 			local lspkind = require("lspkind")
+      local luasnip = require("luasnip")
 
 			cmp.setup({
+        snippet = {
+					expand = function(args)
+						luasnip.lsp_expand(args.body)
+					end,
+				},
 				mapping = cmp.mapping.preset.insert({
 					["<C-d>"] = cmp.mapping.scroll_docs(-4),
 					["<C-f>"] = cmp.mapping.scroll_docs(4),
@@ -395,6 +386,9 @@ require("lazy").setup({
 		end,
 	},
 	{ "onsails/lspkind-nvim" },
+  {
+    "L3MON4D3/LuaSnip",
+  },
 	{
 		"jose-elias-alvarez/null-ls.nvim",
 		config = function()
@@ -613,8 +607,6 @@ vim.keymap.set("n", "<space>", "zz")
 -- remove search highlighting
 vim.keymap.set("n", "<leader><space>", ":nohlsearch<CR>")
 
--- nvim-tree
-vim.keymap.set("n", "cc", ":NvimTreeFindFileToggle<CR>")
 
 -- finding color schema code
 vim.cmd([[
