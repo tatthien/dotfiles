@@ -480,10 +480,11 @@ require("lazy").setup({
 	-- vimwiki
 	{
 		"vimwiki/vimwiki",
-		config = function()
+		init = function()
 			vim.g.vimwiki_list = {
 				{
-					path = "~/vimwiki",
+					path = "~/code/github.com/tatthien/digital-garden/docs",
+          index = "sitemap",
 					syntax = "markdown",
 					ext = ".md",
 				},
