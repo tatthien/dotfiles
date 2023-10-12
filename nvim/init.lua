@@ -19,7 +19,7 @@ require("lazy").setup({
 	-- Indent line
 	{
 		"lukas-reineke/indent-blankline.nvim",
-    main = "ibl",
+		main = "ibl",
 		config = function()
 			require("ibl").setup()
 		end,
@@ -28,10 +28,10 @@ require("lazy").setup({
 	-- Treesitter
 	{
 		"nvim-treesitter/nvim-treesitter",
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter-textobjects',
-    },
-    build = ":TSUpdate",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter-textobjects",
+		},
+		build = ":TSUpdate",
 		config = function()
 			require("nvim-treesitter.configs").setup({
 				ensure_installed = {
@@ -46,26 +46,26 @@ require("lazy").setup({
 					"javascript",
 					"typescript",
 					"go",
-          "gomod",
+					"gomod",
 					"vue",
 					"hcl",
 					"markdown",
 					"markdown_inline",
-          "vimdoc" ,
-          "vim",
-          "bash",
-          "lua",
+					"vimdoc",
+					"vim",
+					"bash",
+					"lua",
 				},
 				highlight = {
 					enable = true,
-          -- Disable slow treesitter highlight for large files
-          disable = function(lang, buf)
-            local max_filesize = 100 * 1024 -- 100 KB
-            local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-            if ok and stats and stats.size > max_filesize then
-              return true
-            end
-          end,
+					-- Disable slow treesitter highlight for large files
+					disable = function(lang, buf)
+						local max_filesize = 100 * 1024 -- 100 KB
+						local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+						if ok and stats and stats.size > max_filesize then
+							return true
+						end
+					end,
 					additional_vim_regex_highlighting = true,
 				},
 				indent = {
@@ -74,14 +74,15 @@ require("lazy").setup({
 				autotag = {
 					enable = true,
 				},
-        autopairs = {
-          enable = true,
-        },
+				autopairs = {
+					enable = true,
+				},
 				auto_install = true,
 			})
 		end,
 	},
-	{ "nvim-treesitter/nvim-treesitter-textobjects" }, {
+	{ "nvim-treesitter/nvim-treesitter-textobjects" },
+	{
 		"nvim-treesitter/nvim-treesitter-context",
 		config = function()
 			require("treesitter-context").setup()
@@ -102,10 +103,10 @@ require("lazy").setup({
 					winblend = 10,
 					border = "rounded",
 				},
-        lightbulb = {
-          enable = false,
-          sign = false
-        }
+				lightbulb = {
+					enable = false,
+					sign = false,
+				},
 			})
 
 			local diagnostic = require("lspsaga.diagnostic")
@@ -266,22 +267,22 @@ require("lazy").setup({
 					vim.keymap.set("n", "v", api.node.open.vertical, opts("Open: Vertical Split"))
 				end,
 			})
-      -- Key maps
-      vim.keymap.set("n", "cc", ":NvimTreeToggle<CR>", { noremap = true })
+			-- Key maps
+			vim.keymap.set("n", "cc", ":NvimTreeToggle<CR>", { noremap = true })
 		end,
 	},
 
 	-- colorschema
-  { 
-    "ellisonleao/gruvbox.nvim", 
-    priority = 1000, -- make sure to load this before all the other start plugins
-    config = function ()
-      require("gruvbox").setup({
-        contrast = "hard"
-      })
-      vim.cmd([[colorscheme gruvbox]])
-    end,
-  },
+	{
+		"ellisonleao/gruvbox.nvim",
+		priority = 1000, -- make sure to load this before all the other start plugins
+		config = function()
+			require("gruvbox").setup({
+				contrast = "hard",
+			})
+			vim.cmd([[colorscheme gruvbox]])
+		end,
+	},
 	{
 		"windwp/nvim-autopairs",
 		config = function()
@@ -304,10 +305,10 @@ require("lazy").setup({
 		config = function()
 			local cmp = require("cmp")
 			local lspkind = require("lspkind")
-      local luasnip = require("luasnip")
+			local luasnip = require("luasnip")
 
 			cmp.setup({
-        snippet = {
+				snippet = {
 					expand = function(args)
 						luasnip.lsp_expand(args.body)
 					end,
@@ -386,9 +387,9 @@ require("lazy").setup({
 		end,
 	},
 	{ "onsails/lspkind-nvim" },
-  {
-    "L3MON4D3/LuaSnip",
-  },
+	{
+		"L3MON4D3/LuaSnip",
+	},
 	{
 		"jose-elias-alvarez/null-ls.nvim",
 		config = function()
@@ -415,6 +416,8 @@ require("lazy").setup({
 						diagnostics_format = "[eslint] #{m}\n(#{c})",
 					}),
 					null_ls.builtins.diagnostics.fish,
+					null_ls.builtins.formatting.stylua,
+					null_ls.builtins.formatting.gofmt,
 				},
 				on_attach = function(client, bufnr)
 					if client.supports_method("textDocument/formatting") then
@@ -461,7 +464,7 @@ require("lazy").setup({
 		"NvChad/nvim-colorizer.lua",
 		config = function()
 			require("colorizer").setup({
-			  filetypes = { "*" },
+				filetypes = { "*" },
 			})
 		end,
 	},
@@ -484,7 +487,7 @@ require("lazy").setup({
 			vim.g.vimwiki_list = {
 				{
 					path = "~/code/github.com/tatthien/digital-garden/docs",
-          index = "sitemap",
+					index = "sitemap",
 					syntax = "markdown",
 					ext = ".md",
 				},
@@ -526,22 +529,21 @@ require("lazy").setup({
 -- disable netrw at the very start of our init.lua, because we use nvim-tree
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
-vim.opt.clipboard = "unnamedplus" -- Copy/paste to system clipboard
+vim.opt.clipboard = "unnamedplus" -- copy/paste to system clipboard
 vim.opt.termguicolors = true
 vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"
 vim.scriptencoding = "uft-8"
-vim.opt.number = true -- Show line numbers
-vim.opt.relativenumber = true -- Use relative numbers
+vim.opt.number = true -- show line numbers
+vim.opt.relativenumber = true -- use relative numbers
 vim.opt.autoread = true
 vim.opt.swapfile = false
-
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
-
 vim.opt.modifiable = true
 vim.opt.shell = "fish"
 vim.opt.inccommand = "split"
+vim.opt.backup = false
 
 -- indent settings
 vim.opt.expandtab = true
@@ -553,7 +555,7 @@ vim.opt.smartindent = true
 vim.opt.breakindent = true
 
 vim.opt.wrap = false
-vim.opt.mouse = "a" -- Enable mouse support
+vim.opt.mouse = "a" -- enable mouse support in all modes
 
 -- fold settings
 vim.opt.foldmethod = "indent"
@@ -608,7 +610,6 @@ vim.keymap.set("n", "<space>", "zz")
 -- remove search highlighting
 vim.keymap.set("n", "<leader><space>", ":nohlsearch<CR>")
 
-
 -- finding color schema code
 vim.cmd([[
 nnoremap <leader>1 :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name")
@@ -648,9 +649,9 @@ vim.keymap.set("n", "<leader>lc", "<cmd>:OtherClear<CR>", { noremap = true, sile
 
 -- diagnostic
 vim.diagnostic.config({
-  virtual_text = false,
-  signs = true,
-  underline = true,
-  -- -- update diagnostic in insert mode will be annoying when the output is too verbose
-  update_in_insert = true,
+	virtual_text = false,
+	signs = true,
+	underline = true,
+	-- -- update diagnostic in insert mode will be annoying when the output is too verbose
+	update_in_insert = true,
 })
