@@ -206,6 +206,14 @@ require("lazy").setup({
 			require("mason").setup()
 		end,
 	},
+  {
+    "williamboman/mason-lspconfig.nvim",
+    config = function() 
+      require("mason-lspconfig").setup({
+        automatic_installation = true
+      })
+    end
+  },
 
 	-- nvim-tree
 	{ "nvim-tree/nvim-web-devicons" },
