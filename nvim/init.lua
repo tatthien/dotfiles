@@ -393,7 +393,6 @@ require("lazy").setup({
 			require("telescope").load_extension("ui-select")
 		end,
 	},
-	{ "onsails/lspkind-nvim" },
 	{
 		"L3MON4D3/LuaSnip",
 	},
@@ -485,7 +484,6 @@ require("lazy").setup({
 	},
 	{ "vim-scripts/sessionman.vim" },
 	{ "tpope/vim-commentary" },
-	{ "tpope/vim-fugitive" },
 
 	-- vimwiki
 	{
