@@ -350,9 +350,7 @@ require("lazy").setup({
 		"onsails/lspkind-nvim",
 		config = function()
 			require("lspkind").init({
-				mode = "symbol_text",
-				preset = "codicons",
-				symbol_map = {},
+				mode = "symbol",
 			})
 		end,
 	},
