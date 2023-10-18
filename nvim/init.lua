@@ -182,7 +182,8 @@ require("lazy").setup({
 			capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 			-- Enable LSP
-			local servers = { "tsserver", "gopls", "intelephense", "terraformls", "tflint", "vimls", "tailwindcss" }
+			local servers =
+				{ "tsserver", "gopls", "intelephense", "terraformls", "tflint", "vimls", "tailwindcss", "lua_ls" }
 			for _, lsp in ipairs(servers) do
 				nvim_lsp[lsp].setup({
 					on_attach = on_attach,
