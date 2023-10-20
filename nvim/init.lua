@@ -451,6 +451,7 @@ require("lazy").setup({
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
+		event = "VeryLazy",
 		config = function()
 			require("lualine").setup({
 				options = {
@@ -492,6 +493,7 @@ require("lazy").setup({
 	-- vimwiki
 	{
 		"vimwiki/vimwiki",
+		event = "VeryLazy",
 		init = function()
 			vim.g.vimwiki_list = {
 				{
