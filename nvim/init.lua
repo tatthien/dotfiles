@@ -55,6 +55,9 @@ require("lazy").setup({
 					"vim",
 					"bash",
 					"lua",
+					"yaml",
+					"tsx",
+					"bash",
 				},
 				highlight = {
 					enable = true,
