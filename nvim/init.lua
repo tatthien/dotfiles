@@ -254,11 +254,6 @@ require("lazy").setup({
 					update_root = false,
 					ignore_list = {},
 				},
-				actions = {
-					open_file = {
-						quit_on_open = true,
-					},
-				},
 				on_attach = function(bufnr)
 					local api = require("nvim-tree.api")
 
