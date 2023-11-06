@@ -39,6 +39,7 @@ if type -q exa
 end
 
 # Git
+alias gs='git status'
 alias gf='git fetch'
 alias gl='git log'
 alias ga='git add'
