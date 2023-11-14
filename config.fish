@@ -133,3 +133,5 @@ end
 
 # pyenv
 pyenv init - | source
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
