@@ -526,6 +526,13 @@ require("lazy").setup({
 			vim.g["go_list_type"] = "quickfix"
 		end,
 	},
+
+	{
+		"smjonas/inc-rename.nvim",
+		config = function()
+			require("inc_rename").setup()
+		end,
+	},
 })
 
 --------------
@@ -619,9 +626,9 @@ vim.keymap.set("n", "<leader><space>", ":nohlsearch<CR>")
 -- finding color schema code
 vim.cmd([[
 nnoremap <leader>1 :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name")
-      \ . '> trans<' . synIDattr(synID(line("."),col("."),0),"name")
-      \ . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")
-      \ . ">"<CR>
+\ . '> trans<' . synIDattr(synID(line("."),col("."),0),"name")
+\ . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")
+\ . ">"<CR>
 ]])
 
 vim.keymap.set("n", "w", ":b<space>")
@@ -652,6 +659,11 @@ vim.keymap.set("n", "<leader>ll", "<cmd>:Other<CR>", { noremap = true, silent = 
 vim.keymap.set("n", "<leader>lp", "<cmd>:OtherSplit<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>lv", "<cmd>:OtherVSplit<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>lc", "<cmd>:OtherClear<CR>", { noremap = true, silent = true })
+
+-- inc-rename
+vim.keymap.set("n", "<leader>rn", function()
+	return ":IncRename " .. vim.fn.expand("<cword>")
+end, { expr = true })
 
 -- diagnostic
 vim.diagnostic.config({
