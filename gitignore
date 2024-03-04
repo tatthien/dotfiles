@@ -7,3 +7,4 @@
 local-runner.sh
 .netlify
 .madgerc
+ecosystem.config.cjs

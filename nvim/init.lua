@@ -1,7 +1,6 @@
 ---------------
 --  PLUGINS  --
 ---------------
-
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
@@ -16,6 +15,52 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
+	-- Lsp manager
+	{
+		"williamboman/mason.nvim",
+		build = ":MasonUpdate",
+		config = function()
+			require("mason").setup()
+		end,
+	},
+	{
+
+		"williamboman/mason-lspconfig.nvim",
+		config = function()
+			require("mason-lspconfig").setup({
+				automatic_installation = true,
+			})
+		end,
+	},
+
+	-- Display a popup with possible keybindings of the command you started typing
+	-- Sorry to my bad memory
+	{
+		"folke/which-key.nvim",
+		event = "VeryLazy",
+		init = function()
+			vim.o.timeout = true
+			vim.o.timeoutlen = 300
+		end,
+		opts = {
+			-- your configuration comes here
+			-- or leave it empty to use the default settings
+			-- refer to the configuration section below
+		},
+	},
+
+	-- colorscheme
+	{
+		"ellisonleao/gruvbox.nvim",
+		priority = 1000, -- make sure to load this before all the other start plugins
+		config = function()
+			require("gruvbox").setup({
+				contrast = "hard",
+			})
+			vim.cmd([[colorscheme gruvbox]])
+		end,
+	},
+
 	-- Indent line
 	{
 		"lukas-reineke/indent-blankline.nvim",
@@ -62,7 +107,7 @@ require("lazy").setup({
 				highlight = {
 					enable = true,
 					-- Disable slow treesitter highlight for large files
-					disable = function(lang, buf)
+					disable = function(_, buf)
 						local max_filesize = 100 * 1024 -- 100 KB
 						local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
 						if ok and stats and stats.size > max_filesize then
@@ -112,7 +157,6 @@ require("lazy").setup({
 				},
 			})
 
-			local diagnostic = require("lspsaga.diagnostic")
 			local opts = { noremap = true, silent = true }
 			vim.keymap.set("n", "<C-j>", "<Cmd>Lspsaga diagnostic_jump_next<CR>", opts)
 			vim.keymap.set("i", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
@@ -129,6 +173,7 @@ require("lazy").setup({
 			vim.keymap.set("n", "<leader>ca", function()
 				codeaction:code_action()
 			end, { silent = true })
+
 			vim.keymap.set("v", "<leader>ca", function()
 				vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<C-U>", true, false, true))
 				codeaction:range_code_action()
@@ -139,7 +184,6 @@ require("lazy").setup({
 		"neovim/nvim-lspconfig",
 		config = function()
 			local nvim_lsp = require("lspconfig")
-			local protocol = require("vim.lsp.protocol")
 
 			local on_attach = function(client, bufnr)
 				local function buf_set_keymap(...)
@@ -158,7 +202,6 @@ require("lazy").setup({
 				-- See `:help vim.lsp.*` for documentation on any of the below functions
 				buf_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
 				buf_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-				buf_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
 				buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
 				buf_set_keymap("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
 				buf_set_keymap("n", "<space>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
@@ -185,8 +228,17 @@ require("lazy").setup({
 			capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 			-- Enable LSP
-			local servers =
-				{ "tsserver", "gopls", "intelephense", "terraformls", "tflint", "vimls", "tailwindcss", "lua_ls" }
+			local servers = {
+				"tsserver",
+				"gopls",
+				"intelephense",
+				"terraformls",
+				"tflint",
+				"vimls",
+				"tailwindcss",
+				"lua_ls",
+			}
+
 			for _, lsp in ipairs(servers) do
 				nvim_lsp[lsp].setup({
 					on_attach = on_attach,
@@ -199,27 +251,22 @@ require("lazy").setup({
 				capabilities = capabilities,
 				filetypes = { "vue" },
 			})
-		end,
-	},
 
-	-- Lsp manager
-	{
-		"williamboman/mason.nvim",
-		build = ":MasonUpdate",
-		config = function()
-			require("mason").setup()
-		end,
-	},
-	{
-		"williamboman/mason-lspconfig.nvim",
-		config = function()
-			require("mason-lspconfig").setup({
-				automatic_installation = true,
+			nvim_lsp.lua_ls.setup({
+				on_attach = on_attach,
+				capabilities = capabilities,
+				settings = {
+					Lua = {
+						diagnostics = {
+							globals = { "vim" },
+						},
+					},
+				},
 			})
 		end,
 	},
 
-	-- nvim-tree
+	-- File explorer
 	{ "nvim-tree/nvim-web-devicons" },
 	{
 		"nvim-tree/nvim-tree.lua",
@@ -244,7 +291,7 @@ require("lazy").setup({
 					},
 				},
 				filters = {
-					dotfiles = true,
+					dotfiles = false,
 					custom = {
 						"^.git$",
 					},
@@ -280,34 +327,22 @@ require("lazy").setup({
 		end,
 	},
 
-	-- colorschema
+	-- autopair
 	{
-		"ellisonleao/gruvbox.nvim",
-		priority = 1000, -- make sure to load this before all the other start plugins
+		"echasnovski/mini.pairs",
+		version = "*",
 		config = function()
-			require("gruvbox").setup({
-				contrast = "hard",
-			})
-			vim.cmd([[colorscheme gruvbox]])
+			require("mini.pairs").setup()
 		end,
 	},
-	{
-		"windwp/nvim-autopairs",
-		config = function()
-			require("nvim-autopairs").setup({
-				map_cr = true,
-				map_complete = true,
-				disable_filetype = { "TelescopePrompt", "vim" },
-				enable_check_bracket_line = false,
-			})
-		end,
-	},
+
 	{
 		"windwp/nvim-ts-autotag",
 		config = function()
 			require("nvim-ts-autotag").setup()
 		end,
 	},
+
 	{
 		"hrsh7th/nvim-cmp",
 		config = function()
@@ -345,6 +380,7 @@ require("lazy").setup({
 		end,
 	},
 	{ "hrsh7th/cmp-nvim-lsp" },
+
 	{
 		"onsails/lspkind-nvim",
 		config = function()
@@ -353,20 +389,10 @@ require("lazy").setup({
 			})
 		end,
 	},
-	{
-		"folke/lsp-colors.nvim",
-		config = function()
-			require("lsp-colors").setup({
-				Error = "#db4b4b",
-				Warning = "#e0af68",
-				Information = "#0db9d7",
-				Hint = "#10B981",
-			})
-		end,
-	},
+
 	{ "nvim-lua/plenary.nvim" },
 
-	-- telescope
+	-- Fuzzy finder
 	{ "nvim-telescope/telescope-ui-select.nvim" },
 	{
 		"nvim-telescope/telescope.nvim",
@@ -382,7 +408,7 @@ require("lazy").setup({
 						hidden = true,
 					},
 					live_grep = {
-						additional_args = function(opts)
+						additional_args = function()
 							return { "--hidden" }
 						end,
 					},
@@ -395,54 +421,67 @@ require("lazy").setup({
 	{
 		"L3MON4D3/LuaSnip",
 	},
+
+	-- formatting
 	{
-		"jose-elias-alvarez/null-ls.nvim",
+		"stevearc/conform.nvim",
+		dependencies = { "mason.nvim" },
+		lazy = true,
+		event = { "BufReadPre", "BufNewFile" },
 		config = function()
-			local status, null_ls = pcall(require, "null-ls")
-			if not status then
-				return
-			end
-
-			local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-
-			local lsp_formatting = function(bufnr)
-				vim.lsp.buf.format({
-					filter = function(client)
-						return client.name == "null-ls"
-					end,
-					bufnr = bufnr,
-				})
-			end
-
-			null_ls.setup({
-				sources = {
-					null_ls.builtins.formatting.prettierd,
-					null_ls.builtins.diagnostics.eslint_d.with({
-						diagnostics_format = "[eslint] #{m}\n(#{c})",
-					}),
-					null_ls.builtins.diagnostics.fish,
-					null_ls.builtins.formatting.stylua,
-					null_ls.builtins.formatting.gofmt,
+			local conform = require("conform")
+			conform.setup({
+				formatters_by_ft = {
+					lua = { "stylua" },
+					javascript = { "prettierd" },
+					typescript = { "prettierd" },
+					typescriptreact = { "prettierd" },
+					javascriptreact = { "prettierd" },
+					css = { "prettierd" },
+					html = { "prettierd" },
+					json = { "prettierd" },
+					yaml = { "prettierd" },
+					markdown = { "prettierd" },
+					go = { "gofmt" },
 				},
-				on_attach = function(client, bufnr)
-					if client.supports_method("textDocument/formatting") then
-						vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-						vim.api.nvim_create_autocmd("BufWritePre", {
-							group = augroup,
-							buffer = bufnr,
-							callback = function()
-								lsp_formatting(bufnr)
-							end,
-						})
-					end
-				end,
-			})
 
-			vim.api.nvim_create_user_command("DisableLspFormatting", function()
-				vim.api.nvim_clear_autocmds({ group = augroup, buffer = 0 })
-			end, { nargs = 0 })
+				format_on_save = {
+					lsp_fallback = true,
+					async = false,
+					timeout_ms = 500,
+				},
+			})
 		end,
 	},
+
+	-- lintting
+	{
+		"mfussenegger/nvim-lint",
+		event = {
+			"BufReadPre",
+			"BufNewFile",
+		},
+		config = function()
+			local lint = require("lint")
+			lint.linters_by_ft = {
+				javascript = { "eslint_d" },
+				typescript = { "eslint_d" },
+				javascriptreact = { "eslint_d" },
+				typescriptreact = { "eslint_d" },
+			}
+
+			local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
+
+			vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave", "TextChanged" }, {
+				group = lint_augroup,
+				callback = function()
+					lint.try_lint()
+				end,
+			})
+		end,
+	},
+
+	-- status line
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -471,6 +510,10 @@ require("lazy").setup({
 		config = function()
 			require("colorizer").setup({
 				filetypes = { "*" },
+				user_default_options = {
+					names = false,
+					mode = "virtualtext",
+				},
 			})
 		end,
 	},
@@ -485,21 +528,6 @@ require("lazy").setup({
 	{ "vim-scripts/sessionman.vim" },
 	{ "tpope/vim-commentary" },
 
-	-- vimwiki
-	{
-		"vimwiki/vimwiki",
-		event = "VeryLazy",
-		init = function()
-			vim.g.vimwiki_list = {
-				{
-					path = "~/code/github.com/tatthien/digital-garden/docs",
-					index = "sitemap",
-					syntax = "markdown",
-					ext = ".md",
-				},
-			}
-		end,
-	},
 	{
 		"iamcco/markdown-preview.nvim",
 		build = "cd app && npm install",
@@ -524,13 +552,6 @@ require("lazy").setup({
 			vim.g["go_def_mapping_enabled"] = 0
 			vim.g["go_textobj_enabled"] = 0
 			vim.g["go_list_type"] = "quickfix"
-		end,
-	},
-
-	{
-		"smjonas/inc-rename.nvim",
-		config = function()
-			require("inc_rename").setup()
 		end,
 	},
 })
@@ -574,19 +595,14 @@ vim.opt.mouse = "a" -- enable mouse support in all modes
 vim.opt.foldmethod = "indent"
 vim.opt.foldenable = false
 
--- theme tweaks
-local color_palette = {
-	-- rosewater = "#F5E0DC",
-	-- flamingo = "#F2CDCD",
-}
-
--- shortcut for hightlighting
-local function hi(group, fg, bg, style)
-	vim.cmd(string.format([[ hi %s guifg=%s guibg=%s gui=%s ]], group, fg, bg, style))
-end
-
--- hi("VimwikiLink", color_palette.sky, color_palette.base, "underline")
--- hi("VimwikiPre", color_palette.overlay2, color_palette.base, "none")
+-- diagnostic
+vim.diagnostic.config({
+	virtual_text = false, -- do not show the virtual text
+	signs = true,
+	underline = true,
+	-- update diagnostic in insert mode will be annoying when the output is too verbose
+	update_in_insert = true,
+})
 
 ----------------
 --  MAPPINGS  --
@@ -652,24 +668,20 @@ vim.keymap.set("n", ";r", builtin.live_grep, {})
 vim.keymap.set("n", ";e", builtin.diagnostics, {})
 vim.keymap.set("n", ";;", builtin.resume, {})
 vim.keymap.set("n", ";t", builtin.help_tags, {})
-vim.keymap.set("n", "\\", builtin.buffers, {})
 
 -- other-nvim
-vim.keymap.set("n", "<leader>ll", "<cmd>:Other<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>ll", "<cmd>:Other<CR>", { noremap = true, silent = true, desc = "other-vim" })
 vim.keymap.set("n", "<leader>lp", "<cmd>:OtherSplit<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>lv", "<cmd>:OtherVSplit<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>lc", "<cmd>:OtherClear<CR>", { noremap = true, silent = true })
 
--- inc-rename
-vim.keymap.set("n", "<leader>rn", function()
-	return ":IncRename " .. vim.fn.expand("<cword>")
-end, { expr = true })
+-- quickly switching buffers
+vim.keymap.set("n", "<C-n>", "<cmd>:bnext<cr>")
+vim.keymap.set("n", "<C-p>", "<cmd>:bprevious<cr>")
 
--- diagnostic
-vim.diagnostic.config({
-	virtual_text = false,
-	signs = true,
-	underline = true,
-	-- -- update diagnostic in insert mode will be annoying when the output is too verbose
-	update_in_insert = true,
+-- Add description to key bindings
+local wk = require("which-key")
+wk.register({
+	[";g"] = { "Fuzzy search through the output of git ls-files" },
+	[";e"] = { "Search for a string using ripgrep" },
 })
