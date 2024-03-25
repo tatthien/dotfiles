@@ -237,6 +237,8 @@ require("lazy").setup({
 				"vimls",
 				"tailwindcss",
 				"lua_ls",
+				"cssls",
+				"cssmodules_ls",
 			}
 
 			for _, lsp in ipairs(servers) do
