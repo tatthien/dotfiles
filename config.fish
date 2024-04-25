@@ -1,12 +1,13 @@
 set -gx EDITOR nvim
-set -gx TERM xterm-256color-italic
+# set -gx TERM xterm-256color-italic
+set -gx TERM screen-256color
 set -gx VOLTA_HOME $HOME/.volta
 set -gx PATH $HOME/go/bin $PATH
 set -gx PATH $HOME/adb-fastboot/platform-tools $PATH
 set -gx PATH $HOME/.deno/bin $PATH
 set -gx PATH $HOME/flutter/bin $PATH
 set -gx PATH $HOME/.cargo/bin $PATH
-set -gx PNPM_HOME "/Users/thien/Library/pnpm"
+set -gx PNPM_HOME "$HOME/Library/pnpm"
 set -gx PATH "$PNPM_HOME" $PATH
 set -gx PATH /Applications/Postgres.app/Contents/Versions/latest/bin $PATH
 set -gx PATH $PATH $HOME/.krew/bin
@@ -14,6 +15,10 @@ set -gx PATH $PATH $VOLTA_HOME
 set -gx XDG_CONFIG_HOME $HOME/.config
 set -gx VOLTA_HOME "$HOME/.volta"
 set -gx PATH "$VOLTA_HOME/bin" $PATH
+
+set -gx ANDROID_SDK_ROOT "$HOME/Library/Android/sdk"
+set -gx PATH "$ANDROID_SDK_ROOT/platform-tools" $PATH
+set -gx PATH "$ANDROID_SDK_ROOT/emulator" $PATH
 
 # Disable fish greeting
 set -U fish_greeting
@@ -56,19 +61,17 @@ alias cl='clear'
 if [ -f '/Users/thien/Downloads/google-cloud-sdk/path.fish.inc' ]; . '/Users/thien/Downloads/google-cloud-sdk/path.fish.inc'; end
 
 ###### COLORSCHEME ######
-# Nightfox Color Palette
-# Style: nightfox
-# Upstream: https://github.com/edeneast/nightfox.nvim/raw/main/extra/nightfox/nightfox_fish.fish
-set -l foreground cdcecf
-set -l selection 2b3b51
-set -l comment 738091
-set -l red c94f6d
-set -l orange f4a261
-set -l yellow dbc074
-set -l green 81b29a
-set -l purple 9d79d6
-set -l cyan 63cdcf
-set -l pink d67ad2
+# TokyoNight Color Palette
+set -l foreground c0caf5
+set -l selection 283457
+set -l comment 565f89
+set -l red f7768e
+set -l orange ff9e64
+set -l yellow e0af68
+set -l green 9ece6a
+set -l purple 9d7cd8
+set -l cyan 7dcfff
+set -l pink bb9af7
 
 # Syntax Highlighting Colors
 set -g fish_color_normal $foreground
@@ -91,6 +94,7 @@ set -g fish_pager_color_progress $comment
 set -g fish_pager_color_prefix $cyan
 set -g fish_pager_color_completion $foreground
 set -g fish_pager_color_description $comment
+set -g fish_pager_color_selected_background --background=$selection
 ###### COLORSCHEME ######
 
 ###### FUNCTIONS ######
@@ -137,3 +141,6 @@ end
 pyenv init - | source
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# sst
+fish_add_path /Users/thien/.sst/bin

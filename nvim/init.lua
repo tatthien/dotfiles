@@ -1,6 +1,3 @@
----------------
---  PLUGINS  --
----------------
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
@@ -24,8 +21,11 @@ require("lazy").setup({
 		end,
 	},
 	{
-
 		"williamboman/mason-lspconfig.nvim",
+		lazy = false,
+		opts = {
+			auto_install = true,
+		},
 		config = function()
 			require("mason-lspconfig").setup({
 				automatic_installation = true,
@@ -42,22 +42,38 @@ require("lazy").setup({
 			vim.o.timeout = true
 			vim.o.timeoutlen = 300
 		end,
-		opts = {
-			-- your configuration comes here
-			-- or leave it empty to use the default settings
-			-- refer to the configuration section below
-		},
+		config = function()
+			-- Add description to key bindings
+			local wk = require("which-key")
+			wk.register({
+				[";g"] = { "Fuzzy search through the output of git ls-files" },
+				[";e"] = { "Search for a string using ripgrep" },
+				["<leader>ca"] = { "Code actions" },
+			})
+		end,
 	},
 
 	-- colorscheme
 	{
-		"ellisonleao/gruvbox.nvim",
-		priority = 1000, -- make sure to load this before all the other start plugins
+		"folke/tokyonight.nvim",
+		lazy = false,
+		priority = 1000,
+		opts = {},
 		config = function()
-			require("gruvbox").setup({
-				contrast = "hard",
+			require("tokyonight").setup({
+				style = "night",
+				terminal_colors = true,
+				on_highlights = function(hl, c)
+					hl.SpectreReplace = { fg = c.red }
+				end,
+				sidebars = {
+					"qf",
+					"vista_kind",
+					"terminal",
+					"packer",
+				},
 			})
-			vim.cmd([[colorscheme gruvbox]])
+			vim.cmd([[colorscheme tokyonight-night]])
 		end,
 	},
 
@@ -283,6 +299,7 @@ require("lazy").setup({
 				renderer = {
 					group_empty = true,
 					icons = {
+						git_placement = "signcolumn",
 						show = {
 							folder = false,
 							file = false,
@@ -391,7 +408,7 @@ require("lazy").setup({
 
 	{ "nvim-lua/plenary.nvim" },
 
-	-- Fuzzy finder
+	-- Telescope
 	{ "nvim-telescope/telescope-ui-select.nvim" },
 	{
 		"nvim-telescope/telescope.nvim",
@@ -418,8 +435,28 @@ require("lazy").setup({
 			})
 
 			require("telescope").load_extension("ui-select")
+			require("telescope").load_extension("neoclip")
 		end,
 	},
+
+	{
+		"AckslD/nvim-neoclip.lua",
+		config = function()
+			require("neoclip").setup({
+				keys = {
+					telescope = {
+						i = {
+							paste = "<leader>p",
+						},
+						n = {
+							paste = "<leader>p",
+						},
+					},
+				},
+			})
+		end,
+	},
+
 	{
 		"L3MON4D3/LuaSnip",
 	},
@@ -491,7 +528,7 @@ require("lazy").setup({
 		config = function()
 			require("lualine").setup({
 				options = {
-					theme = "gruvbox",
+					theme = "tokyonight",
 					component_separators = { left = "", right = "" },
 					section_separators = { left = "", right = "" },
 				},
@@ -556,6 +593,42 @@ require("lazy").setup({
 			vim.g["go_list_type"] = "quickfix"
 		end,
 	},
+
+	-- Codeium
+	{
+		"Exafunction/codeium.vim",
+		event = "BufEnter",
+		config = function()
+			vim.g.codeium_disable_bindings = 1
+			vim.keymap.set("i", "<Tab>", function()
+				return vim.fn["codeium#Accept"]()
+			end, { expr = true, silent = true })
+			vim.keymap.set("i", "<C-]>", function()
+				return vim.fn["codeium#CycleCompletions"](1)
+			end, { expr = true, silent = true })
+			vim.keymap.set("i", "<C-[>", function()
+				return vim.fn["codeium#CycleCompletions"](-1)
+			end, { expr = true, silent = true })
+			vim.keymap.set("i", "<C-x>", function()
+				return vim.fn["codeium#Clear"]()
+			end, { expr = true, silent = true })
+		end,
+	},
+
+	{
+		"karb94/neoscroll.nvim",
+		config = function()
+			require("neoscroll").setup({})
+		end,
+	},
+
+	{
+		"shellRaining/hlchunk.nvim",
+		event = { "UIEnter" },
+		config = function()
+			require("hlchunk").setup({})
+		end,
+	},
 })
 
 --------------
@@ -565,7 +638,7 @@ require("lazy").setup({
 -- disable netrw at the very start of our init.lua, because we use nvim-tree
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
-vim.opt.clipboard = "unnamedplus" -- copy/paste to system clipboard
+-- vim.opt.clipboard = "unnamedplus" -- copy/paste to system clipboard
 vim.opt.termguicolors = true
 vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"
@@ -580,6 +653,7 @@ vim.opt.modifiable = true
 vim.opt.shell = "fish"
 vim.opt.inccommand = "split"
 vim.opt.backup = false
+vim.opt.modifiable = true
 
 -- indent settings
 vim.opt.expandtab = true
@@ -671,19 +745,9 @@ vim.keymap.set("n", ";e", builtin.diagnostics, {})
 vim.keymap.set("n", ";;", builtin.resume, {})
 vim.keymap.set("n", ";t", builtin.help_tags, {})
 
--- other-nvim
-vim.keymap.set("n", "<leader>ll", "<cmd>:Other<CR>", { noremap = true, silent = true, desc = "other-vim" })
-vim.keymap.set("n", "<leader>lp", "<cmd>:OtherSplit<CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "<leader>lv", "<cmd>:OtherVSplit<CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "<leader>lc", "<cmd>:OtherClear<CR>", { noremap = true, silent = true })
-
 -- quickly switching buffers
 vim.keymap.set("n", "<C-n>", "<cmd>:bnext<cr>")
 vim.keymap.set("n", "<C-p>", "<cmd>:bprevious<cr>")
 
--- Add description to key bindings
-local wk = require("which-key")
-wk.register({
-	[";g"] = { "Fuzzy search through the output of git ls-files" },
-	[";e"] = { "Search for a string using ripgrep" },
-})
+-- open neoclip - clipboard manager for NeoVim
+vim.keymap.set("n", "<leader>cc", "<cmd>:Telescope neoclip<CR>", { desc = "Open neoclip yank history" })
