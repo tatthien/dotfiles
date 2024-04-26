@@ -704,8 +704,10 @@ vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
 
 -- copy & paste to/from system clipboard
-vim.keymap.set("n", "<C-c>", '"*y')
-vim.keymap.set("n", "<C-v>", '"*p')
+vim.cmd([[
+noremap <C-c> "*y
+noremap <C-v> "*p
+]])
 
 -- easily switch between tab
 vim.keymap.set("n", "H", "gT")
