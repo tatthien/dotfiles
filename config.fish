@@ -20,6 +20,8 @@ set -gx ANDROID_SDK_ROOT "$HOME/Library/Android/sdk"
 set -gx PATH "$ANDROID_SDK_ROOT/platform-tools" $PATH
 set -gx PATH "$ANDROID_SDK_ROOT/emulator" $PATH
 
+set -gx LC_ALL en_US.UTF-8
+
 # Disable fish greeting
 set -U fish_greeting
 
@@ -137,10 +139,13 @@ function gcam
 end
 ###### FUNCTIONS ######
 
-# pyenv
+# pyenv - Python version manager
 pyenv init - | source
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # sst
 fish_add_path /Users/thien/.sst/bin
+
+# rbenv - Ruby version manager
+status --is-interactive; and rbenv init - fish | source
