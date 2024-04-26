@@ -1,3 +1,5 @@
+local colors = require("config.tokyonight")
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
@@ -544,6 +546,7 @@ require("lazy").setup({
 			})
 		end,
 	},
+
 	{
 		"NvChad/nvim-colorizer.lua",
 		config = function()
@@ -556,6 +559,7 @@ require("lazy").setup({
 			})
 		end,
 	},
+
 	{
 		"j-hui/fidget.nvim",
 		tag = "legacy",
@@ -564,7 +568,7 @@ require("lazy").setup({
 			-- options
 		},
 	},
-	{ "vim-scripts/sessionman.vim" },
+
 	{ "tpope/vim-commentary" },
 
 	{
@@ -598,21 +602,6 @@ require("lazy").setup({
 	{
 		"Exafunction/codeium.vim",
 		event = "BufEnter",
-		config = function()
-			vim.g.codeium_disable_bindings = 1
-			vim.keymap.set("i", "<Tab>", function()
-				return vim.fn["codeium#Accept"]()
-			end, { expr = true, silent = true })
-			vim.keymap.set("i", "<C-]>", function()
-				return vim.fn["codeium#CycleCompletions"](1)
-			end, { expr = true, silent = true })
-			vim.keymap.set("i", "<C-[>", function()
-				return vim.fn["codeium#CycleCompletions"](-1)
-			end, { expr = true, silent = true })
-			vim.keymap.set("i", "<C-x>", function()
-				return vim.fn["codeium#Clear"]()
-			end, { expr = true, silent = true })
-		end,
 	},
 
 	{
@@ -627,6 +616,22 @@ require("lazy").setup({
 		event = { "UIEnter" },
 		config = function()
 			require("hlchunk").setup({})
+		end,
+	},
+
+	{
+		"lewis6991/gitsigns.nvim",
+		config = function()
+			require("gitsigns").setup({
+				signs = {
+					add = { text = "+" },
+					change = { text = "-" },
+				},
+				on_attach = function(bufnr)
+					local gitsigns = require("gitsigns")
+					vim.keymap.set("n", "<leader>tb", gitsigns.toggle_current_line_blame, { desc = "Toggle git blame" })
+				end,
+			})
 		end,
 	},
 })
@@ -751,3 +756,6 @@ vim.keymap.set("n", "<C-p>", "<cmd>:bprevious<cr>")
 
 -- open neoclip - clipboard manager for NeoVim
 vim.keymap.set("n", "<leader>cc", "<cmd>:Telescope neoclip<CR>", { desc = "Open neoclip yank history" })
+
+-- highlight
+vim.api.nvim_set_hl(0, "CodeiumSuggestion", { fg = colors.comment })
