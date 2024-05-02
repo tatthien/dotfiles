@@ -634,6 +634,16 @@ require("lazy").setup({
 			})
 		end,
 	},
+
+	{
+		"christoomey/vim-tmux-navigator",
+		config = function()
+			vim.keymap.set("n", "<C-h>", ":TmuxNavigateLeft<CR>", { silent = true })
+			vim.keymap.set("n", "<C-j>", ":TmuxNavigateDown<CR>", { silent = true })
+			vim.keymap.set("n", "<C-k>", ":TmuxNavigateUp<CR>", { silent = true })
+			vim.keymap.set("n", "<C-l>", ":TmuxNavigateRight<CR>", { silent = true })
+		end,
+	},
 })
 
 --------------
@@ -690,10 +700,12 @@ vim.diagnostic.config({
 ----------------
 
 -- better split switching
-vim.keymap.set("", "<C-j>", "<C-W>j")
-vim.keymap.set("", "<C-k>", "<C-W>k")
-vim.keymap.set("", "<C-h>", "<C-W>h")
-vim.keymap.set("", "<C-l>", "<C-W>l")
+-- These key maps are not used anymore since I'm using vim-tmux-navigator.
+
+-- vim.keymap.set("", "<C-j>", "<C-W>j")
+-- vim.keymap.set("", "<C-k>", "<C-W>k")
+-- vim.keymap.set("", "<C-h>", "<C-W>h")
+-- vim.keymap.set("", "<C-l>", "<C-W>l")
 
 -- save, escape while in insert mode
 vim.keymap.set("i", "ww", "<Esc>:w<CR>")
