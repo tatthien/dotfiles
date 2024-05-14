@@ -19,6 +19,7 @@ set -gx PATH "$VOLTA_HOME/bin" $PATH
 set -gx ANDROID_SDK_ROOT "$HOME/Library/Android/sdk"
 set -gx PATH "$ANDROID_SDK_ROOT/platform-tools" $PATH
 set -gx PATH "$ANDROID_SDK_ROOT/emulator" $PATH
+set -gx PATH "$HOME/.jenv/bin" $PATH
 
 set -gx LC_ALL en_US.UTF-8
 
@@ -149,3 +150,6 @@ fish_add_path /Users/thien/.sst/bin
 
 # rbenv - Ruby version manager
 status --is-interactive; and rbenv init - fish | source
+
+# jenv - Java version manager
+status --is-interactive; and jenv init - | source
