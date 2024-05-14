@@ -56,6 +56,7 @@ alias gp='git push'
 alias gh='git checkout'
 alias glo='git log --oneline'
 alias gfa='git fetch --all'
+alias gsi='git stash --include-untracked'
 
 alias cl='clear'
 ###### ALIAS ######
