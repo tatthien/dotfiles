@@ -63,7 +63,7 @@ require("lazy").setup({
 		opts = {},
 		config = function()
 			require("tokyonight").setup({
-				style = "night",
+				style = "moon",
 				terminal_colors = true,
 				on_highlights = function(hl, c)
 					hl.SpectreReplace = { fg = c.red }
@@ -75,7 +75,7 @@ require("lazy").setup({
 					"packer",
 				},
 			})
-			vim.cmd([[colorscheme tokyonight-night]])
+			vim.cmd([[colorscheme tokyonight-moon]])
 		end,
 	},
 
@@ -280,6 +280,16 @@ require("lazy").setup({
 					},
 				},
 			})
+
+			nvim_lsp.tsserver.setup({
+				init_options = {
+					preferences = {
+						disableSuggestions = false,
+					},
+				},
+				on_attach = on_attach,
+				capabilities = capabilities,
+			})
 		end,
 	},
 
@@ -438,6 +448,18 @@ require("lazy").setup({
 
 			require("telescope").load_extension("ui-select")
 			require("telescope").load_extension("neoclip")
+
+			local builtin = require("telescope.builtin")
+			vim.keymap.set("n", "ff", builtin.find_files, { desc = "Search files" })
+			vim.keymap.set("n", ";g", builtin.git_files, { desc = "Search git files" })
+			vim.keymap.set("n", ";r", builtin.live_grep, { desc = "Search by grep" })
+			vim.keymap.set("n", ";e", builtin.diagnostics, { desc = "Search diagnostics" })
+			vim.keymap.set("n", ";;", builtin.resume, { desc = "Resume last search" })
+			vim.keymap.set("n", ";t", builtin.help_tags, { desc = "Search help tags" })
+			vim.keymap.set("n", ";k", builtin.keymaps, { desc = "Search keymaps" })
+
+			-- open neoclip - clipboard manager for NeoVim
+			vim.keymap.set("n", "<leader>cc", "<cmd>:Telescope neoclip<CR>", { desc = "Open neoclip yank history" })
 		end,
 	},
 
@@ -463,7 +485,7 @@ require("lazy").setup({
 		"L3MON4D3/LuaSnip",
 	},
 
-	-- formatting
+	-- Formatting
 	{
 		"stevearc/conform.nvim",
 		dependencies = { "mason.nvim" },
@@ -485,7 +507,6 @@ require("lazy").setup({
 					markdown = { "prettierd" },
 					go = { "gofmt" },
 				},
-
 				format_on_save = {
 					lsp_fallback = true,
 					async = false,
@@ -495,7 +516,7 @@ require("lazy").setup({
 		end,
 	},
 
-	-- lintting
+	-- Lintting
 	{
 		"mfussenegger/nvim-lint",
 		event = {
@@ -522,7 +543,7 @@ require("lazy").setup({
 		end,
 	},
 
-	-- status line
+	-- Status line
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -547,6 +568,7 @@ require("lazy").setup({
 		end,
 	},
 
+	-- Highlight colors
 	{
 		"NvChad/nvim-colorizer.lua",
 		config = function()
@@ -605,14 +627,9 @@ require("lazy").setup({
 	},
 
 	{
-		"karb94/neoscroll.nvim",
-		config = function()
-			require("neoscroll").setup({})
-		end,
-	},
-
-	{
 		"shellRaining/hlchunk.nvim",
+		enabled = true,
+		branch = "main",
 		event = { "UIEnter" },
 		config = function()
 			require("hlchunk").setup({})
@@ -627,7 +644,7 @@ require("lazy").setup({
 					add = { text = "+" },
 					change = { text = "-" },
 				},
-				on_attach = function(bufnr)
+				on_attach = function()
 					local gitsigns = require("gitsigns")
 					vim.keymap.set("n", "<leader>tb", gitsigns.toggle_current_line_blame, { desc = "Toggle git blame" })
 				end,
@@ -644,6 +661,48 @@ require("lazy").setup({
 			vim.keymap.set("n", "<C-l>", ":TmuxNavigateRight<CR>", { silent = true })
 		end,
 	},
+
+	{
+		"nvim-neotest/neotest",
+		dependencies = {
+			"nvim-neotest/nvim-nio",
+			"nvim-lua/plenary.nvim",
+			"antoinemadec/FixCursorHold.nvim",
+			"nvim-treesitter/nvim-treesitter",
+			-- adapters
+			"nvim-neotest/neotest-jest",
+		},
+		config = function()
+			local neotest = require("neotest")
+			neotest.setup({
+				adapters = {
+					require("neotest-jest")({
+						jestCommand = require("neotest-jest.jest-util").getJestCommand(vim.fn.expand("%:p:h")),
+						jestConfigFile = "jest.config.js",
+						env = { CI = true },
+						cwd = function(path)
+							local root_path = require("lspconfig").util.root_pattern("package.json")(path)
+							return root_path or vim.fn.getcwd()
+						end,
+					}),
+				},
+			})
+
+			vim.keymap.set("n", "tt", ":Neotest run<CR>", { desc = "Run nearest test" })
+			vim.keymap.set("n", "ts", ":Neotest summary<CR>", { desc = "Open test summary" })
+			vim.keymap.set("n", "to", ":Neotest output<CR>", { desc = "Open test output" })
+			vim.keymap.set("n", "tp", ":Neotest output-panel<CR>", { desc = "Open test output panel" })
+			vim.keymap.set("n", "ta", ":Neotest attach<CR>", { desc = "Attach to test" })
+			vim.keymap.set("n", "tj", ":Neotest jump<CR>", { desc = "Jump to test" })
+			vim.keymap.set("n", "tq", ":Neotest stop<CR>", { desc = "Stop test" })
+			vim.keymap.set(
+				"n",
+				"tw",
+				":lua require('neotert').watch().toggle(vim.fn.expand('%'))<CR>",
+				{ desc = "Toggle test watch" }
+			)
+		end,
+	},
 })
 
 --------------
@@ -653,24 +712,24 @@ require("lazy").setup({
 -- disable netrw at the very start of our init.lua, because we use nvim-tree
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
--- vim.opt.clipboard = "unnamedplus" -- copy/paste to system clipboard
 vim.opt.termguicolors = true
 vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"
 vim.scriptencoding = "uft-8"
-vim.opt.number = true -- show line numbers
-vim.opt.relativenumber = true -- use relative numbers
+
+-- Enable line number and relative line number
+vim.opt.number = true
+vim.opt.relativenumber = true
+
 vim.opt.autoread = true
 vim.opt.swapfile = false
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
 vim.opt.modifiable = true
 vim.opt.shell = "fish"
 vim.opt.inccommand = "split"
 vim.opt.backup = false
 vim.opt.modifiable = true
 
--- indent settings
+-- Indent settings
 vim.opt.expandtab = true
 vim.opt.smarttab = true
 vim.opt.shiftwidth = 2
@@ -679,19 +738,39 @@ vim.opt.autoindent = true
 vim.opt.smartindent = true
 vim.opt.breakindent = true
 
+-- Disable line wrapping by default. Use <leader>z to toggle.
 vim.opt.wrap = false
-vim.opt.mouse = "a" -- enable mouse support in all modes
 
--- fold settings
+-- Enable mouse mode, can be useful for resizing splits, etc.
+vim.opt.mouse = "a"
+
+-- Don't show the mode, since it's already shown in the status line
+vim.opt.showmode = false
+
+-- Case-insensitive searching
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+
+-- Fold settings
 vim.opt.foldmethod = "indent"
 vim.opt.foldenable = false
 
--- diagnostic
+-- Decrease update time
+vim.opt.updatetime = 250
+
+-- Decrease mapped sequence wait time
+-- Displays which-key popup sooner
+vim.opt.timeoutlen = 300
+
+-- Show which line your cursor is currently on
+vim.opt.cursorline = true
+
+-- Diagnostic
 vim.diagnostic.config({
 	virtual_text = false, -- do not show the virtual text
 	signs = true,
 	underline = true,
-	-- update diagnostic in insert mode will be annoying when the output is too verbose
+	-- Update diagnostic in insert mode will be annoying when the output is too verbose
 	update_in_insert = true,
 })
 
@@ -699,7 +778,7 @@ vim.diagnostic.config({
 --  MAPPINGS  --
 ----------------
 
--- better split switching
+-- Better split switching
 -- These key maps are not used anymore since I'm using vim-tmux-navigator.
 
 -- vim.keymap.set("", "<C-j>", "<C-W>j")
@@ -707,34 +786,30 @@ vim.diagnostic.config({
 -- vim.keymap.set("", "<C-h>", "<C-W>h")
 -- vim.keymap.set("", "<C-l>", "<C-W>l")
 
--- save, escape while in insert mode
+-- Save, escape while in insert mode
 vim.keymap.set("i", "ww", "<Esc>:w<CR>")
 vim.keymap.set("i", "jj", "<Esc>")
 vim.keymap.set("i", "jk", "<Esc>")
 
-vim.keymap.set("n", "j", "gj")
-vim.keymap.set("n", "k", "gk")
-
--- copy & paste to/from system clipboard
+-- Copy & paste to/from system clipboard
+-- Select the text and press C-c to copy to clipboard
+-- Press C-v to paste from clipboard
 vim.cmd([[
 noremap <C-c> "*y
 noremap <C-v> "*p
 ]])
 
--- easily switch between tab
+-- Easily switch between tab
 vim.keymap.set("n", "H", "gT")
 vim.keymap.set("n", "L", "gt")
 
--- quickly source init.lua
-vim.keymap.set("n", "<leader>sv", ":source ~/.config/nvim/init.lua<CR>")
-
--- center the screen
+-- Center the screen
 vim.keymap.set("n", "<space>", "zz")
 
--- remove search highlighting
+-- Remove search highlighting
 vim.keymap.set("n", "<leader><space>", ":nohlsearch<CR>")
 
--- finding color schema code
+-- Finding color schema code
 vim.cmd([[
 nnoremap <leader>1 :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name")
 \ . '> trans<' . synIDattr(synID(line("."),col("."),0),"name")
@@ -742,7 +817,10 @@ nnoremap <leader>1 :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name")
 \ . ">"<CR>
 ]])
 
+-- Open buffers list
 vim.keymap.set("n", "w", ":b<space>")
+
+-- Open file exlorer
 vim.keymap.set("n", "e", ":e<space>")
 
 -- vim-session
@@ -755,21 +833,9 @@ vim.keymap.set("n", "<leader>z", ":set wrap!<CR>")
 -- reindent
 vim.keymap.set("n", "<leader>re", "gg=G")
 
--- telescope
-local builtin = require("telescope.builtin")
-vim.keymap.set("n", "ff", builtin.find_files, {})
-vim.keymap.set("n", ";g", builtin.git_files, {})
-vim.keymap.set("n", ";r", builtin.live_grep, {})
-vim.keymap.set("n", ";e", builtin.diagnostics, {})
-vim.keymap.set("n", ";;", builtin.resume, {})
-vim.keymap.set("n", ";t", builtin.help_tags, {})
-
 -- quickly switching buffers
 vim.keymap.set("n", "<C-n>", "<cmd>:bnext<cr>")
 vim.keymap.set("n", "<C-p>", "<cmd>:bprevious<cr>")
-
--- open neoclip - clipboard manager for NeoVim
-vim.keymap.set("n", "<leader>cc", "<cmd>:Telescope neoclip<CR>", { desc = "Open neoclip yank history" })
 
 -- highlight
 vim.api.nvim_set_hl(0, "CodeiumSuggestion", { fg = colors.comment })
