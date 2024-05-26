@@ -681,8 +681,8 @@ require("lazy").setup({
 			neotest.setup({
 				adapters = {
 					require("neotest-jest")({
-						jestCommand = require("neotest-jest.jest-util").getJestCommand(vim.fn.expand("%:p:h")),
-						jestConfigFile = "jest.config.js",
+						jestCommand = "npm test --",
+						jestConfigFile = "./jest.config.ts",
 						env = { CI = true },
 						cwd = function(path)
 							local root_path = require("lspconfig").util.root_pattern("package.json")(path)
