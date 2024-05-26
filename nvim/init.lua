@@ -1,4 +1,5 @@
-local colors = require("config.tokyonight")
+local TOKYONIGHT_STYLE = "moon"
+local colors = require("config.tokyonight")[TOKYONIGHT_STYLE]
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -34,7 +35,138 @@ require("lazy").setup({
 			})
 		end,
 	},
+	{
+		"glepnir/lspsaga.nvim",
+		config = function()
+			local status, saga = pcall(require, "lspsaga")
+			if not status then
+				return
+			end
 
+			saga.setup({
+				ui = {
+					winblend = 10,
+					border = "rounded",
+				},
+				lightbulb = {
+					enable = false,
+					sign = false,
+				},
+			})
+
+			local map = function(key, cmd, desc)
+				vim.keymap.set("n", key, cmd, { noremap = true, silent = true, desc = desc })
+			end
+			map("gj", "<Cmd>Lspsaga diagnostic_jump_next<CR>", "LSP: jump next diagnostic")
+			map("gk", "<Cmd>Lspsaga diagnostic_jump_prev<CR>", "LSP: jump prev diagnostic")
+			map("gp", "<Cmd>Lspsaga peek_definition<CR>", "LSP: show peek definition")
+			map("gr", "<Cmd>Lspsaga rename<CR>", "LSP: renaming")
+			map("go", "<Cmd>Lspsaga outline<CR>", "LSP: show outline")
+			map("gd", "<Cmd>Lspsaga goto_definition<CR>", "LSP: goto definition")
+			map("gl", "<Cmd>Lspsaga show_buf_diagnostics<CR>", "LSP: show diagnostics in the current buffer")
+			map("gw", "<Cmd>Lspsaga show_workspace_diagnostics<CR>", "LSP: show diagnostics in the current workspace")
+			map("gi", require("telescope.builtin").lsp_implementations, "LSP: goto implementation")
+			map("gf", require("telescope.builtin").lsp_references, "LSP: show references")
+			map("gD", require("telescope.builtin").lsp_type_definitions, "LSP: goto type definition")
+			map("K", "<Cmd>Lspsaga hover_doc<CR>", "LSP: hover documentation")
+
+			-- code action
+			local codeaction = require("lspsaga.codeaction")
+			vim.keymap.set("n", "<leader>ca", function()
+				codeaction:code_action()
+			end, { silent = true })
+
+			vim.keymap.set("v", "<leader>ca", function()
+				vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<C-U>", true, false, true))
+				codeaction:range_code_action()
+			end, { silent = true })
+		end,
+	},
+	{
+		"neovim/nvim-lspconfig",
+		config = function()
+			local nvim_lsp = require("lspconfig")
+
+			local on_attach = function(client, bufnr)
+				local function buf_set_keymap(...)
+					vim.api.nvim_buf_set_keymap(bufnr, ...)
+				end
+				local function buf_set_option(...)
+					vim.api.nvim_buf_set_option(bufnr, ...)
+				end
+
+				-- Enable completion triggered by <c-x><c-o>
+				buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
+
+				-- Mappings.
+				local opts = { noremap = true, silent = true }
+
+				-- See `:help vim.lsp.*` for documentation on any of the below functions
+				buf_set_keymap("n", "<space>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
+				buf_set_keymap("n", "<space>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
+				buf_set_keymap(
+					"n",
+					"<space>wl",
+					"<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>",
+					opts
+				)
+				buf_set_keymap("n", "g?", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
+			end
+
+			-- nvim-cmp supports additional completion capabilities
+			local capabilities = vim.lsp.protocol.make_client_capabilities()
+			capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+
+			-- Enable LSP
+			local servers = {
+				"tsserver",
+				"gopls",
+				"intelephense",
+				"terraformls",
+				"tflint",
+				"vimls",
+				"tailwindcss",
+				"lua_ls",
+				"cssls",
+				"cssmodules_ls",
+			}
+
+			for _, lsp in ipairs(servers) do
+				nvim_lsp[lsp].setup({
+					on_attach = on_attach,
+					capabilities = capabilities,
+				})
+			end
+
+			nvim_lsp.volar.setup({
+				on_attach = on_attach,
+				capabilities = capabilities,
+				filetypes = { "vue" },
+			})
+
+			nvim_lsp.lua_ls.setup({
+				on_attach = on_attach,
+				capabilities = capabilities,
+				settings = {
+					Lua = {
+						diagnostics = {
+							globals = { "vim" },
+						},
+					},
+				},
+			})
+
+			nvim_lsp.tsserver.setup({
+				init_options = {
+					preferences = {
+						disableSuggestions = false,
+					},
+				},
+				on_attach = on_attach,
+				capabilities = capabilities,
+			})
+		end,
+	},
 	-- Display a popup with possible keybindings of the command you started typing
 	-- Sorry to my bad memory
 	{
@@ -63,7 +195,7 @@ require("lazy").setup({
 		opts = {},
 		config = function()
 			require("tokyonight").setup({
-				style = "moon",
+				style = TOKYONIGHT_STYLE,
 				terminal_colors = true,
 				on_highlights = function(hl, c)
 					hl.SpectreReplace = { fg = c.red }
@@ -156,142 +288,6 @@ require("lazy").setup({
 	},
 
 	-- Lsp
-	{
-		"glepnir/lspsaga.nvim",
-		config = function()
-			local status, saga = pcall(require, "lspsaga")
-			if not status then
-				return
-			end
-
-			saga.setup({
-				ui = {
-					winblend = 10,
-					border = "rounded",
-				},
-				lightbulb = {
-					enable = false,
-					sign = false,
-				},
-			})
-
-			local opts = { noremap = true, silent = true }
-			vim.keymap.set("n", "<C-j>", "<Cmd>Lspsaga diagnostic_jump_next<CR>", opts)
-			vim.keymap.set("n", "K", "<Cmd>Lspsaga hover_doc<CR>", opts)
-			vim.keymap.set("n", "gp", "<Cmd>Lspsaga peek_definition<CR>", opts)
-			vim.keymap.set("n", "gr", "<Cmd>Lspsaga rename<CR>", opts)
-			vim.keymap.set("n", "go", "<Cmd>Lspsaga outline<CR>", opts)
-			vim.keymap.set("n", "gf", "<Cmd>Lspsaga finder<CR>", opts)
-			vim.keymap.set("n", "gd", "<Cmd>Lspsaga lsp_finder<CR>", opts)
-			vim.keymap.set("n", "gl", "<Cmd>Lspsaga show_buf_diagnostics<CR>", opts)
-
-			-- code action
-			local codeaction = require("lspsaga.codeaction")
-			vim.keymap.set("n", "<leader>ca", function()
-				codeaction:code_action()
-			end, { silent = true })
-
-			vim.keymap.set("v", "<leader>ca", function()
-				vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<C-U>", true, false, true))
-				codeaction:range_code_action()
-			end, { silent = true })
-		end,
-	},
-	{
-		"neovim/nvim-lspconfig",
-		config = function()
-			local nvim_lsp = require("lspconfig")
-
-			local on_attach = function(client, bufnr)
-				local function buf_set_keymap(...)
-					vim.api.nvim_buf_set_keymap(bufnr, ...)
-				end
-				local function buf_set_option(...)
-					vim.api.nvim_buf_set_option(bufnr, ...)
-				end
-
-				-- Enable completion triggered by <c-x><c-o>
-				buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
-
-				-- Mappings.
-				local opts = { noremap = true, silent = true }
-
-				-- See `:help vim.lsp.*` for documentation on any of the below functions
-				buf_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-				buf_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-				buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-				buf_set_keymap("n", "<space>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
-				buf_set_keymap("n", "<space>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
-				buf_set_keymap(
-					"n",
-					"<space>wl",
-					"<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>",
-					opts
-				)
-				buf_set_keymap("n", "<space>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
-				buf_set_keymap("n", "<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-				buf_set_keymap("n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-				buf_set_keymap("n", "g?", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-				buf_set_keymap("n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", opts)
-				buf_set_keymap("n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", opts)
-				buf_set_keymap("n", "<space>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", opts)
-				buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-			end
-
-			-- nvim-cmp supports additional completion capabilities
-			local capabilities = vim.lsp.protocol.make_client_capabilities()
-			capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
-
-			-- Enable LSP
-			local servers = {
-				"tsserver",
-				"gopls",
-				"intelephense",
-				"terraformls",
-				"tflint",
-				"vimls",
-				"tailwindcss",
-				"lua_ls",
-				"cssls",
-				"cssmodules_ls",
-			}
-
-			for _, lsp in ipairs(servers) do
-				nvim_lsp[lsp].setup({
-					on_attach = on_attach,
-					capabilities = capabilities,
-				})
-			end
-
-			nvim_lsp.volar.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-				filetypes = { "vue" },
-			})
-
-			nvim_lsp.lua_ls.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-				settings = {
-					Lua = {
-						diagnostics = {
-							globals = { "vim" },
-						},
-					},
-				},
-			})
-
-			nvim_lsp.tsserver.setup({
-				init_options = {
-					preferences = {
-						disableSuggestions = false,
-					},
-				},
-				on_attach = on_attach,
-				capabilities = capabilities,
-			})
-		end,
-	},
 
 	-- File explorer
 	{ "nvim-tree/nvim-web-devicons" },
@@ -627,12 +623,20 @@ require("lazy").setup({
 	},
 
 	{
+
 		"shellRaining/hlchunk.nvim",
 		enabled = true,
 		branch = "main",
 		event = { "UIEnter" },
 		config = function()
-			require("hlchunk").setup({})
+			require("hlchunk").setup({
+				chunk = {
+					style = {
+						{ fg = colors.magenta },
+						{ fg = colors.red }, -- this fg is used to highlight wrong chunk
+					},
+				},
+			})
 		end,
 	},
 
@@ -760,10 +764,10 @@ vim.opt.updatetime = 250
 
 -- Decrease mapped sequence wait time
 -- Displays which-key popup sooner
-vim.opt.timeoutlen = 300
+-- vim.opt.timeoutlen = 300
 
 -- Show which line your cursor is currently on
-vim.opt.cursorline = true
+-- vim.opt.cursorline = true
 
 -- Diagnostic
 vim.diagnostic.config({
