@@ -15,79 +15,12 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-	-- Lsp manager
-	{
-		"williamboman/mason.nvim",
-		build = ":MasonUpdate",
-		config = function()
-			require("mason").setup()
-		end,
-	},
-	{
-		"williamboman/mason-lspconfig.nvim",
-		lazy = false,
-		opts = {
-			auto_install = true,
-		},
-		config = function()
-			require("mason-lspconfig").setup({
-				automatic_installation = true,
-			})
-		end,
-	},
-	{
-		"glepnir/lspsaga.nvim",
-		config = function()
-			local status, saga = pcall(require, "lspsaga")
-			if not status then
-				return
-			end
-
-			saga.setup({
-				ui = {
-					winblend = 10,
-					border = "rounded",
-				},
-				lightbulb = {
-					enable = false,
-					sign = false,
-				},
-			})
-
-			local map = function(key, cmd, desc)
-				vim.keymap.set("n", key, cmd, { noremap = true, silent = true, desc = desc })
-			end
-			map("gj", "<Cmd>Lspsaga diagnostic_jump_next<CR>", "LSP: jump next diagnostic")
-			map("gk", "<Cmd>Lspsaga diagnostic_jump_prev<CR>", "LSP: jump prev diagnostic")
-			map("gp", "<Cmd>Lspsaga peek_definition<CR>", "LSP: show peek definition")
-			map("gr", "<Cmd>Lspsaga rename<CR>", "LSP: renaming")
-			map("go", "<Cmd>Lspsaga outline<CR>", "LSP: show outline")
-			map("gd", "<Cmd>Lspsaga goto_definition<CR>", "LSP: goto definition")
-			map("gl", "<Cmd>Lspsaga show_buf_diagnostics<CR>", "LSP: show diagnostics in the current buffer")
-			map("gw", "<Cmd>Lspsaga show_workspace_diagnostics<CR>", "LSP: show diagnostics in the current workspace")
-			map("gi", require("telescope.builtin").lsp_implementations, "LSP: goto implementation")
-			map("gf", require("telescope.builtin").lsp_references, "LSP: show references")
-			map("gD", require("telescope.builtin").lsp_type_definitions, "LSP: goto type definition")
-			map("K", "<Cmd>Lspsaga hover_doc<CR>", "LSP: hover documentation")
-
-			-- code action
-			local codeaction = require("lspsaga.codeaction")
-			vim.keymap.set("n", "<leader>ca", function()
-				codeaction:code_action()
-			end, { silent = true })
-
-			vim.keymap.set("v", "<leader>ca", function()
-				vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<C-U>", true, false, true))
-				codeaction:range_code_action()
-			end, { silent = true })
-		end,
-	},
 	{
 		"neovim/nvim-lspconfig",
 		config = function()
 			local nvim_lsp = require("lspconfig")
 
-			local on_attach = function(client, bufnr)
+			local on_attach = function(_, bufnr)
 				local function buf_set_keymap(...)
 					vim.api.nvim_buf_set_keymap(bufnr, ...)
 				end
@@ -167,6 +100,81 @@ require("lazy").setup({
 			})
 		end,
 	},
+	-- Lsp manager
+	{
+		"williamboman/mason.nvim",
+		cmd = "Mason",
+		build = ":MasonUpdate",
+		opts_extend = { "ensure_installed" },
+		opts = {
+			ensure_installed = {
+				"stylua",
+				"shfmt",
+			},
+		},
+		config = function()
+			require("mason").setup()
+		end,
+	},
+	{
+		"williamboman/mason-lspconfig.nvim",
+		lazy = false,
+		opts = {
+			auto_install = true,
+		},
+		config = function()
+			require("mason-lspconfig").setup({
+				automatic_installation = true,
+			})
+		end,
+	},
+	{
+		"glepnir/lspsaga.nvim",
+		config = function()
+			local status, saga = pcall(require, "lspsaga")
+			if not status then
+				return
+			end
+
+			saga.setup({
+				ui = {
+					winblend = 10,
+					border = "rounded",
+				},
+				lightbulb = {
+					enable = false,
+					sign = false,
+				},
+			})
+
+			local map = function(key, cmd, desc)
+				vim.keymap.set("n", key, cmd, { noremap = true, silent = true, desc = desc })
+			end
+			map("gj", "<Cmd>Lspsaga diagnostic_jump_next<CR>", "LSP: jump next diagnostic")
+			map("gk", "<Cmd>Lspsaga diagnostic_jump_prev<CR>", "LSP: jump prev diagnostic")
+			map("gp", "<Cmd>Lspsaga peek_definition<CR>", "LSP: show peek definition")
+			map("gr", "<Cmd>Lspsaga rename<CR>", "LSP: renaming")
+			map("go", "<Cmd>Lspsaga outline<CR>", "LSP: show outline")
+			map("gd", "<Cmd>Lspsaga goto_definition<CR>", "LSP: goto definition")
+			map("gl", "<Cmd>Lspsaga show_buf_diagnostics<CR>", "LSP: show diagnostics in the current buffer")
+			map("gw", "<Cmd>Lspsaga show_workspace_diagnostics<CR>", "LSP: show diagnostics in the current workspace")
+			map("gi", require("telescope.builtin").lsp_implementations, "LSP: goto implementation")
+			map("gf", require("telescope.builtin").lsp_references, "LSP: show references")
+			map("gD", require("telescope.builtin").lsp_type_definitions, "LSP: goto type definition")
+			map("K", "<Cmd>Lspsaga hover_doc<CR>", "LSP: hover documentation")
+
+			-- code action
+			local codeaction = require("lspsaga.codeaction")
+			vim.keymap.set("n", "<leader>ca", function()
+				codeaction:code_action()
+			end, { silent = true })
+
+			vim.keymap.set("v", "<leader>ca", function()
+				vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<C-U>", true, false, true))
+				codeaction:range_code_action()
+			end, { silent = true })
+		end,
+	},
 	-- Display a popup with possible keybindings of the command you started typing
 	-- Sorry to my bad memory
 	{
@@ -188,26 +196,59 @@ require("lazy").setup({
 	},
 
 	-- colorscheme
+	-- {
+	-- 	"folke/tokyonight.nvim",
+	-- 	lazy = false,
+	-- 	priority = 1000,
+	-- 	opts = {},
+	-- 	config = function()
+	-- 		require("tokyonight").setup({
+	-- 			style = TOKYONIGHT_STYLE,
+	-- 			terminal_colors = true,
+	-- 			on_highlights = function(hl, c)
+	-- 				hl.SpectreReplace = { fg = c.red }
+	-- 			end,
+	-- 			sidebars = {
+	-- 				"qf",
+	-- 				"vista_kind",
+	-- 				"terminal",
+	-- 				"packer",
+	-- 			},
+	-- 		})
+	-- 		vim.cmd([[colorscheme tokyonight-moon]])
+	-- 	end,
+	-- },
 	{
-		"folke/tokyonight.nvim",
-		lazy = false,
+		"ellisonleao/gruvbox.nvim",
 		priority = 1000,
-		opts = {},
 		config = function()
-			require("tokyonight").setup({
-				style = TOKYONIGHT_STYLE,
-				terminal_colors = true,
-				on_highlights = function(hl, c)
-					hl.SpectreReplace = { fg = c.red }
-				end,
-				sidebars = {
-					"qf",
-					"vista_kind",
-					"terminal",
-					"packer",
+			-- Default options:
+			require("gruvbox").setup({
+				terminal_colors = true, -- add neovim terminal colors
+				undercurl = true,
+				underline = true,
+				bold = true,
+				italic = {
+					strings = true,
+					emphasis = true,
+					comments = true,
+					operators = true,
+					folds = true,
 				},
+				strikethrough = true,
+				invert_selection = false,
+				invert_signs = false,
+				invert_tabline = false,
+				invert_intend_guides = false,
+				inverse = true, -- invert background for search, diffs, statuslines and errors
+				contrast = "soft", -- can be "hard", "soft" or empty string
+				palette_overrides = {},
+				overrides = {},
+				dim_inactive = false,
+				transparent_mode = false,
 			})
-			vim.cmd([[colorscheme tokyonight-moon]])
+			vim.o.background = "dark" -- or "light" for light mode
+			vim.cmd([[colorscheme gruvbox]])
 		end,
 	},
 
@@ -223,6 +264,7 @@ require("lazy").setup({
 	-- Treesitter
 	{
 		"nvim-treesitter/nvim-treesitter",
+		version = false,
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter-textobjects",
 		},
@@ -276,18 +318,34 @@ require("lazy").setup({
 					enable = true,
 				},
 				auto_install = true,
+				incremental_selection = {
+					enable = true,
+					keymaps = {
+						init_selection = "<C-space>",
+						node_incremental = "<C-space>",
+						scope_incremental = false,
+						node_decremental = "<bs>",
+					},
+				},
+				textobjects = {
+					move = {
+						enable = true,
+						goto_next_start = { ["]f"] = "@function.outer", ["]c"] = "@class.outer" },
+						goto_next_end = { ["]F"] = "@function.outer", ["]C"] = "@class.outer" },
+						goto_previous_start = { ["[f"] = "@function.outer", ["[c"] = "@class.outer" },
+						goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer" },
+					},
+				},
 			})
 		end,
 	},
-	{ "nvim-treesitter/nvim-treesitter-textobjects" },
-	{
-		"nvim-treesitter/nvim-treesitter-context",
-		config = function()
-			require("treesitter-context").setup()
-		end,
-	},
-
-	-- Lsp
+	-- { "nvim-treesitter/nvim-treesitter-textobjects" },
+	-- {
+	-- 	"nvim-treesitter/nvim-treesitter-context",
+	-- 	config = function()
+	-- 		require("treesitter-context").setup()
+	-- 	end,
+	-- },
 
 	-- File explorer
 	{ "nvim-tree/nvim-web-devicons" },
@@ -314,12 +372,13 @@ require("lazy").setup({
 						},
 					},
 				},
-				filters = {
-					dotfiles = false,
-					custom = {
-						"^.git$",
-					},
-				},
+				-- filters = {
+				-- 	dotfiles = false,
+				-- 	git_ignored = true,
+				-- 	custom = {
+				-- 		"^.git$",
+				-- 	},
+				-- },
 				update_focused_file = {
 					enable = true,
 					update_root = false,
@@ -403,6 +462,7 @@ require("lazy").setup({
 			vim.cmd([[highlight! default link CmpItemKind CmpItemMenuDefault]])
 		end,
 	},
+
 	{ "hrsh7th/cmp-nvim-lsp" },
 
 	{
@@ -418,6 +478,7 @@ require("lazy").setup({
 
 	-- Telescope
 	{ "nvim-telescope/telescope-ui-select.nvim" },
+
 	{
 		"nvim-telescope/telescope.nvim",
 		dependencies = {
@@ -443,7 +504,7 @@ require("lazy").setup({
 			})
 
 			require("telescope").load_extension("ui-select")
-			require("telescope").load_extension("neoclip")
+			-- require("telescope").load_extension("neoclip")
 
 			local builtin = require("telescope.builtin")
 			vim.keymap.set("n", "ff", builtin.find_files, { desc = "Search files" })
@@ -455,27 +516,27 @@ require("lazy").setup({
 			vim.keymap.set("n", ";k", builtin.keymaps, { desc = "Search keymaps" })
 
 			-- open neoclip - clipboard manager for NeoVim
-			vim.keymap.set("n", "<leader>cc", "<cmd>:Telescope neoclip<CR>", { desc = "Open neoclip yank history" })
+			-- vim.keymap.set("n", "<leader>cc", "<cmd>:Telescope neoclip<CR>", { desc = "Open neoclip yank history" })
 		end,
 	},
 
-	{
-		"AckslD/nvim-neoclip.lua",
-		config = function()
-			require("neoclip").setup({
-				keys = {
-					telescope = {
-						i = {
-							paste = "<leader>p",
-						},
-						n = {
-							paste = "<leader>p",
-						},
-					},
-				},
-			})
-		end,
-	},
+	-- {
+	-- 	"AckslD/nvim-neoclip.lua",
+	-- 	config = function()
+	-- 		require("neoclip").setup({
+	-- 			keys = {
+	-- 				telescope = {
+	-- 					i = {
+	-- 						paste = "<leader>p",
+	-- 					},
+	-- 					n = {
+	-- 						paste = "<leader>p",
+	-- 					},
+	-- 				},
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- },
 
 	{
 		"L3MON4D3/LuaSnip",
@@ -492,16 +553,16 @@ require("lazy").setup({
 			conform.setup({
 				formatters_by_ft = {
 					lua = { "stylua" },
-					javascript = { "prettierd" },
-					typescript = { "prettierd" },
-					typescriptreact = { "prettierd" },
-					javascriptreact = { "prettierd" },
-					css = { "prettierd" },
-					html = { "prettierd" },
-					json = { "prettierd" },
-					yaml = { "prettierd" },
-					markdown = { "prettierd" },
 					go = { "gofmt" },
+					javascript = { "biomejs" },
+					typescript = { "biomejs" },
+					typescriptreact = { "biomejs" },
+					javascriptreact = { "biomejs" },
+					css = { "biomejs" },
+					html = { "biomejs" },
+					json = { "biomejs" },
+					yaml = { "biomejs" },
+					markdown = { "biomejs" },
 				},
 				format_on_save = {
 					lsp_fallback = true,
@@ -522,10 +583,10 @@ require("lazy").setup({
 		config = function()
 			local lint = require("lint")
 			lint.linters_by_ft = {
-				javascript = { "eslint_d" },
-				typescript = { "eslint_d" },
-				javascriptreact = { "eslint_d" },
-				typescriptreact = { "eslint_d" },
+				javascript = { "biomejs" },
+				typescript = { "biomejs" },
+				javascriptreact = { "biomejs" },
+				typescriptreact = { "biomejs" },
 			}
 
 			local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
@@ -547,9 +608,10 @@ require("lazy").setup({
 		config = function()
 			require("lualine").setup({
 				options = {
-					theme = "tokyonight",
+					-- theme = "tokyonight",
 					component_separators = { left = "", right = "" },
 					section_separators = { left = "", right = "" },
+					disabled_filetypes = { "NvimTree" },
 				},
 				sections = {
 					lualine_c = {
@@ -578,14 +640,14 @@ require("lazy").setup({
 		end,
 	},
 
-	{
-		"j-hui/fidget.nvim",
-		tag = "legacy",
-		event = "LspAttach",
-		opts = {
-			-- options
-		},
-	},
+	-- {
+	-- 	"j-hui/fidget.nvim",
+	-- 	tag = "legacy",
+	-- 	event = "LspAttach",
+	-- 	opts = {
+	-- 		-- options
+	-- 	},
+	-- },
 
 	{ "tpope/vim-commentary" },
 
@@ -622,23 +684,22 @@ require("lazy").setup({
 		event = "BufEnter",
 	},
 
-	{
-
-		"shellRaining/hlchunk.nvim",
-		enabled = true,
-		branch = "main",
-		event = { "UIEnter" },
-		config = function()
-			require("hlchunk").setup({
-				chunk = {
-					style = {
-						{ fg = colors.magenta },
-						{ fg = colors.red }, -- this fg is used to highlight wrong chunk
-					},
-				},
-			})
-		end,
-	},
+	-- {
+	-- 	"shellRaining/hlchunk.nvim",
+	-- 	enabled = true,
+	-- 	branch = "main",
+	-- 	event = { "UIEnter" },
+	-- 	config = function()
+	-- 		require("hlchunk").setup({
+	-- 			chunk = {
+	-- 				style = {
+	-- 					{ fg = colors.magenta },
+	-- 					{ fg = colors.red }, -- this fg is used to highlight wrong chunk
+	-- 				},
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- },
 
 	{
 		"lewis6991/gitsigns.nvim",
@@ -666,47 +727,47 @@ require("lazy").setup({
 		end,
 	},
 
-	{
-		"nvim-neotest/neotest",
-		dependencies = {
-			"nvim-neotest/nvim-nio",
-			"nvim-lua/plenary.nvim",
-			"antoinemadec/FixCursorHold.nvim",
-			"nvim-treesitter/nvim-treesitter",
-			-- adapters
-			"nvim-neotest/neotest-jest",
-		},
-		config = function()
-			local neotest = require("neotest")
-			neotest.setup({
-				adapters = {
-					require("neotest-jest")({
-						jestCommand = "npm test --",
-						jestConfigFile = "./jest.config.ts",
-						env = { CI = true },
-						cwd = function(path)
-							local root_path = require("lspconfig").util.root_pattern("package.json")(path)
-							return root_path or vim.fn.getcwd()
-						end,
-					}),
-				},
-			})
+	-- {
+	-- 	"nvim-neotest/neotest",
+	-- 	dependencies = {
+	-- 		"nvim-neotest/nvim-nio",
+	-- 		"nvim-lua/plenary.nvim",
+	-- 		"antoinemadec/FixCursorHold.nvim",
+	-- 		"nvim-treesitter/nvim-treesitter",
+	-- 		-- adapters
+	-- 		"nvim-neotest/neotest-jest",
+	-- 	},
+	-- 	config = function()
+	-- 		local neotest = require("neotest")
+	-- 		neotest.setup({
+	-- 			adapters = {
+	-- 				require("neotest-jest")({
+	-- 					jestCommand = "npm test --",
+	-- 					jestConfigFile = "./jest.config.ts",
+	-- 					env = { CI = true },
+	-- 					cwd = function(path)
+	-- 						local root_path = require("lspconfig").util.root_pattern("package.json")(path)
+	-- 						return root_path or vim.fn.getcwd()
+	-- 					end,
+	-- 				}),
+	-- 			},
+	-- 		})
 
-			vim.keymap.set("n", "tt", ":Neotest run<CR>", { desc = "Run nearest test" })
-			vim.keymap.set("n", "ts", ":Neotest summary<CR>", { desc = "Open test summary" })
-			vim.keymap.set("n", "to", ":Neotest output<CR>", { desc = "Open test output" })
-			vim.keymap.set("n", "tp", ":Neotest output-panel<CR>", { desc = "Open test output panel" })
-			vim.keymap.set("n", "ta", ":Neotest attach<CR>", { desc = "Attach to test" })
-			vim.keymap.set("n", "tj", ":Neotest jump<CR>", { desc = "Jump to test" })
-			vim.keymap.set("n", "tq", ":Neotest stop<CR>", { desc = "Stop test" })
-			vim.keymap.set(
-				"n",
-				"tw",
-				":lua require('neotert').watch().toggle(vim.fn.expand('%'))<CR>",
-				{ desc = "Toggle test watch" }
-			)
-		end,
-	},
+	-- 		vim.keymap.set("n", "tt", ":Neotest run<CR>", { desc = "Run nearest test" })
+	-- 		vim.keymap.set("n", "ts", ":Neotest summary<CR>", { desc = "Open test summary" })
+	-- 		vim.keymap.set("n", "to", ":Neotest output<CR>", { desc = "Open test output" })
+	-- 		vim.keymap.set("n", "tp", ":Neotest output-panel<CR>", { desc = "Open test output panel" })
+	-- 		vim.keymap.set("n", "ta", ":Neotest attach<CR>", { desc = "Attach to test" })
+	-- 		vim.keymap.set("n", "tj", ":Neotest jump<CR>", { desc = "Jump to test" })
+	-- 		vim.keymap.set("n", "tq", ":Neotest stop<CR>", { desc = "Stop test" })
+	-- 		vim.keymap.set(
+	-- 			"n",
+	-- 			"tw",
+	-- 			":lua require('neotest').watch().toggle(vim.fn.expand('%'))<CR>",
+	-- 			{ desc = "Toggle test watch" }
+	-- 		)
+	-- 	end,
+	-- },
 })
 
 --------------
@@ -762,13 +823,6 @@ vim.opt.foldenable = false
 -- Decrease update time
 vim.opt.updatetime = 250
 
--- Decrease mapped sequence wait time
--- Displays which-key popup sooner
--- vim.opt.timeoutlen = 300
-
--- Show which line your cursor is currently on
--- vim.opt.cursorline = true
-
 -- Diagnostic
 vim.diagnostic.config({
 	virtual_text = false, -- do not show the virtual text
@@ -791,7 +845,6 @@ vim.diagnostic.config({
 -- vim.keymap.set("", "<C-l>", "<C-W>l")
 
 -- Save, escape while in insert mode
-vim.keymap.set("i", "ww", "<Esc>:w<CR>")
 vim.keymap.set("i", "jj", "<Esc>")
 vim.keymap.set("i", "jk", "<Esc>")
 
@@ -827,10 +880,6 @@ vim.keymap.set("n", "w", ":b<space>")
 -- Open file exlorer
 vim.keymap.set("n", "e", ":e<space>")
 
--- vim-session
-vim.keymap.set("n", "sv", ":SessionSave<CR>")
-vim.keymap.set("n", "ss", ":SessionOpen<space>")
-
 -- toggle wrap
 vim.keymap.set("n", "<leader>z", ":set wrap!<CR>")
 
@@ -841,5 +890,5 @@ vim.keymap.set("n", "<leader>re", "gg=G")
 vim.keymap.set("n", "<C-n>", "<cmd>:bnext<cr>")
 vim.keymap.set("n", "<C-p>", "<cmd>:bprevious<cr>")
 
--- highlight
-vim.api.nvim_set_hl(0, "CodeiumSuggestion", { fg = colors.comment })
+-- Syntax highlight
+-- vim.api.nvim_set_hl(0, "CodeiumSuggestion", { fg = colors.comment })
