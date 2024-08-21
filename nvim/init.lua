@@ -1,6 +1,3 @@
-local TOKYONIGHT_STYLE = "moon"
-local colors = require("config.tokyonight")[TOKYONIGHT_STYLE]
-
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
@@ -20,6 +17,11 @@ require("lazy").setup({
 		config = function()
 			local nvim_lsp = require("lspconfig")
 
+			-- nvim-cmp supports additional completion capabilities
+			local capabilities = vim.lsp.protocol.make_client_capabilities()
+			capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+			capabilities.textDocument.completion.completionItem.snippetSupport = true
+
 			local on_attach = function(_, bufnr)
 				local function buf_set_keymap(...)
 					vim.api.nvim_buf_set_keymap(bufnr, ...)
@@ -30,25 +32,7 @@ require("lazy").setup({
 
 				-- Enable completion triggered by <c-x><c-o>
 				buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
-
-				-- Mappings.
-				local opts = { noremap = true, silent = true }
-
-				-- See `:help vim.lsp.*` for documentation on any of the below functions
-				buf_set_keymap("n", "<space>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
-				buf_set_keymap("n", "<space>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
-				buf_set_keymap(
-					"n",
-					"<space>wl",
-					"<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>",
-					opts
-				)
-				buf_set_keymap("n", "g?", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 			end
-
-			-- nvim-cmp supports additional completion capabilities
-			local capabilities = vim.lsp.protocol.make_client_capabilities()
-			capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 			-- Enable LSP
 			local servers = {
@@ -71,12 +55,6 @@ require("lazy").setup({
 				})
 			end
 
-			nvim_lsp.volar.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-				filetypes = { "vue" },
-			})
-
 			nvim_lsp.lua_ls.setup({
 				on_attach = on_attach,
 				capabilities = capabilities,
@@ -95,6 +73,31 @@ require("lazy").setup({
 						disableSuggestions = false,
 					},
 				},
+				single_file_support = false,
+				settings = {
+					typescript = {
+						inlayHints = {
+							includeInlayParameterNameHints = "literal",
+							includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+							includeInlayFunctionParameterTypeHints = true,
+							includeInlayVariableTypeHints = false,
+							includeInlayPropertyDeclarationTypeHints = true,
+							includeInlayFunctionLikeReturnTypeHints = true,
+							includeInlayEnumMemberValueHints = true,
+						},
+					},
+					javascript = {
+						inlayHints = {
+							includeInlayParameterNameHints = "all",
+							includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+							includeInlayFunctionParameterTypeHints = true,
+							includeInlayVariableTypeHints = true,
+							includeInlayPropertyDeclarationTypeHints = true,
+							includeInlayFunctionLikeReturnTypeHints = true,
+							includeInlayEnumMemberValueHints = true,
+						},
+					},
+				},
 				on_attach = on_attach,
 				capabilities = capabilities,
 			})
@@ -110,6 +113,9 @@ require("lazy").setup({
 			ensure_installed = {
 				"stylua",
 				"shfmt",
+				"typescript-language-server",
+				"css-lsp",
+				"luacheck",
 			},
 		},
 		config = function()
@@ -161,6 +167,7 @@ require("lazy").setup({
 			map("gi", require("telescope.builtin").lsp_implementations, "LSP: goto implementation")
 			map("gf", require("telescope.builtin").lsp_references, "LSP: show references")
 			map("gD", require("telescope.builtin").lsp_type_definitions, "LSP: goto type definition")
+			map("g?", "<cmd>lua vim.diagnostic.open_float()<CR>", "LSP: show line diagnostics")
 			map("K", "<Cmd>Lspsaga hover_doc<CR>", "LSP: hover documentation")
 
 			-- code action
@@ -194,30 +201,6 @@ require("lazy").setup({
 			})
 		end,
 	},
-
-	-- colorscheme
-	-- {
-	-- 	"folke/tokyonight.nvim",
-	-- 	lazy = false,
-	-- 	priority = 1000,
-	-- 	opts = {},
-	-- 	config = function()
-	-- 		require("tokyonight").setup({
-	-- 			style = TOKYONIGHT_STYLE,
-	-- 			terminal_colors = true,
-	-- 			on_highlights = function(hl, c)
-	-- 				hl.SpectreReplace = { fg = c.red }
-	-- 			end,
-	-- 			sidebars = {
-	-- 				"qf",
-	-- 				"vista_kind",
-	-- 				"terminal",
-	-- 				"packer",
-	-- 			},
-	-- 		})
-	-- 		vim.cmd([[colorscheme tokyonight-moon]])
-	-- 	end,
-	-- },
 	{
 		"ellisonleao/gruvbox.nvim",
 		priority = 1000,
@@ -339,13 +322,6 @@ require("lazy").setup({
 			})
 		end,
 	},
-	-- { "nvim-treesitter/nvim-treesitter-textobjects" },
-	-- {
-	-- 	"nvim-treesitter/nvim-treesitter-context",
-	-- 	config = function()
-	-- 		require("treesitter-context").setup()
-	-- 	end,
-	-- },
 
 	-- File explorer
 	{ "nvim-tree/nvim-web-devicons" },
@@ -372,13 +348,13 @@ require("lazy").setup({
 						},
 					},
 				},
-				-- filters = {
-				-- 	dotfiles = false,
-				-- 	git_ignored = true,
-				-- 	custom = {
-				-- 		"^.git$",
-				-- 	},
-				-- },
+				filters = {
+					dotfiles = false,
+					git_ignored = true,
+					custom = {
+						"^.git$",
+					},
+				},
 				update_focused_file = {
 					enable = true,
 					update_root = false,
@@ -504,7 +480,6 @@ require("lazy").setup({
 			})
 
 			require("telescope").load_extension("ui-select")
-			-- require("telescope").load_extension("neoclip")
 
 			local builtin = require("telescope.builtin")
 			vim.keymap.set("n", "ff", builtin.find_files, { desc = "Search files" })
@@ -514,30 +489,8 @@ require("lazy").setup({
 			vim.keymap.set("n", ";;", builtin.resume, { desc = "Resume last search" })
 			vim.keymap.set("n", ";t", builtin.help_tags, { desc = "Search help tags" })
 			vim.keymap.set("n", ";k", builtin.keymaps, { desc = "Search keymaps" })
-
-			-- open neoclip - clipboard manager for NeoVim
-			-- vim.keymap.set("n", "<leader>cc", "<cmd>:Telescope neoclip<CR>", { desc = "Open neoclip yank history" })
 		end,
 	},
-
-	-- {
-	-- 	"AckslD/nvim-neoclip.lua",
-	-- 	config = function()
-	-- 		require("neoclip").setup({
-	-- 			keys = {
-	-- 				telescope = {
-	-- 					i = {
-	-- 						paste = "<leader>p",
-	-- 					},
-	-- 					n = {
-	-- 						paste = "<leader>p",
-	-- 					},
-	-- 				},
-	-- 			},
-	-- 		})
-	-- 	end,
-	-- },
-
 	{
 		"L3MON4D3/LuaSnip",
 	},
@@ -618,7 +571,7 @@ require("lazy").setup({
 						{
 							"filename",
 							file_status = true, -- displays file status (readonly status, modified status)
-							path = 2, -- 0 = just filename, 1 = relative path, 2 = absolute path
+							path = 3, -- 0 = just filename, 1 = relative path, 2 = absolute path
 						},
 					},
 				},
@@ -640,14 +593,14 @@ require("lazy").setup({
 		end,
 	},
 
-	-- {
-	-- 	"j-hui/fidget.nvim",
-	-- 	tag = "legacy",
-	-- 	event = "LspAttach",
-	-- 	opts = {
-	-- 		-- options
-	-- 	},
-	-- },
+	{
+		"j-hui/fidget.nvim",
+		tag = "legacy",
+		event = "LspAttach",
+		opts = {
+			-- options
+		},
+	},
 
 	{ "tpope/vim-commentary" },
 
@@ -684,23 +637,6 @@ require("lazy").setup({
 		event = "BufEnter",
 	},
 
-	-- {
-	-- 	"shellRaining/hlchunk.nvim",
-	-- 	enabled = true,
-	-- 	branch = "main",
-	-- 	event = { "UIEnter" },
-	-- 	config = function()
-	-- 		require("hlchunk").setup({
-	-- 			chunk = {
-	-- 				style = {
-	-- 					{ fg = colors.magenta },
-	-- 					{ fg = colors.red }, -- this fg is used to highlight wrong chunk
-	-- 				},
-	-- 			},
-	-- 		})
-	-- 	end,
-	-- },
-
 	{
 		"lewis6991/gitsigns.nvim",
 		config = function()
@@ -726,48 +662,6 @@ require("lazy").setup({
 			vim.keymap.set("n", "<C-l>", ":TmuxNavigateRight<CR>", { silent = true })
 		end,
 	},
-
-	-- {
-	-- 	"nvim-neotest/neotest",
-	-- 	dependencies = {
-	-- 		"nvim-neotest/nvim-nio",
-	-- 		"nvim-lua/plenary.nvim",
-	-- 		"antoinemadec/FixCursorHold.nvim",
-	-- 		"nvim-treesitter/nvim-treesitter",
-	-- 		-- adapters
-	-- 		"nvim-neotest/neotest-jest",
-	-- 	},
-	-- 	config = function()
-	-- 		local neotest = require("neotest")
-	-- 		neotest.setup({
-	-- 			adapters = {
-	-- 				require("neotest-jest")({
-	-- 					jestCommand = "npm test --",
-	-- 					jestConfigFile = "./jest.config.ts",
-	-- 					env = { CI = true },
-	-- 					cwd = function(path)
-	-- 						local root_path = require("lspconfig").util.root_pattern("package.json")(path)
-	-- 						return root_path or vim.fn.getcwd()
-	-- 					end,
-	-- 				}),
-	-- 			},
-	-- 		})
-
-	-- 		vim.keymap.set("n", "tt", ":Neotest run<CR>", { desc = "Run nearest test" })
-	-- 		vim.keymap.set("n", "ts", ":Neotest summary<CR>", { desc = "Open test summary" })
-	-- 		vim.keymap.set("n", "to", ":Neotest output<CR>", { desc = "Open test output" })
-	-- 		vim.keymap.set("n", "tp", ":Neotest output-panel<CR>", { desc = "Open test output panel" })
-	-- 		vim.keymap.set("n", "ta", ":Neotest attach<CR>", { desc = "Attach to test" })
-	-- 		vim.keymap.set("n", "tj", ":Neotest jump<CR>", { desc = "Jump to test" })
-	-- 		vim.keymap.set("n", "tq", ":Neotest stop<CR>", { desc = "Stop test" })
-	-- 		vim.keymap.set(
-	-- 			"n",
-	-- 			"tw",
-	-- 			":lua require('neotest').watch().toggle(vim.fn.expand('%'))<CR>",
-	-- 			{ desc = "Toggle test watch" }
-	-- 		)
-	-- 	end,
-	-- },
 })
 
 --------------
