@@ -15,7 +15,7 @@ require("lazy").setup({
 	{
 		"neovim/nvim-lspconfig",
 		config = function()
-			local nvim_lsp = require("lspconfig")
+			local lspconfig = require("lspconfig")
 
 			-- nvim-cmp supports additional completion capabilities
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -49,13 +49,13 @@ require("lazy").setup({
 			}
 
 			for _, lsp in ipairs(servers) do
-				nvim_lsp[lsp].setup({
+				lspconfig[lsp].setup({
 					on_attach = on_attach,
 					capabilities = capabilities,
 				})
 			end
 
-			nvim_lsp.lua_ls.setup({
+			lspconfig.lua_ls.setup({
 				on_attach = on_attach,
 				capabilities = capabilities,
 				settings = {
@@ -67,7 +67,7 @@ require("lazy").setup({
 				},
 			})
 
-			nvim_lsp.tsserver.setup({
+			lspconfig.tsserver.setup({
 				init_options = {
 					preferences = {
 						disableSuggestions = false,
@@ -353,6 +353,10 @@ require("lazy").setup({
 					custom = {
 						"^.git$",
 					},
+					exclude = {
+						".notes.md",
+						".env",
+					},
 				},
 				update_focused_file = {
 					enable = true,
@@ -401,6 +405,7 @@ require("lazy").setup({
 		end,
 	},
 
+	-- completions engine
 	{
 		"hrsh7th/nvim-cmp",
 		config = function()
@@ -437,9 +442,12 @@ require("lazy").setup({
 			vim.cmd([[highlight! default link CmpItemKind CmpItemMenuDefault]])
 		end,
 	},
-
 	{ "hrsh7th/cmp-nvim-lsp" },
+	{ "hrsh7th/cmp-buffer" },
+	{ "hrsh7th/cmp-path" },
+	{ "hrsh7th/cmp-cmdline" },
 
+	-- LSP vscode like icons
 	{
 		"onsails/lspkind-nvim",
 		config = function()
@@ -724,6 +732,13 @@ vim.diagnostic.config({
 	-- Update diagnostic in insert mode will be annoying when the output is too verbose
 	update_in_insert = true,
 })
+
+-- see hidden chars and their colors
+vim.opt.listchars = {
+	tab = "| ",
+	eol = "¬",
+	trail = "·",
+}
 
 ----------------
 --  MAPPINGS  --
