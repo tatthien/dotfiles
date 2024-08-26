@@ -472,7 +472,7 @@ require("lazy").setup({
 					},
 					live_grep = {
 						additional_args = function()
-							return { "--hidden" }
+							return { "--hidden", "--ignore-case" }
 						end,
 					},
 				},
@@ -785,3 +785,11 @@ vim.keymap.set("n", "<C-p>", "<cmd>:bprevious<cr>")
 
 -- Syntax highlight
 -- vim.api.nvim_set_hl(0, "CodeiumSuggestion", { fg = colors.comment })
+
+-- move lines
+vim.keymap.set("n", "<down>", ":m +1<CR>==")
+vim.keymap.set("n", "<up>", ":m .-2<CR>==")
+vim.keymap.set("v", "<down>", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "<up>", ":m '<-2<CR>gv=gv")
+vim.keymap.set("i", "<down>", "<Esc>:m .+1<CR>==gi")
+vim.keymap.set("i", "<up>", "<Esc>:m .-2<CR>==gi")
