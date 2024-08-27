@@ -23,9 +23,6 @@ require("lazy").setup({
 			capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 			local on_attach = function(_, bufnr)
-				local function buf_set_keymap(...)
-					vim.api.nvim_buf_set_keymap(bufnr, ...)
-				end
 				local function buf_set_option(...)
 					vim.api.nvim_buf_set_option(bufnr, ...)
 				end
@@ -342,8 +339,8 @@ require("lazy").setup({
 					icons = {
 						git_placement = "signcolumn",
 						show = {
-							folder = false,
-							file = false,
+							folder = true,
+							file = true,
 						},
 					},
 				},
@@ -468,6 +465,7 @@ require("lazy").setup({
 			"nvim-lua/plenary.nvim",
 			"nvim-treesitter/nvim-treesitter",
 			"nvim-tree/nvim-web-devicons",
+			"nvim-telescope/telescope-live-grep-args.nvim",
 		},
 		config = function()
 			require("telescope").setup({
@@ -487,11 +485,17 @@ require("lazy").setup({
 			})
 
 			require("telescope").load_extension("ui-select")
+			require("telescope").load_extension("live_grep_args")
 
 			local builtin = require("telescope.builtin")
 			vim.keymap.set("n", "ff", builtin.find_files, { desc = "Search files" })
 			vim.keymap.set("n", ";g", builtin.git_files, { desc = "Search git files" })
-			vim.keymap.set("n", ";r", builtin.live_grep, { desc = "Search by grep" })
+			vim.keymap.set(
+				"n",
+				";r",
+				":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>",
+				{ desc = "Search by grep" }
+			)
 			vim.keymap.set("n", ";e", builtin.diagnostics, { desc = "Search diagnostics" })
 			vim.keymap.set("n", ";;", builtin.resume, { desc = "Resume last search" })
 			vim.keymap.set("n", ";t", builtin.help_tags, { desc = "Search help tags" })
@@ -668,6 +672,21 @@ require("lazy").setup({
 			vim.keymap.set("n", "<C-k>", ":TmuxNavigateUp<CR>", { silent = true })
 			vim.keymap.set("n", "<C-l>", ":TmuxNavigateRight<CR>", { silent = true })
 		end,
+	},
+
+	{
+		"folke/flash.nvim",
+		event = "VeryLazy",
+		---@type Flash.Config
+		opts = {},
+    -- stylua: ignore
+    keys = {
+      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+      { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+    },
 	},
 })
 
