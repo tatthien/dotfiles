@@ -16,11 +16,19 @@ require("lazy").setup({
 		"neovim/nvim-lspconfig",
 		config = function()
 			local lspconfig = require("lspconfig")
+			local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
 			-- nvim-cmp supports additional completion capabilities
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
-			capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+			capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 			capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+			-- Change the Diagnostic symbols in the sign column (gutter)
+			local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
+			for type, icon in pairs(signs) do
+				local hl = "DiagnosticSign" .. type
+				vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+			end
 
 			local on_attach = function(_, bufnr)
 				local function buf_set_option(...)
@@ -109,9 +117,23 @@ require("lazy").setup({
 			ensure_installed = {
 				"stylua",
 				"shfmt",
-				"typescript-language-server",
+				"tsserver",
 				"css-lsp",
 				"luacheck",
+				"css-variables-language-server",
+				"biome",
+				"html",
+				"cssls",
+				"lua_ls",
+				"gopls",
+				"prismals",
+				"tflint",
+				"terraformls",
+				"tailwindcss",
+				"yamlls",
+				"jsonls",
+				"intelephense",
+				"cssmodules_ls",
 			},
 		},
 		config = function()
@@ -178,25 +200,7 @@ require("lazy").setup({
 			end, { silent = true })
 		end,
 	},
-	-- Display a popup with possible keybindings of the command you started typing
-	-- Sorry to my bad memory
-	{
-		"folke/which-key.nvim",
-		event = "VeryLazy",
-		init = function()
-			vim.o.timeout = true
-			vim.o.timeoutlen = 300
-		end,
-		config = function()
-			-- Add description to key bindings
-			local wk = require("which-key")
-			wk.register({
-				[";g"] = { "Fuzzy search through the output of git ls-files" },
-				[";e"] = { "Search for a string using ripgrep" },
-				["<leader>ca"] = { "Code actions" },
-			})
-		end,
-	},
+	-- Color scheme
 	{
 		"ellisonleao/gruvbox.nvim",
 		priority = 1000,
@@ -572,9 +576,8 @@ require("lazy").setup({
 		config = function()
 			require("lualine").setup({
 				options = {
-					-- theme = "tokyonight",
-					component_separators = { left = "", right = "" },
 					section_separators = { left = "", right = "" },
+					component_separators = { left = "", right = "" },
 					disabled_filetypes = { "NvimTree" },
 				},
 				sections = {
@@ -807,11 +810,8 @@ vim.keymap.set("n", "w", ":b<space>")
 -- Open file exlorer
 vim.keymap.set("n", "e", ":e<space>")
 
--- toggle wrap
+-- Toggle wrap
 vim.keymap.set("n", "<leader>z", ":set wrap!<CR>")
-
--- reindent
-vim.keymap.set("n", "<leader>re", "gg=G")
 
 -- quickly switching buffers
 vim.keymap.set("n", "<C-n>", "<cmd>:bnext<cr>")
@@ -820,7 +820,7 @@ vim.keymap.set("n", "<C-p>", "<cmd>:bprevious<cr>")
 -- Syntax highlight
 -- vim.api.nvim_set_hl(0, "CodeiumSuggestion", { fg = colors.comment })
 
--- move lines
+-- Move lines
 vim.keymap.set("n", "<down>", ":m +1<CR>==")
 vim.keymap.set("n", "<up>", ":m .-2<CR>==")
 vim.keymap.set("v", "<down>", ":m '>+1<CR>gv=gv")
