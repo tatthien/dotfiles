@@ -588,6 +588,7 @@ require("lazy").setup({
 							path = 3, -- 0 = just filename, 1 = relative path, 2 = absolute path
 						},
 					},
+					lualine_x = { "encoding", "fileformat", "filetype" },
 				},
 			})
 		end,
@@ -681,7 +682,11 @@ require("lazy").setup({
 		"folke/flash.nvim",
 		event = "VeryLazy",
 		---@type Flash.Config
-		opts = {},
+		opts = {
+			search = {
+				incremental = true,
+			},
+		},
     -- stylua: ignore
     keys = {
       { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
@@ -830,11 +835,13 @@ vim.diagnostic.config({
 
 -- see hidden chars and their colors
 vim.opt.listchars = {
-	tab = "| ",
-	eol = "¬",
-	trail = "·",
+	tab = "▸ ",
+	trail = "•",
+	extends = "›",
+	precedes = "‹",
+	nbsp = "‿",
 }
-
+vim.opt.list = true
 ----------------
 --  MAPPINGS  --
 ----------------
@@ -900,3 +907,12 @@ vim.keymap.set("v", "<down>", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "<up>", ":m '<-2<CR>gv=gv")
 vim.keymap.set("i", "<down>", "<Esc>:m .+1<CR>==gi")
 vim.keymap.set("i", "<up>", "<Esc>:m .-2<CR>==gi")
+
+-- Extending file types
+vim.filetype.add({
+	extension = {
+		mdx = "mdx",
+	},
+})
+
+vim.treesitter.language.register("markdown", "mdx")
