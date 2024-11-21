@@ -41,7 +41,7 @@ require("lazy").setup({
 
 			-- Enable LSP
 			local servers = {
-				"tsserver",
+				"ts_ls",
 				"gopls",
 				"intelephense",
 				"terraformls",
@@ -51,6 +51,7 @@ require("lazy").setup({
 				"lua_ls",
 				"cssls",
 				"cssmodules_ls",
+				"pyright",
 			}
 
 			for _, lsp in ipairs(servers) do
@@ -72,7 +73,7 @@ require("lazy").setup({
 				},
 			})
 
-			lspconfig.tsserver.setup({
+			lspconfig.ts_ls.setup({
 				init_options = {
 					preferences = {
 						disableSuggestions = false,
@@ -106,6 +107,30 @@ require("lazy").setup({
 				on_attach = on_attach,
 				capabilities = capabilities,
 			})
+
+			local python_root_files = {
+				"WORKSPACE", -- added for Bazel; items below are from default config
+				"pyproject.toml",
+				"setup.py",
+				"setup.cfg",
+				"requirements.txt",
+				"Pipfile",
+				"pyrightconfig.json",
+			}
+			lspconfig.pyright.setup({
+				on_attach = on_attach,
+				capabilities = capabilities,
+				root_dir = lspconfig.util.root_pattern(unpack(python_root_files)),
+				settings = {
+					python = {
+						analysis = {
+							autoSearchPaths = true,
+							diagnosticMode = "workspace",
+							useLibraryCodeForTypes = true,
+						},
+					},
+				},
+			})
 		end,
 	},
 	-- Lsp manager
@@ -117,7 +142,7 @@ require("lazy").setup({
 			ensure_installed = {
 				"stylua",
 				"shfmt",
-				"tsserver",
+				"ts_ls",
 				"css-lsp",
 				"luacheck",
 				"css-variables-language-server",
@@ -695,76 +720,6 @@ require("lazy").setup({
       { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
       { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
     },
-	},
-
-	{
-		"yetone/avante.nvim",
-		event = "VeryLazy",
-		lazy = false,
-		version = false, -- set this if you want to always pull the latest change
-		opts = {
-			mappings = {
-				--- @class AvanteConflictMappings
-				diff = {
-					ours = "co",
-					theirs = "ct",
-					all_theirs = "ca",
-					both = "cb",
-					cursor = "<Leader>cc",
-					next = "]x",
-					prev = "[x",
-				},
-				suggestion = {
-					accept = "<M-l>",
-					next = "<M-]>",
-					prev = "<M-[>",
-					dismiss = "<C-]>",
-				},
-				jump = {
-					next = "]]",
-					prev = "[[",
-				},
-				submit = {
-					normal = "<CR>",
-					insert = "<C-s>",
-				},
-			},
-		},
-		-- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-		build = "make",
-		-- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
-		dependencies = {
-			"stevearc/dressing.nvim",
-			"nvim-lua/plenary.nvim",
-			"MunifTanjim/nui.nvim",
-			--- The below dependencies are optional,
-			"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-			{
-				-- support for image pasting
-				"HakonHarnes/img-clip.nvim",
-				event = "VeryLazy",
-				opts = {
-					-- recommended settings
-					default = {
-						embed_image_as_base64 = false,
-						prompt_for_file_name = false,
-						drag_and_drop = {
-							insert_mode = true,
-						},
-						-- required for Windows users
-						use_absolute_path = true,
-					},
-				},
-			},
-			{
-				-- Make sure to set this up properly if you have lazy=true
-				"MeanderingProgrammer/render-markdown.nvim",
-				opts = {
-					file_types = { "markdown", "Avante" },
-				},
-				ft = { "markdown", "Avante" },
-			},
-		},
 	},
 })
 
