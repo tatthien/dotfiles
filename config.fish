@@ -119,3 +119,10 @@ status --is-interactive; and rbenv init - fish | source
 
 # jenv - Java version manager
 status --is-interactive; and jenv init - | source
+
+# bun
+set --export BUN_INSTALL "$HOME/.bun"
+set --export PATH $BUN_INSTALL/bin $PATH
+
+# Added by LM Studio CLI (lms)
+set -gx PATH $PATH /Users/thien/.lmstudio/bin
