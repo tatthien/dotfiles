@@ -487,9 +487,9 @@ require("lazy").setup({
 
 	-- Telescope
 	{ "nvim-telescope/telescope-ui-select.nvim" },
-
 	{
 		"nvim-telescope/telescope.nvim",
+		event = "VimEnter",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-treesitter/nvim-treesitter",
@@ -509,6 +509,11 @@ require("lazy").setup({
 						additional_args = function()
 							return { "--hidden", "--ignore-case" }
 						end,
+					},
+				},
+				extensions = {
+					["ui-select"] = {
+						require("telescope.themes").get_dropdown(),
 					},
 				},
 			})
@@ -541,6 +546,16 @@ require("lazy").setup({
 		dependencies = { "mason.nvim" },
 		lazy = true,
 		event = { "BufReadPre", "BufNewFile" },
+		keys = {
+			{
+				"<leader>f",
+				function()
+					require("conform").format({ async = true, lsp_format = "fallback" })
+				end,
+				mode = "",
+				desc = "[F]ormat buffer",
+			},
+		},
 		config = function()
 			local conform = require("conform")
 			conform.setup({
@@ -677,13 +692,16 @@ require("lazy").setup({
 		event = "BufEnter",
 	},
 
+	-- Adds git related signs to the gutter, as well as utilities for managing changes
 	{
 		"lewis6991/gitsigns.nvim",
 		config = function()
 			require("gitsigns").setup({
 				signs = {
-					add = { text = "+" },
-					change = { text = "-" },
+					change = { text = "~" },
+					delete = { text = "_" },
+					topdelete = { text = "‾" },
+					changedelete = { text = "~" },
 				},
 				on_attach = function()
 					local gitsigns = require("gitsigns")
@@ -706,7 +724,6 @@ require("lazy").setup({
 	{
 		"folke/flash.nvim",
 		event = "VeryLazy",
-		---@type Flash.Config
 		opts = {
 			search = {
 				incremental = true,
@@ -716,9 +733,6 @@ require("lazy").setup({
     keys = {
       { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
       { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
     },
 	},
 })
@@ -779,6 +793,9 @@ vim.opt.foldlevelstart = 99
 -- Decrease update time
 vim.opt.updatetime = 250
 
+-- Decrease mapped sequence wait time
+vim.opt.timeoutlen = 300
+
 -- Diagnostic
 vim.diagnostic.config({
 	virtual_text = false, -- do not show the virtual text
@@ -797,13 +814,16 @@ vim.opt.listchars = {
 	nbsp = "‿",
 }
 vim.opt.list = true
+
+-- Show which line your cursor is on
+vim.opt.cursorline = true
+
 ----------------
 --  MAPPINGS  --
 ----------------
 
 -- Better split switching
 -- These key maps are not used anymore since I'm using vim-tmux-navigator.
-
 -- vim.keymap.set("", "<C-j>", "<C-W>j")
 -- vim.keymap.set("", "<C-k>", "<C-W>k")
 -- vim.keymap.set("", "<C-h>", "<C-W>h")
@@ -848,7 +868,7 @@ vim.keymap.set("n", "e", ":e<space>")
 -- Toggle wrap
 vim.keymap.set("n", "<leader>z", ":set wrap!<CR>")
 
--- quickly switching buffers
+-- Quickly switching buffers
 vim.keymap.set("n", "<C-n>", "<cmd>:bnext<cr>")
 vim.keymap.set("n", "<C-p>", "<cmd>:bprevious<cr>")
 
@@ -869,5 +889,4 @@ vim.filetype.add({
 		mdx = "mdx",
 	},
 })
-
 vim.treesitter.language.register("markdown", "mdx")
