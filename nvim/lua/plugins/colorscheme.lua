@@ -1,10 +1,12 @@
+local palette = require("palette")
+
 local c = {
-  error = "#fb4934",
-  warning = "#fabd2f",
-  info = "#b8bb26",
-  hint = "#8ec07c",
+  error = palette.red_light,
+  warning = palette.yellow_light,
+  info = palette.green_light,
+  hint = palette.aqua_light,
 }
-local bg = "#282828"
+local bg = palette.bg
 local function blend_colors(color1, color2, alpha)
   local r1, g1, b1 = tonumber(color1:sub(2, 3), 16), tonumber(color1:sub(4, 5), 16), tonumber(color1:sub(6, 7), 16)
   local r2, g2, b2 = tonumber(color2:sub(2, 3), 16), tonumber(color2:sub(4, 5), 16), tonumber(color2:sub(6, 7), 16)
@@ -43,10 +45,10 @@ return {
         dim_inactive = false,
         transparent_mode = false,
         overrides = {
-          DiagnosticVirtualTextError = { bg = blend_colors(c.error, bg, 0.2), fg = c.error },
-          DiagnosticVirtualTextWarn = { bg = blend_colors(c.warning, bg, 0.2), fg = c.warning },
-          DiagnosticVirtualTextInfo = { bg = blend_colors(c.info, bg, 0.2), fg = c.info },
-          DiagnosticVirtualTextHint = { bg = blend_colors(c.hint, bg, 0.2), fg = c.hint },
+          DiagnosticVirtualTextError = { bg = blend_colors(c.error, bg, 0.1), fg = c.error },
+          DiagnosticVirtualTextWarn = { bg = blend_colors(c.warning, bg, 0.1), fg = c.warning },
+          DiagnosticVirtualTextInfo = { bg = blend_colors(c.info, bg, 0.1), fg = c.info },
+          DiagnosticVirtualTextHint = { bg = blend_colors(c.hint, bg, 0.1), fg = c.hint },
         },
       })
       vim.o.background = "dark" -- or "light" for light mode

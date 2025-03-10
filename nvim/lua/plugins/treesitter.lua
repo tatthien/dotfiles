@@ -1,9 +1,26 @@
 return {
-  { "nvim-treesitter/playground", cmd = "TSPlaygroundToggle" },
-
   {
     "nvim-treesitter/nvim-treesitter",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter-textobjects",
+    },
+    build = ":TSUpdate",
+    version = false,
+    opts_extend = { "ensure_installed" },
     opts = {
+      highlight = {
+        enable = true,
+        -- Disable slow treesitter highlight for large files
+        -- https://github.com/fatih/dotfiles/blob/main/init.lua#L130C11-L137C15
+        disable = function(lang, buf)
+          local max_filesize = 100 * 1024 -- 100 KB
+          local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+          if ok and stats and stats.size > max_filesize then
+            return true
+          end
+        end,
+      },
+      indent = { enable = true },
       ensure_installed = {
         "astro",
         "cmake",
@@ -37,34 +54,48 @@ return {
         "python",
         "dockerfile",
       },
-
-      -- matchup = {
-      -- 	enable = true,
-      -- },
-
-      -- https://github.com/nvim-treesitter/playground#query-linter
-      query_linter = {
-        enable = true,
-        use_virtual_text = true,
-        lint_events = { "BufWrite", "CursorHold" },
-      },
-
-      playground = {
-        enable = true,
-        disable = {},
-        updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
-        persist_queries = true, -- Whether the query persists across vim sessions
-        keybindings = {
-          toggle_query_editor = "o",
-          toggle_hl_groups = "i",
-          toggle_injected_languages = "t",
-          toggle_anonymous_nodes = "a",
-          toggle_language_display = "I",
-          focus_language = "f",
-          unfocus_language = "F",
-          update = "R",
-          goto_node = "<cr>",
-          show_help = "?",
+      auto_install = true,
+      -- https://github.com/fatih/dotfiles/blob/main/init.lua#L145
+      textobjects = {
+        select = {
+          enable = true,
+          lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+          keymaps = {
+            -- You can use the capture groups defined in textobjects.scm
+            ["aa"] = "@parameter.outer",
+            ["ia"] = "@parameter.inner",
+            ["af"] = "@function.outer",
+            ["if"] = "@function.inner",
+            ["ac"] = "@class.outer",
+            ["ic"] = "@class.inner",
+            ["iB"] = "@block.inner",
+            ["aB"] = "@block.outer",
+          },
+        },
+        move = {
+          enable = true,
+          set_jumps = true, -- whether to set jumps in the jumplist
+          goto_next_start = {
+            ["]]"] = "@function.outer",
+          },
+          goto_next_end = {
+            ["]["] = "@function.outer",
+          },
+          goto_previous_start = {
+            ["[["] = "@function.outer",
+          },
+          goto_previous_end = {
+            ["[]"] = "@function.outer",
+          },
+        },
+        swap = {
+          enable = true,
+          swap_next = {
+            ["<leader>sn"] = "@parameter.inner",
+          },
+          swap_previous = {
+            ["<leader>sp"] = "@parameter.inner",
+          },
         },
       },
     },
@@ -79,5 +110,9 @@ return {
       })
       vim.treesitter.language.register("markdown", "mdx")
     end,
+  },
+  {
+    "windwp/nvim-ts-autotag",
+    opts = {},
   },
 }

@@ -2,7 +2,6 @@ return {
   {
     "neovim/nvim-lspconfig",
     config = function()
-      local lspconfig = require("lspconfig")
       local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
       -- nvim-cmp supports additional completion capabilities
@@ -10,7 +9,7 @@ return {
       capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
       capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-      -- Change the Diagnostic symbols in the sign column (gutter)
+      -- Change the Diagnostics signs
       local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
       for type, icon in pairs(signs) do
         local hl = "DiagnosticSign" .. type
@@ -41,6 +40,7 @@ return {
         "pyright",
       }
 
+      local lspconfig = require("lspconfig")
       for _, lsp in ipairs(servers) do
         lspconfig[lsp].setup({
           on_attach = on_attach,
@@ -104,12 +104,25 @@ return {
               },
               unusedLocalExclude = { "_*" },
             },
+            format = {
+              enable = false,
+              defaultConfig = {
+                indent_style = "space",
+                indent_size = "2",
+                continuation_indent_size = "2",
+              },
+            },
           },
         },
       })
 
       -- TypeScript
       lspconfig.ts_ls.setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+        root_dir = function(...)
+          return lspconfig.util.root_pattern(".git")(...)
+        end,
         init_options = {
           preferences = {
             disableSuggestions = false,
@@ -140,8 +153,6 @@ return {
             },
           },
         },
-        on_attach = on_attach,
-        capabilities = capabilities,
       })
 
       -- Python

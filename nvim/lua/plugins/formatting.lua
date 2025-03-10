@@ -3,15 +3,16 @@ return {
     "stevearc/conform.nvim",
     dependencies = { "mason.nvim" },
     lazy = true,
-    event = { "BufReadPre", "BufNewFile" },
+    event = { "BufWritePre" },
     keys = {
       {
+        -- Customize or remove this keymap to your liking
         "<leader>f",
         function()
-          require("conform").format({ async = true, lsp_format = "fallback" })
+          require("conform").format({ async = true })
         end,
         mode = "",
-        desc = "[F]ormat buffer",
+        desc = "Format buffer",
       },
     },
     config = function()
@@ -20,15 +21,15 @@ return {
         formatters_by_ft = {
           lua = { "stylua" },
           go = { "gofmt" },
-          javascript = { "biomejs" },
-          typescript = { "biomejs" },
-          typescriptreact = { "biomejs" },
-          javascriptreact = { "biomejs" },
-          css = { "biomejs" },
-          html = { "biomejs" },
-          json = { "biomejs" },
-          yaml = { "biomejs" },
-          markdown = { "biomejs" },
+          javascript = { "prettierd" },
+          typescript = { "prettierd" },
+          typescriptreact = { "prettierd" },
+          javascriptreact = { "prettierd" },
+          css = { "prettierd" },
+          html = { "prettierd" },
+          json = { "prettierd" },
+          yaml = { "prettierd" },
+          markdown = { "prettierd" },
         },
         format_on_save = {
           lsp_fallback = true,

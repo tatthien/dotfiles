@@ -1,6 +1,7 @@
 -- disable netrw at the very start of our init.lua, because we use nvim-tree
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
+
 vim.opt.termguicolors = true
 vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"
@@ -19,12 +20,13 @@ vim.opt.backup = false
 vim.opt.modifiable = true
 
 -- Indent settings
-vim.opt.expandtab = true
-vim.opt.smarttab = true
-vim.opt.shiftwidth = 2
-vim.opt.tabstop = 2
+vim.opt.expandtab = true -- Use spaces instead of tabs
+vim.opt.smarttab = true -- Don't ignore case with capitals
+vim.opt.shiftround = true
+vim.opt.shiftwidth = 2 -- Size of an indent
+vim.opt.tabstop = 2 -- Number of spaces tabs count for
 vim.opt.autoindent = true
-vim.opt.smartindent = true
+vim.opt.smartindent = true -- Insert indents automatically
 vim.opt.breakindent = true
 
 -- Disable line wrapping by default. Use <leader>z to toggle.

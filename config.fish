@@ -1,7 +1,6 @@
 set -gx EDITOR nvim
 
-# set -gx TERM screen-256color
-set -gx TERM tmux-256color
+# set -gx TERM tmux-256color
 
 set -gx VOLTA_HOME $HOME/.volta
 set -gx PATH $HOME/go/bin $PATH
