@@ -9,7 +9,7 @@ return {
         chunk = {
           enable = true,
           style = palette.purple_light,
-          duration = 100,
+          duration = 0,
           delay = 100,
         },
         line_num = {
