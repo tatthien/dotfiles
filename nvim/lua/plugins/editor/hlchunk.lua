@@ -14,7 +14,7 @@ return {
         },
         line_num = {
           enable = true,
-          style = palette.green_light,
+          style = palette.purple_light,
         },
         indent = {
           enable = true,
