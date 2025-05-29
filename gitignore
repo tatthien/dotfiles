@@ -9,3 +9,4 @@ local-runner.sh
 .madgerc
 ecosystem.config.cjs
 x.sh
+.aider*
