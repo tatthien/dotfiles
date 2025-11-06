@@ -22,6 +22,10 @@ set -gx PATH "$ANDROID_SDK_ROOT/platform-tools" $PATH
 set -gx PATH "$ANDROID_SDK_ROOT/emulator" $PATH
 set -gx PATH "$HOME/.jenv/bin" $PATH
 
+# NPM default directory
+# https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally#manually-change-npms-default-directory
+set -gx PATH "$HOME/.npm-global/bin" $PATH
+
 set -gx LC_ALL en_US.UTF-8
 
 # Disable fish greeting
@@ -48,16 +52,19 @@ if type -q eza
 end
 
 # Git
-alias gs='git status'
+alias gst='git status'
 alias gf='git fetch'
-alias gl='git log'
 alias ga='git add'
 alias gc='git commit'
-alias gp='git push'
+alias gca='git commit --amend'
+alias gps='git push'
+alias gpu='git pull'
 alias gh='git checkout'
+alias gl='git log'
 alias glo='git log --oneline'
 alias gfa='git fetch --all'
 alias gsi='git stash --include-untracked'
+alias lg='lazygit'
 
 alias cl='clear'
 ###### ALIAS ######
