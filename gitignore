@@ -10,3 +10,5 @@ local-runner.sh
 ecosystem.config.cjs
 x.sh
 .aider*
+.serena*
+.claude*
