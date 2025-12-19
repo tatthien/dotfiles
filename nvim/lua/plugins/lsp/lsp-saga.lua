@@ -30,6 +30,7 @@ return {
       map("gd", "<Cmd>Lspsaga goto_definition<CR>", "LSP: goto definition")
       map("gl", "<Cmd>Lspsaga show_buf_diagnostics<CR>", "LSP: show diagnostics in the current buffer")
       map("gw", "<Cmd>Lspsaga show_workspace_diagnostics<CR>", "LSP: show diagnostics in the current workspace")
+      map("gsf", "<Cmd>Lspsaga finder<CR>", "Lspsaga: show finder")
       map("gi", require("telescope.builtin").lsp_implementations, "LSP: goto implementation")
       map("gf", require("telescope.builtin").lsp_references, "LSP: show references")
       map("gD", require("telescope.builtin").lsp_type_definitions, "LSP: goto type definition")
