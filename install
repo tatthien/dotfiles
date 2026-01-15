@@ -15,6 +15,7 @@ ln -sfv ~/dotfiles/nvim ~/.config
 ln -sfv ~/dotfiles/alacritty ~/.config
 ln -sfv ~/dotfiles/kitty ~/.config
 ln -sfv ~/dotfiles/opencode ~/.config
+ln -sfv ~/dotfiles/ghostty ~/.config
 ln -sfv ~/dotfiles/.tmux.conf ~/.tmux.conf
 ln -sfv ~/dotfiles/tmuxline ~/.config/tmuxline
 ln -sfv ~/dotfiles/starship.toml ~/.config

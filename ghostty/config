@@ -1,0 +1,6 @@
+font-family = JetBrainsMono Nerd Font
+font-size = 16
+theme = Gruvbox Dark
+window-padding-balance = true
+window-decoration = true
+keybind = shift+enter=text:\n
