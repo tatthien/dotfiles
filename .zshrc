@@ -7,6 +7,7 @@ plugins=(
   git
   zsh-autocomplete
   zsh-autosuggestions
+  z
 )
 
 source $ZSH/oh-my-zsh.sh
