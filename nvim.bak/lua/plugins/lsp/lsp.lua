@@ -316,6 +316,7 @@ return {
         "cssls",
         "cssmodules_ls",
         "pyright",
+        "copilot",
       }
 
       for _, lsp in ipairs(servers) do

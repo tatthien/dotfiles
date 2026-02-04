@@ -39,3 +39,6 @@ if [ -f '/Users/thien.nguyen/Downloads/google-cloud-sdk/completion.zsh.inc' ]; t
 # Starship prompt
 eval "$(starship init zsh)"
 export STARSHIP_CONFIG="$HOME/.config/starship.toml"
+
+# opencode
+export PATH=/Users/thien.nguyen/.opencode/bin:$PATH
