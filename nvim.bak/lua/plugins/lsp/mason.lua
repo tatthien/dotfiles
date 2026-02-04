@@ -32,7 +32,7 @@ return {
           "html",
           "cssls",
           "lua_ls",
-          "gopls",
+          -- "gopls",
           "prismals",
           "tflint",
           "terraformls",
