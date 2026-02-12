@@ -70,3 +70,10 @@ keymap.set("i", "<up>", "<Esc>:m .-2<CR>==gi")
 -- Save file
 keymap.set("i", "ww", "<Esc>:w<CR>")
 keymap.set("n", "<C-s>", ":w<CR>")
+
+-- Resize panes
+-- Resize with Alt + hjkl
+vim.keymap.set('n', '<A-k>', ':resize -2<CR>', { silent = true })
+vim.keymap.set('n', '<A-j>', ':resize +2<CR>', { silent = true })
+vim.keymap.set('n', '<A-h>', ':vertical resize -2<CR>', { silent = true })
+vim.keymap.set('n', '<A-l>', ':vertical resize +2<CR>', { silent = true })
