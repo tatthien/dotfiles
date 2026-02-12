@@ -9,20 +9,21 @@ return {
       capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
       capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-      -- Change the Diagnostics signs
-      local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
-      for type, icon in pairs(signs) do
-        local hl = "DiagnosticSign" .. type
-        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-      end
+      -- Configure diagnostics signs using the modern API
+      vim.diagnostic.config({
+        signs = {
+          text = {
+            [vim.diagnostic.severity.ERROR] = " ",
+            [vim.diagnostic.severity.WARN] = " ",
+            [vim.diagnostic.severity.HINT] = "󰠠 ",
+            [vim.diagnostic.severity.INFO] = " ",
+          },
+        },
+      })
 
       local on_attach = function(_, bufnr)
-        local function buf_set_option(...)
-          vim.api.nvim_buf_set_option(bufnr, ...)
-        end
-
         -- Enable completion triggered by <c-x><c-o>
-        buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
+        vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
       end
 
       -- TypeScript/JavaScript
