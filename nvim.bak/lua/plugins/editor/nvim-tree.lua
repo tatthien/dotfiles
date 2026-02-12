@@ -61,6 +61,12 @@ return {
           vim.keymap.set("n", "s", api.node.open.horizontal, opts("Open: Horizontal Split"))
           vim.keymap.set("n", "v", api.node.open.vertical, opts("Open: Vertical Split"))
           vim.keymap.set("n", "?", api.tree.toggle_help, opts("Help"))
+          vim.keymap.set('n', 'f', function()
+            local node = api.tree.get_node_under_cursor()
+            require('telescope.builtin').live_grep({
+              search_dirs = { node.absolute_path }
+            })
+          end, opts('Grep in Directory'))
         end,
       })
       -- Key maps

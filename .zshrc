@@ -5,7 +5,6 @@ ZSH_THEME="robbyrussell"
 
 plugins=(
   git
-  zsh-autocomplete
   zsh-autosuggestions
   z
 )
@@ -18,8 +17,10 @@ source $ZSH/oh-my-zsh.sh
 alias vim="nvim"
 alias g="gcloud"
 alias gfa="git fetch --all"
+alias gh="git checkout"
+alias gsi="git stash --include-untracked"
 alias dps="docker ps -a --format 'table {{.ID}}\\t{{.Names}}\\t{{.Status}}\t{{.Ports}}'"
-alias dotf="cd ~/dotfiles && vim"
+alias dot="cd ~/dotfiles && vim"
 
 # PATH
 export PATH="/Users/thien.nguyen/.local/bin:$PATH"
@@ -42,3 +43,11 @@ export STARSHIP_CONFIG="$HOME/.config/starship.toml"
 
 # opencode
 export PATH=/Users/thien.nguyen/.opencode/bin:$PATH
+
+# pnpm
+export PNPM_HOME="/Users/thien.nguyen/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
