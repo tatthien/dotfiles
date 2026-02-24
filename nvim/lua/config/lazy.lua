@@ -25,6 +25,7 @@ require("lazy").setup({
       },
     },
     -- import/override with your plugins
+    { import = "lazyvim.plugins.extras.ai.sidekick" },
     { import = "plugins" },
     { import = "plugins.overrides" },
   },
