@@ -26,6 +26,8 @@ require("lazy").setup({
     },
     -- import/override with your plugins
     { import = "lazyvim.plugins.extras.ai.sidekick" },
+    { import = "lazyvim.plugins.extras.formatting.prettier" },
+    { import = "lazyvim.plugins.extras.linting.eslint" },
     { import = "plugins" },
     { import = "plugins.overrides" },
   },
