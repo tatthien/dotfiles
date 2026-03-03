@@ -11,6 +11,8 @@ set -gx XDG_CONFIG_HOME $HOME/.config
 set -gx VOLTA_HOME "$HOME/.volta"
 set -gx PATH "$VOLTA_HOME/bin" $PATH
 set -gx PATH $HOME/.local/bin $PATH
+set -gx PATH $HOME/.nvim $PATH
+set -gx PATH $HOME/.opencode/bin $PATH
 
 set -gx LC_ALL en_US.UTF-8
 
@@ -30,8 +32,8 @@ alias m='minikube'
 alias s='serverless'
 
 if type -q eza
-  alias ll "eza -l -g --icons"
-  alias lla "ll -a"
+    alias ll "eza -l -g --icons"
+    alias lla "ll -a"
 end
 
 # Git
@@ -42,7 +44,7 @@ alias gc='git commit'
 alias gca='git commit --amend'
 alias gps='git push'
 alias gpu='git pull'
-alias gh='git checkout'
+alias gch='git checkout'
 alias gl='git log'
 alias glo='git log --oneline'
 alias gfa='git fetch --all'
@@ -53,46 +55,16 @@ alias cl='clear'
 ###### ALIAS ######
 
 ###### FUNCTIONS ######
-function qq
-    clear
-
-    set logpath "$TMPDIR/q"
-    if test -z "$TMPDIR"
-        set logpath "/tmp/q"
-    end
-
-    if test ! -f "$logpath"
-        echo 'Q LOG' > "$logpath"
-    end
-
-    tail -100f -- "$logpath"
-end
-
-function rmqq
-    set logpath "$TMPDIR/q"
-    if test -z "$TMPDIR"
-        set logpath "/tmp/q"
-    end
-    if test -f "$logpath"
-        rm "$logpath"
-    end
-    qq
-end
-
 function vim --wraps=nvim --description 'alias vim=nvim'
-  nvim $argv
+    nvim $argv
 end
 
 function cat --wraps=bat --description 'alias cat=bat'
-  bat $argv
+    bat $argv
 end
 
 ###### FUNCTIONS ######
-
 eval "$(/opt/homebrew/bin/brew shellenv)"
-
-# sst
-fish_add_path /Users/thien/.sst/bin
 
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
