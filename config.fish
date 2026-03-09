@@ -14,6 +14,10 @@ set -gx PATH $HOME/.local/bin $PATH
 set -gx PATH $HOME/.nvim $PATH
 set -gx PATH $HOME/.opencode/bin $PATH
 
+if set -q GHOSTTY_RESOURCES_DIR
+    source "$GHOSTTY_RESOURCES_DIR"/shell-integration/fish/vendor_conf.d/ghostty-shell-integration.fish
+end
+
 set -gx LC_ALL en_US.UTF-8
 
 # Disable fish greeting
