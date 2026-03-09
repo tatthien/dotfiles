@@ -5,7 +5,14 @@
     "@franlol/opencode-md-table-formatter@0.0.3"
   ],
   "autoupdate": true,
+  "theme": "gruvbox",
   "provider": {},
   "model": "github-copilot/claude-opus-4.6",
-  "mcp": {}
+  "mcp": {
+    "jira-atlassian": {
+      "type": "remote",
+      "url": "https://mcp.atlassian.com/v1/sse",
+      "oauth": {}
+    }
+  }
 }
