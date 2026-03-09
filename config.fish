@@ -77,3 +77,8 @@ set --export PATH $BUN_INSTALL/bin $PATH
 # Added by OrbStack: command-line tools and integration
 # This won't be added again if you remove it.
 source ~/.orbstack/shell/init2.fish 2>/dev/null || :
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/thien.nguyen/Downloads/google-cloud-sdk/path.fish.inc' ]
+    . '/Users/thien.nguyen/Downloads/google-cloud-sdk/path.fish.inc'
+end
