@@ -34,3 +34,23 @@ keymap.set("i", "<up>", "<Esc>:m .-2<CR>==gi")
 
 -- Save file
 keymap.set("i", "ww", "<Esc>:w<CR>")
+
+-- Open buffers list
+keymap.set("n", "w", ":b<space>")
+
+-- Open file exlorer
+keymap.set("n", "e", ":e<space>")
+
+-- Select all
+keymap.set("n", "<C-a>", "gg<S-v>G")
+
+-- Resize window
+keymap.set("n", "<A-h>", "<C-w><")
+keymap.set("n", "<A-l>", "<C-w>>")
+keymap.set("n", "<A-j>", "<C-w>+")
+keymap.set("n", "<A-k>", "<C-w>-")
+
+-- Diagnostics
+keymap.set("n", "<C-j>", function()
+  vim.diagnostic.goto_next()
+end, opts)
