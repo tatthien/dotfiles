@@ -13,6 +13,9 @@ return {
  ]],
         },
       },
+      explorer = {
+        enabled = false,
+      },
     },
     keys = {
       { "<leader>e", false },
