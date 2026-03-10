@@ -11,13 +11,11 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
-# Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias vim="nvim"
 alias g="gcloud"
 alias gfa="git fetch --all"
-alias gh="git checkout"
 alias gsi="git stash --include-untracked"
 alias dps="docker ps -a --format 'table {{.ID}}\\t{{.Names}}\\t{{.Status}}\t{{.Ports}}'"
 alias dot="cd ~/dotfiles && vim"
