@@ -3,6 +3,8 @@
 .nvmrc
 .vscode/
 .notes.md
+.notes/*
+.plans/*
 .envrc
 local-runner.sh
 .netlify
@@ -12,3 +14,4 @@ x.sh
 .aider*
 .serena*
 .claude*
+
