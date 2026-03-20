@@ -29,7 +29,7 @@ return {
         },
         git = {
           enable = true,
-          ignore = false,
+          ignore = true,
         },
         filters = {
           dotfiles = false,
