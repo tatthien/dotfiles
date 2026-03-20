@@ -13,6 +13,7 @@ set -gx PATH "$VOLTA_HOME/bin" $PATH
 set -gx PATH $HOME/.local/bin $PATH
 set -gx PATH $HOME/.nvim $PATH
 set -gx PATH $HOME/.opencode/bin $PATH
+set -gx PATH $HOME/.docker/bin $PATH
 
 if set -q GHOSTTY_RESOURCES_DIR
     source "$GHOSTTY_RESOURCES_DIR"/shell-integration/fish/vendor_conf.d/ghostty-shell-integration.fish
@@ -68,8 +69,6 @@ function cat --wraps=bat --description 'alias cat=bat'
 end
 
 ###### FUNCTIONS ######
-eval "$(/opt/homebrew/bin/brew shellenv)"
-
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
