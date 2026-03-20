@@ -3,3 +3,11 @@
 -- Add any additional options here
 
 vim.g.mapleader = "\\"
+vim.opt.listchars = {
+  eol = "↓",
+  space = "·",
+  trail = "●",
+  tab = "→⇥⇥",
+  extends = ">",
+  precedes = "<",
+}
