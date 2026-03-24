@@ -57,6 +57,8 @@ alias gsi='git stash --include-untracked'
 alias lg='lazygit'
 
 alias cl='clear'
+
+alias mypr='gh pr list --author "@me"'
 ###### ALIAS ######
 
 ###### FUNCTIONS ######
