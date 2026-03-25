@@ -54,3 +54,10 @@ keymap.set("n", "<A-k>", "<C-w>-")
 keymap.set("n", "<C-j>", function()
   vim.diagnostic.goto_next()
 end, opts)
+
+-- Quickly show git blame
+keymap.set("n", "bl", ":Gitsigns blame_line<CR>", opts)
+keymap.set("n", "bb", ":Gitsigns blame<CR>", opts)
+
+-- Quickly show git diff viewer
+keymap.set("n", "dv", ":GitDiffViewer<CR>", opts)
