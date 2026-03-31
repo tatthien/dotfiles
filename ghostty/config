@@ -1,7 +1,14 @@
+# Font configuration
 font-family = JetBrainsMono Nerd Font
 font-size = 15
-theme = Gruvbox Dark
+
+# Window settings
 window-padding-balance = true
 window-decoration = true
-keybind = shift+enter=text:\n
+
+# Theme
+theme = Gruvbox Dark
+
 shell-integration = fish
+
+

@@ -21,6 +21,11 @@ return {
             },
           },
         },
+        eslint = {
+          settings = {
+            workingDirectory = { mode = "auto" },
+          },
+        },
       },
     },
   },
