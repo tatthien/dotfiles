@@ -13,3 +13,5 @@ vim.opt.listchars = {
   extends = ">",
   precedes = "<",
 }
+
+vim.g.lazyvim_ts_lsp = "tsgo"
