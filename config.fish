@@ -14,6 +14,7 @@ set -gx PATH $HOME/.local/bin $PATH
 set -gx PATH $HOME/.nvim $PATH
 set -gx PATH $HOME/.opencode/bin $PATH
 set -gx PATH $HOME/.docker/bin $PATH
+set -gx PATH $HOME/Library/Python/3.14/bin $PATH
 
 if set -q GHOSTTY_RESOURCES_DIR
     source "$GHOSTTY_RESOURCES_DIR"/shell-integration/fish/vendor_conf.d/ghostty-shell-integration.fish
@@ -59,6 +60,8 @@ alias lg='lazygit'
 alias cl='clear'
 
 alias mypr='gh pr list --author "@me"'
+
+alias nvmuse='nvm install latest && nvm use'
 ###### ALIAS ######
 
 ###### FUNCTIONS ######

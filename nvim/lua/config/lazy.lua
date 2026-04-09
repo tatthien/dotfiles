@@ -25,7 +25,6 @@ require("lazy").setup({
       },
     },
     -- import/override with your plugins
-    { import = "lazyvim.plugins.extras.ai.sidekick" },
     { import = "lazyvim.plugins.extras.formatting.prettier" },
     { import = "lazyvim.plugins.extras.linting.eslint" },
     { import = "lazyvim.plugins.extras.lang.markdown" },
@@ -48,6 +47,9 @@ require("lazy").setup({
     enabled = true, -- check for plugin updates periodically
     notify = false, -- notify on update
   }, -- automatically check for plugin updates
+  rocks = {
+    enabled = false,
+  },
   performance = {
     rtp = {
       -- disable some rtp plugins
