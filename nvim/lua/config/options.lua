@@ -14,4 +14,5 @@ vim.opt.listchars = {
   precedes = "<",
 }
 
+-- Enable tsgo for Typescript LSP
 vim.g.lazyvim_ts_lsp = "tsgo"

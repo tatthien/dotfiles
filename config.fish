@@ -32,6 +32,9 @@ set -U fish_greeting
 # Starship
 starship init fish | source
 
+# FNM
+fnm env --use-on-cd --shell fish | source
+
 ###### ALIAS ######
 alias k='kubectl'
 alias m='minikube'
@@ -61,7 +64,6 @@ alias cl='clear'
 
 alias mypr='gh pr list --author "@me"'
 
-alias nvmuse='nvm install latest && nvm use'
 ###### ALIAS ######
 
 ###### FUNCTIONS ######
