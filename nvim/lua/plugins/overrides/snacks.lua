@@ -25,13 +25,13 @@ return {
         end,
         desc = "File Explorer",
       },
-      {
-        "ff",
-        function()
-          Snacks.picker.files()
-        end,
-        desc = "Find Files",
-      },
+      -- {
+      --   "ff",
+      --   function()
+      --     Snacks.picker.files()
+      --   end,
+      --   desc = "Find Files",
+      -- },
     },
   },
 }
