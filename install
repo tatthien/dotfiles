@@ -11,6 +11,7 @@ ln -sfv ~/dotfiles/starship.toml ~/.config
 ln -sfv ~/dotfiles/config.fish ~/.config/fish
 ln -sfv ~/dotfiles/gitignore ~/.config/.gitignore
 ln -sfv ~/dotfiles/.tmux-session-manager.sh ~/.tmux-session-manager.sh
+ln -sfv ~/dotfiles/worktrunk ~/.config
 
 echo ">>> setting up global .gitignore file: $GITIGNORE_PATH"
 git config --global core.excludesfile $GITIGNORE_PATH
