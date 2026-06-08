@@ -1,0 +1,10 @@
+[post-switch]
+tmux = "tmux new-session -d -s '{{ branch | sanitize }}' 2>/dev/null; tmux switch-client -t '{{ branch | sanitize }}'"
+
+[post-remove]
+tmux = "tmux switch-client -t main; tmux kill-session -t '{{ branch | sanitize }}' 2>/dev/null"
+
+[[post-start]]
+install = "pnpm install"
+link-feature-toggle = "ln -sf '{{ primary_worktree_path }}/feature-toggle.json' '{{ worktree_path }}/feature-toggle.json'"
+link-common-secret = "ln -sf '{{ primary_worktree_path }}/config/common-secrets.json' '{{ worktree_path }}/config/common-secrets.json'"
