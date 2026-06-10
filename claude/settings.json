@@ -1,0 +1,93 @@
+{
+  "includeCoAuthoredBy": false,
+  "permissions": {
+    "allow": [
+      "mcp__codegraph__codegraph_search",
+      "mcp__codegraph__codegraph_context",
+      "mcp__codegraph__codegraph_callers",
+      "mcp__codegraph__codegraph_callees",
+      "mcp__codegraph__codegraph_impact",
+      "mcp__codegraph__codegraph_node",
+      "mcp__codegraph__codegraph_status"
+    ],
+    "defaultMode": "auto"
+  },
+  "availableModels": [
+    "opus",
+    "opus[1m]",
+    "sonnet",
+    "sonnet[1m]",
+    "haiku",
+    "opusplan"
+  ],
+  "hooks": {
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "osascript -e 'display notification \"🔔 Claude needs your input\" with title \"Claude Code\"'"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "osascript -e 'display notification \"🔔 Claude needs your attention\" with title \"Claude Code\"'"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "osascript -e 'display notification \"✅ Task completed\" with title \"Claude Code\"'"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "$HOME/.claude/statusline-command.sh"
+  },
+  "enabledPlugins": {
+    "typescript-lsp@claude-plugins-official": true,
+    "lua-lsp@claude-plugins-official": true,
+    "figma@claude-plugins-official": true,
+    "skill-creator@claude-plugins-official": true,
+    "andrej-karpathy-skills@karpathy-skills": true,
+    "chrome-devtools-mcp@claude-plugins-official": true,
+    "playground@claude-plugins-official": true,
+    "claude-mem@thedotmack": true
+  },
+  "extraKnownMarketplaces": {
+    "anthropic-agent-skills": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/skills"
+      }
+    },
+    "karpathy-skills": {
+      "source": {
+        "source": "github",
+        "repo": "forrestchang/andrej-karpathy-skills"
+      }
+    },
+    "thedotmack": {
+      "source": {
+        "source": "github",
+        "repo": "thedotmack/claude-mem"
+      }
+    }
+  },
+  "channelsEnabled": true,
+  "skipDangerousModePermissionPrompt": true,
+  "skipAutoPermissionPrompt": true,
+  "model": "claude-opus-4-8[1m]"
+}
