@@ -12,8 +12,8 @@ ln -sfv ~/dotfiles/gitignore ~/.config/.gitignore
 ln -sfv ~/dotfiles/worktrunk ~/.config
 
 # Tmux
-ln -sfv ~/dotfiles/.tmux.conf ~/.tmux.conf
-ln -sfv ~/dotfiles/.tmux-session-manager.sh ~/.tmux-session-manager.sh
+ln -sfv ~/dotfiles/tmux/tmux.conf ~/.tmux.conf
+ln -sfv ~/dotfiles/tmux/tmux-session-manager.sh ~/.tmux-session-manager.sh
 
 # Claude Code (settings.local.json stays local — it holds the telemetry secret)
 ln -sfv ~/dotfiles/claude/settings.json ~/.claude/settings.json
