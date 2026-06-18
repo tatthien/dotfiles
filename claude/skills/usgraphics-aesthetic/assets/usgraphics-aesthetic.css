@@ -1,0 +1,560 @@
+/* ============================================================================
+   US Graphics Aesthetic Design System
+   ----------------------------------------------------------------------------
+   A small, dependency-free CSS design system in the "engineering graphics"
+   aesthetic: white paper, true-black ink, system-ui sans type (monospace only
+   for code), hairline + dotted rules, bordered data tables with gray header
+   rows, tab-style navigation with a red active dot, classic-blue links, green
+   "go" buttons, amber primary buttons, and build/version tags.
+
+   Dense, flat, explicit — a technical specification sheet, not an editorial
+   page. The opposite of minimalism: as complex as it needs to be, no more.
+
+   Style reference: https://usgraphics.com/ and https://neil.computer/
+
+   USAGE
+     Paste this file inline into a <style> block in <head>, then compose with
+     the .us-* component classes below.
+
+   CONTENTS
+     1. Tokens            :root custom properties (color, type, space, lines)
+     2. Base              reset, body, links, code, headings, rules
+     3. Layout            .us-sheet, .us-wrap, .us-section, masthead
+     4. Navigation        .us-nav / .us-tab (active = red dot)
+     5. Type helpers      .us-label, .us-h1/.us-h2, .us-def, .us-lead
+     6. Tables            .us-table (gray thead, hairline rows), .us-list
+     7. Surfaces & grid   .us-card, .us-fig, .us-grid-2/3/4
+     8. Pills & tags      .us-tag (+ .is-prod / .is-version), .us-badge
+     9. Controls          .us-btn (+ .is-primary / .is-go)
+    10. Callout & footer  .us-callout, .us-footer, .us-kbd
+   ========================================================================== */
+
+/* 1. ── Tokens ──────────────────────────────────────────────────────────── */
+:root {
+	/* Surfaces & ink */
+	--us-bg: #eeeeee; /* gray surround behind the sheet (usgraphics body bg) */
+	--us-paper: #ffffff; /* the sheet / cards / cells */
+	--us-fill: #ededed; /* gray fill — table headers, button rests */
+	--us-fill-2: #f7f7f7; /* faint zebra fill */
+	--us-ink: #000000; /* primary ink — true black */
+	--us-ink-soft: #444444; /* secondary text */
+	--us-ink-mute: #8a8a8a; /* footnotes, disabled, gray UI text */
+
+	/* Lines */
+	--us-line: #cccccc; /* hairline borders / table cells */
+	--us-line-strong: #000000; /* heavy frame / emphasis borders */
+
+	/* Spot colors (use sparingly, each with one job) */
+	--us-blue: #002dce; /* hyperlinks (usgraphics link blue) */
+	--us-green: #137752; /* "go" buttons, PROD / status tags (usgraphics success) */
+	--us-amber: #ffb700; /* primary action button — black ink on gold (usgraphics gold) */
+	--us-red: #e7040f; /* alerts, NEW badge (usgraphics error red) */
+	--us-red-bright: #ff4136; /* the active-tab dot / live indicator (usgraphics red) */
+
+	/* Semantic aliases (override these to re-theme without touching components) */
+	--us-accent: var(--us-blue); /* links / accent */
+	--us-positive: var(--us-green); /* go / ok / live */
+	--us-negative: var(--us-red); /* alert / stop / error */
+	--us-primary: var(--us-amber); /* primary call-to-action */
+
+	/* Type — system-ui sans for everything; monospace is reserved for code only. */
+	--us-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+		"Helvetica Neue", Arial, sans-serif;
+	--us-mono: ui-monospace, "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas,
+		"Liberation Mono", "Courier New", monospace;
+
+	/* Space scale (tight — this aesthetic is dense) */
+	--us-space-1: 6px;
+	--us-space-2: 12px;
+	--us-space-3: 20px;
+	--us-space-4: 36px;
+	--us-space-5: 56px;
+
+	/* Lines & motion — sharp corners, hairline borders, near-zero radius */
+	--us-radius: 0px; /* the system is square; only the sheet is softened */
+	--us-radius-sheet: 8px;
+	--us-border: 1px solid var(--us-line);
+	--us-border-ink: 1px solid var(--us-ink);
+	--us-border-bold: 1.5px solid var(--us-ink); /* buttons — matches usgraphics' .1rem stroke */
+	/* Hard offset drop shadow — the signature depth cue, exactly as usgraphics:
+	   a tight 2px/2px offset, ZERO blur, ZERO spread, flat gray. The ONLY shadow
+	   in the system — never use a soft/blurred one. --us-shadow for surfaces &
+	   tabs; --us-shadow-strong (a touch darker) for buttons. */
+	--us-shadow-color: #dddddd;
+	--us-shadow-color-strong: #bbbbbb;
+	--us-shadow: 2px 2px var(--us-shadow-color);
+	--us-shadow-strong: 2px 2px var(--us-shadow-color-strong);
+	--us-ease: 90ms linear;
+}
+
+/* 2. ── Base ────────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+html {
+	scroll-behavior: smooth;
+}
+body {
+	margin: 0;
+	background: var(--us-bg);
+	color: var(--us-ink);
+	font-family: var(--us-sans);
+	font-size: 13.5px;
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+}
+
+a {
+	color: var(--us-accent);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+	text-decoration-thickness: 1px;
+}
+a:hover {
+	color: var(--us-accent);
+	text-decoration: none;
+}
+
+code,
+.us-mono {
+	font-family: var(--us-mono);
+}
+code {
+	background: var(--us-fill);
+	border: var(--us-border);
+	padding: 0 4px;
+	font-size: 0.95em;
+}
+
+/* Headings are just bold sans — differ by weight and size only. */
+h1,
+h2,
+h3,
+h4,
+.us-h1,
+.us-h2,
+.us-h3 {
+	font-family: var(--us-sans);
+	font-weight: 700;
+	letter-spacing: -0.01em;
+	margin: 0;
+}
+.us-h1 {
+	font-size: 22px;
+	line-height: 1.2;
+}
+.us-h2 {
+	font-size: 16px;
+}
+.us-h3 {
+	font-size: 13.5px;
+}
+
+p {
+	margin: 0 0 var(--us-space-2);
+	max-width: 70ch;
+}
+
+hr,
+.us-rule {
+	border: 0;
+	border-top: 1px solid var(--us-ink);
+	margin: var(--us-space-3) 0;
+	height: 0;
+}
+/* dotted divider — the workhorse section separator */
+.us-rule.is-dotted {
+	border-top: 1px dotted var(--us-ink);
+}
+/* "ruler" tick rule — a measured engineering divider */
+.us-rule.is-ticked {
+	height: 7px;
+	border-top: 1px solid var(--us-ink);
+	background-image: repeating-linear-gradient(
+		to right,
+		var(--us-ink) 0,
+		var(--us-ink) 1px,
+		transparent 1px,
+		transparent 6px
+	);
+	background-position: top left;
+	background-repeat: repeat-x;
+	background-size: 6px 4px;
+}
+
+/* 3. ── Layout ──────────────────────────────────────────────────────────── */
+/* The sheet: a framed white page floating on the gray surround. Optional —
+   omit .us-sheet and put .us-wrap straight on the body for a flush layout. */
+.us-sheet {
+	max-width: 960px;
+	margin: 28px auto;
+	background: var(--us-paper);
+	border: 1px solid var(--us-ink-mute); /* #888-ish hairline frame, as on usgraphics */
+	border-radius: var(--us-radius); /* square — usgraphics has no rounded sheet */
+	box-shadow: 2px 2px #cccccc;
+	padding: 28px 32px 20px;
+}
+.us-wrap {
+	max-width: 960px;
+	margin: 0 auto;
+	padding: 0 4px;
+}
+
+.us-masthead {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	padding-bottom: 14px;
+}
+.us-masthead .title {
+	font-weight: 700;
+	font-size: 15px;
+	white-space: nowrap;
+}
+
+.us-section {
+	margin-top: var(--us-space-4);
+	scroll-margin-top: 20px;
+}
+
+/* 4. ── Navigation (tab strip) ──────────────────────────────────────────── */
+.us-nav {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin: 6px 0 4px;
+}
+.us-tab {
+	appearance: none;
+	cursor: pointer;
+	font-family: var(--us-sans);
+	font-size: 13px;
+	color: var(--us-ink);
+	background: var(--us-paper);
+	border: var(--us-border-ink);
+	border-radius: var(--us-radius);
+	padding: 5px 16px;
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+	box-shadow: var(--us-shadow);
+	transition: background var(--us-ease), color var(--us-ease);
+	text-decoration: none;
+}
+/* hover inverts the tab to solid black with white ink — the usgraphics
+   interaction. The hard shadow stays put; nothing translates. */
+.us-tab:hover {
+	background: var(--us-ink);
+	color: var(--us-paper);
+}
+.us-tab.active {
+	font-weight: 700;
+}
+.us-tab.active::before {
+	content: "";
+	width: 9px;
+	height: 9px;
+	border-radius: 50%;
+	background: var(--us-red-bright);
+	border: 1px solid var(--us-ink);
+	flex-shrink: 0;
+}
+/* keep the active tab readable (white field + red dot) even on hover */
+.us-tab.active:hover {
+	background: var(--us-paper);
+	color: var(--us-ink);
+}
+
+/* 5. ── Type helpers ────────────────────────────────────────────────────── */
+/* Section label — small bold marker that titles a block. */
+.us-label {
+	font-weight: 700;
+	font-size: 13.5px;
+	margin: 0 0 8px;
+}
+.us-label .arr {
+	font-weight: 400;
+	color: var(--us-accent);
+}
+
+/* Definition block — "Term — gloss", the italic dictionary motif. */
+.us-def {
+	font-style: italic;
+	color: var(--us-ink-soft);
+	border-left: 2px solid var(--us-ink);
+	padding-left: 14px;
+	margin: 0 0 var(--us-space-2);
+	max-width: 64ch;
+}
+.us-def b {
+	font-style: normal;
+	font-weight: 700;
+	color: var(--us-ink);
+}
+
+/* Lead/supporting paragraph */
+.us-lead {
+	color: var(--us-ink-soft);
+	max-width: 66ch;
+	margin: 0 0 var(--us-space-2);
+}
+.us-lead b {
+	color: var(--us-ink);
+	font-weight: 700;
+}
+
+/* 6. ── Tables & ruled lists ────────────────────────────────────────────── */
+/* Bordered data table with a gray header row — the core information surface. */
+.us-table {
+	width: 100%;
+	border-collapse: collapse;
+	border: var(--us-border);
+	box-shadow: var(--us-shadow);
+	font-size: 13px;
+}
+.us-table th {
+	text-align: left;
+	font-weight: 700;
+	background: var(--us-fill);
+	border: var(--us-border);
+	padding: 6px 10px;
+}
+.us-table td {
+	border: var(--us-border);
+	padding: 6px 10px;
+	vertical-align: top;
+}
+.us-table tbody tr:hover {
+	background: var(--us-fill-2);
+}
+/* a label/value table: first column is a bold key */
+.us-table.is-keyed td:first-child {
+	font-weight: 700;
+	white-space: nowrap;
+	width: 1%;
+	background: var(--us-fill-2);
+}
+
+/* Ruled list — each item a hairline row (the "design philosophy" motif). */
+.us-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	border: var(--us-border);
+}
+.us-list > li {
+	padding: 6px 10px;
+	border-top: var(--us-border);
+}
+.us-list > li:first-child {
+	border-top: 0;
+}
+.us-list > li em {
+	font-style: italic;
+}
+
+/* 7. ── Surfaces & grid ─────────────────────────────────────────────────── */
+/* A bordered cell. Quiet by default; add .is-hover for a fill-tint on hover. */
+.us-card {
+	background: var(--us-paper);
+	border: var(--us-border-ink);
+	padding: 16px;
+}
+.us-card.is-hover {
+	transition: background var(--us-ease);
+	cursor: pointer;
+}
+.us-card.is-hover:hover {
+	background: var(--us-fill-2);
+}
+
+/* Figure frame — a bordered exhibit with a caption ("FIG. 1"). */
+.us-fig {
+	border: var(--us-border-ink);
+}
+.us-fig .body {
+	padding: 22px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 96px;
+}
+.us-fig figcaption {
+	border-top: var(--us-border);
+	background: var(--us-fill);
+	padding: 4px 10px;
+	font-size: 11.5px;
+	color: var(--us-ink-soft);
+}
+
+.us-grid-2,
+.us-grid-3,
+.us-grid-4 {
+	display: grid;
+	gap: -1px; /* collapse shared borders visually */
+	gap: 12px;
+}
+.us-grid-2 { grid-template-columns: repeat(2, 1fr); }
+.us-grid-3 { grid-template-columns: repeat(3, 1fr); }
+.us-grid-4 { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 720px) {
+	.us-grid-3,
+	.us-grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 460px) {
+	.us-grid-2,
+	.us-grid-3,
+	.us-grid-4 { grid-template-columns: 1fr; }
+}
+
+/* 8. ── Pills & tags ────────────────────────────────────────────────────── */
+/* Bordered mono chip stating a fact. Square corners — this is not a soft pill. */
+.us-tag {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 11.5px;
+	font-weight: 700;
+	color: var(--us-ink);
+	background: var(--us-paper);
+	border: var(--us-border-ink);
+	border-radius: var(--us-radius);
+	padding: 1px 7px;
+}
+/* status tag (e.g. PROD / LIVE) — solid green block */
+.us-tag.is-prod {
+	background: var(--us-positive);
+	border-color: var(--us-positive);
+	color: var(--us-paper);
+}
+/* version readout — paired with .is-prod; a bordered build number */
+.us-tag.is-version {
+	background: var(--us-paper);
+	color: var(--us-ink);
+	letter-spacing: 0.04em;
+}
+
+/* Alert badge — the red "NEW!" / "WARNING" marker. Use rarely. */
+.us-badge {
+	display: inline-block;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--us-paper);
+	background: var(--us-negative);
+	padding: 2px 8px;
+	border-radius: var(--us-radius);
+}
+
+/* 9. ── Controls ────────────────────────────────────────────────────────── */
+/* Small rectangular action button, usually with a trailing "→". */
+.us-btn {
+	appearance: none;
+	cursor: pointer;
+	font-family: var(--us-sans);
+	font-size: 12.5px;
+	font-weight: 700;
+	color: var(--us-ink);
+	background: var(--us-paper);
+	border: var(--us-border-bold);
+	border-radius: var(--us-radius);
+	padding: 4px 12px;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	text-decoration: none;
+	box-shadow: var(--us-shadow-strong);
+	transition: background var(--us-ease), color var(--us-ease);
+}
+/* default (secondary) button inverts to solid black on hover, like usgraphics'
+   .btn — white ink, the hard shadow stays, nothing moves. */
+.us-btn:hover {
+	background: var(--us-ink);
+	color: var(--us-paper);
+	text-decoration: none;
+}
+.us-btn:disabled {
+	opacity: 0.5;
+	cursor: default;
+	box-shadow: none;
+}
+/* primary call-to-action — amber field, black ink */
+.us-btn.is-primary {
+	background: var(--us-primary);
+	border-color: var(--us-ink);
+	color: var(--us-ink);
+}
+.us-btn.is-primary:hover {
+	background: var(--us-primary);
+	color: var(--us-ink);
+	filter: brightness(0.94);
+}
+/* "go"/affirmative — green field, white ink (the "Read →" button) */
+.us-btn.is-go {
+	background: var(--us-positive);
+	border-color: var(--us-positive);
+	color: var(--us-paper);
+}
+.us-btn.is-go:hover {
+	background: var(--us-positive);
+	filter: brightness(1.08);
+	color: var(--us-paper);
+}
+
+/* 10. ── Callout & footer ───────────────────────────────────────────────── */
+/* A boxed note. Default is neutral; .is-alert tints it red, .is-go green. */
+.us-callout {
+	border: var(--us-border-ink);
+	border-left-width: 3px;
+	padding: 10px 14px;
+	background: var(--us-paper);
+	font-size: 13px;
+}
+.us-callout b {
+	font-weight: 700;
+}
+.us-callout.is-alert {
+	border-left-color: var(--us-negative);
+}
+.us-callout.is-go {
+	border-left-color: var(--us-positive);
+}
+
+.us-kbd {
+	font-family: var(--us-mono);
+	font-size: 11px;
+	background: var(--us-fill);
+	border: var(--us-border-ink);
+	border-radius: 3px;
+	padding: 0 5px;
+}
+
+.us-footer {
+	margin-top: var(--us-space-5);
+	border-top: 1px dotted var(--us-ink);
+	padding-top: 12px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 16px;
+	flex-wrap: wrap;
+	font-size: 11px;
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
+	color: var(--us-ink-mute);
+}
+.us-footer .build {
+	display: inline-flex;
+	gap: 0;
+	text-transform: none;
+	letter-spacing: 0;
+}
+.us-footer .build .us-tag {
+	border-radius: 0;
+}
+.us-footer .build .us-tag:last-child {
+	border-left: 0;
+}

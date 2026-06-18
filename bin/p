@@ -1,0 +1,80 @@
+#!/usr/bin/env node
+// p — personal workday CLI. Dispatches to namespaced subcommands.
+//
+// Subcommands live in commands/ as modules. The file path maps to the
+// subcommand name with "/" → ":", e.g. commands/tmux/port.js is run as
+// `p tmux:port`. Drop a new module in and it's discovered automatically.
+//
+// Usage:
+//   p                    list available subcommands
+//   p <name> [args...]   run a subcommand, e.g. p tmux:port 3000
+//   p -h | --help        show this help
+
+const fs = require("node:fs");
+const path = require("node:path");
+
+const COMMANDS_DIR = path.join(__dirname, "commands");
+
+// Discover every *.js module under p-commands/, keyed by its ":"-joined
+// relative path (sans extension).
+function discover() {
+  const commands = new Map();
+  const walk = (dir, parts) => {
+    if (!fs.existsSync(dir)) return;
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      if (entry.isDirectory()) {
+        walk(path.join(dir, entry.name), [...parts, entry.name]);
+      } else if (entry.name.endsWith(".js")) {
+        const name = [...parts, entry.name.slice(0, -3)].join(":");
+        commands.set(name, path.join(dir, entry.name));
+      }
+    }
+  };
+  walk(COMMANDS_DIR, []);
+  return commands;
+}
+
+function list(commands) {
+  process.stdout.write("p — personal workday CLI\n\nSubcommands:\n");
+  if (commands.size === 0) {
+    process.stdout.write("  (none yet)\n");
+    return;
+  }
+  const names = [...commands.keys()].sort();
+  const width = Math.max(...names.map((n) => n.length));
+  for (const name of names) {
+    let description = "";
+    try {
+      description = require(commands.get(name)).description || "";
+    } catch {
+      description = "(failed to load)";
+    }
+    process.stdout.write(`  ${name.padEnd(width)}  ${description}\n`);
+  }
+}
+
+function main() {
+  const [name, ...rest] = process.argv.slice(2);
+  const commands = discover();
+
+  if (!name || name === "-h" || name === "--help" || name === "help") {
+    list(commands);
+    process.exit(0);
+  }
+
+  const modulePath = commands.get(name);
+  if (!modulePath) {
+    process.stderr.write(`p: unknown subcommand: ${name}\n\n`);
+    list(commands);
+    process.exit(1);
+  }
+
+  const command = require(modulePath);
+  if (typeof command.run !== "function") {
+    process.stderr.write(`p: subcommand "${name}" has no run() export\n`);
+    process.exit(1);
+  }
+  command.run(rest);
+}
+
+main();

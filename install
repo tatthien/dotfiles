@@ -6,12 +6,27 @@ echo ">>> creating symbolic links"
 ln -sfv ~/dotfiles/nvim ~/.config
 ln -sfv ~/dotfiles/opencode ~/.config
 ln -sfv ~/dotfiles/ghostty ~/.config
-ln -sfv ~/dotfiles/.tmux.conf ~/.tmux.conf
 ln -sfv ~/dotfiles/starship.toml ~/.config
 ln -sfv ~/dotfiles/config.fish ~/.config/fish
 ln -sfv ~/dotfiles/gitignore ~/.config/.gitignore
-ln -sfv ~/dotfiles/.tmux-session-manager.sh ~/.tmux-session-manager.sh
 ln -sfv ~/dotfiles/worktrunk ~/.config
+
+# Tmux
+ln -sfv ~/dotfiles/.tmux.conf ~/.tmux.conf
+ln -sfv ~/dotfiles/.tmux-session-manager.sh ~/.tmux-session-manager.sh
+
+# Claude Code (settings.local.json stays local — it holds the telemetry secret)
+ln -sfv ~/dotfiles/claude/settings.json ~/.claude/settings.json
+ln -sfv ~/dotfiles/claude/CLAUDE.md ~/.claude/CLAUDE.md
+ln -sfv ~/dotfiles/claude/statusline-command.sh ~/.claude/statusline-command.sh
+ln -sfnv ~/dotfiles/claude/agents ~/.claude/agents
+ln -sfnv ~/dotfiles/claude/skills ~/.claude/skills
+
+# Personal bin utils (~/.local/bin is on PATH)
+mkdir -p ~/.local/bin
+for util in ~/dotfiles/bin/*; do
+  [ -f "$util" ] && ln -sfv "$util" ~/.local/bin/
+done
 
 echo ">>> setting up global .gitignore file: $GITIGNORE_PATH"
 git config --global core.excludesfile $GITIGNORE_PATH

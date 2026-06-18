@@ -16,6 +16,8 @@ set -gx PATH $HOME/.opencode/bin $PATH
 set -gx PATH $HOME/.docker/bin $PATH
 set -gx PATH $HOME/Library/Python/3.14/bin $PATH
 
+set -gx DOCKER_HOST unix://$HOME/.orbstack/run/docker.sock
+
 if set -q GHOSTTY_RESOURCES_DIR
     source "$GHOSTTY_RESOURCES_DIR"/shell-integration/fish/vendor_conf.d/ghostty-shell-integration.fish
 end
@@ -34,6 +36,9 @@ starship init fish | source
 
 # FNM
 fnm env --use-on-cd --shell fish | source
+
+# Direnv
+direnv hook fish | source
 
 ###### ALIAS ######
 alias k='kubectl'

@@ -1,2 +1,5 @@
 nvim/plugged
 .aider*
+
+# Claude Code local settings hold the telemetry secret — never commit
+claude/settings.local.json

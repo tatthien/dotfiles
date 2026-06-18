@@ -8,3 +8,45 @@ tmux = "tmux switch-client -t main; tmux kill-session -t '{{ branch | sanitize }
 install = "pnpm install"
 link-feature-toggle = "ln -sf '{{ primary_worktree_path }}/feature-toggle.json' '{{ worktree_path }}/feature-toggle.json'"
 link-common-secret = "ln -sf '{{ primary_worktree_path }}/config/common-secrets.json' '{{ worktree_path }}/config/common-secrets.json'"
+link-envrc = "ln -sf '{{ primary_worktree_path }}/.envrc' '{{ worktree_path }}/.envrc'"
+
+[aliases]
+# wt jira <number|key|url>: fetch the ticket -> confirm -> crush names the
+# branch from the real ticket content -> confirm -> create the worktree.
+# Confirmations read from /dev/tty so they work inside worktrunk's alias subshell.
+jira = '''
+# worktrunk already shell-quotes {{ args }}, so do NOT add quotes here.
+ticket=$(printf '%s' {{ args }} | sed 's|.*/browse/||' | tr '[:lower:]' '[:upper:]')
+case "$ticket" in
+  DEV-*) ;;
+  *) ticket="DEV-$ticket" ;;
+esac
+num=$(printf '%s' "$ticket" | sed 's/[^0-9]//g')
+
+# 1) Fetch + show the ticket; confirm it is the right one.
+info=$(acli jira workitem view "$ticket" --fields summary,description 2>/dev/null)
+test -n "$info" || { echo "wt jira: could not fetch $ticket (check acli auth)" >&2; exit 1; }
+printf '\n%s\n\n' "$info" >&2
+printf 'Use this ticket? [Y/n] ' >&2
+read -r ok < /dev/tty
+case "$ok" in [nN]*) echo "Aborted." >&2; exit 0 ;; esac
+
+# 2) Generate the branch name from the fetched content (piped to crush, no MCP).
+branch=$(printf '%s' "$info" | crush run "Based on the Jira ticket above, output a git branch name in the form dev-$num-descriptive-slug: lowercase, hyphenated, max 50 chars, clearly conveying what the ticket is about. Output ONLY the branch name on one line — no explanation, no markdown, no quotes.")
+test -n "$branch" || { echo "wt jira: crush returned no branch name" >&2; exit 1; }
+
+# 3) Confirm the generated name; only then create the worktree.
+printf "Branch: '%s'\n[Y]es create  [e]dit name  [n]o cancel: " "$branch" >&2
+read -r ok2 < /dev/tty
+case "$ok2" in
+  [eE]*)
+    # Editable prompt pre-filled with the generated name (bash readline -e -i).
+    edited=$(bash -c 'read -r -e -i "$1" -p "branch> " name < /dev/tty; printf "%s" "$name"' _ "$branch")
+    branch=$(printf '%s' "$edited" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+    test -n "$branch" || { echo "Aborted (empty name)." >&2; exit 0; }
+    ;;
+  [nN]*) echo "Aborted." >&2; exit 0 ;;
+  *) ;;
+esac
+wt switch --create "$branch"
+'''
