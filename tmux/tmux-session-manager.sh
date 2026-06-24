@@ -9,6 +9,8 @@ selected=$(echo "$sessions" | fzf \
   --header="Enter: switch   Ctrl+n: new   Ctrl+d: delete" \
   --bind "ctrl-d:execute(tmux kill-session -t {})+reload(tmux list-sessions -F '#{session_name}')" \
   --bind "ctrl-n:execute(tmux new-session -d -s {q})+reload(tmux list-sessions -F '#{session_name}')" \
+  --preview="tmux capture-pane -ep -t {}" \
+  --preview-window='right,62%,nowrap' \
   --height=100% \
   --info=default)
 
