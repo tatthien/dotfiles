@@ -1,6 +1,6 @@
 # Font configuration
 font-family = JetBrainsMono Nerd Font
-font-size = 15
+font-size = 16
 
 # Window settings
 window-padding-balance = true
