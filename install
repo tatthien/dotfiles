@@ -14,11 +14,16 @@ ln -sfv ~/dotfiles/worktrunk ~/.config
 # Tmux
 ln -sfv ~/dotfiles/tmux/tmux.conf ~/.tmux.conf
 ln -sfv ~/dotfiles/tmux/tmux-session-manager.sh ~/.tmux-session-manager.sh
+ln -sfv ~/dotfiles/tmux/tmux-sb.sh ~/.tmux-sb.sh
 
 # Claude Code (settings.local.json stays local — it holds the telemetry secret)
 ln -sfv ~/dotfiles/claude/settings.json ~/.claude/settings.json
 ln -sfv ~/dotfiles/claude/CLAUDE.md ~/.claude/CLAUDE.md
+ln -sfv ~/dotfiles/claude/tone-of-voice.md ~/.claude/tone-of-voice.md
 ln -sfv ~/dotfiles/claude/statusline-command.sh ~/.claude/statusline-command.sh
+# block-git-gh-writes.sh is referenced by absolute path from settings.json hooks,
+# so it needs no symlink — just keep it executable.
+chmod +x ~/dotfiles/claude/hooks/block-git-gh-writes.sh
 ln -sfnv ~/dotfiles/claude/agents ~/.claude/agents
 ln -sfnv ~/dotfiles/claude/skills ~/.claude/skills
 
