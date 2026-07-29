@@ -6,9 +6,9 @@ sessions=$(tmux list-sessions -F "#{session_name}" 2>/dev/null)
 # Run fzf with custom bindings to match your screenshot
 selected=$(echo "$sessions" | fzf \
   --prompt="session > " \
-  --header="Enter: switch   Ctrl+n: new   Ctrl+d: delete" \
+  --header="Enter: switch   Ctrl+a: new   Ctrl+d: delete" \
   --bind "ctrl-d:execute(tmux kill-session -t {})+reload(tmux list-sessions -F '#{session_name}')" \
-  --bind "ctrl-n:execute(tmux new-session -d -s {q})+reload(tmux list-sessions -F '#{session_name}')" \
+  --bind "ctrl-a:execute(tmux new-session -d -s {q})+reload(tmux list-sessions -F '#{session_name}')" \
   --preview="tmux capture-pane -ep -t {}" \
   --preview-window='right,62%,nowrap' \
   --height=100% \
