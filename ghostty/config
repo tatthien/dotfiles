@@ -12,3 +12,9 @@ theme = Gruvbox Dark
 shell-integration = fish
 
 macos-icon = xray
+
+keybind = ctrl+shift+z=toggle_split_zoom
+keybind = ctrl+shift+h=goto_split:left
+keybind = ctrl+shift+l=goto_split:right
+keybind = ctrl+shift+k=goto_split:top
+keybind = ctrl+shift+j=goto_split:bottom
