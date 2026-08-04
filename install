@@ -11,6 +11,10 @@ ln -sfv ~/dotfiles/config.fish ~/.config/fish
 ln -sfv ~/dotfiles/gitignore ~/.config/.gitignore
 ln -sfv ~/dotfiles/worktrunk ~/.config
 
+# Herdr (keep runtime sockets, logs, and sessions in ~/.config/herdr itself)
+mkdir -p ~/.config/herdr
+ln -sfv ~/dotfiles/herdr/config.toml ~/.config/herdr/config.toml
+
 # Tmux
 ln -sfv ~/dotfiles/tmux/tmux.conf ~/.tmux.conf
 ln -sfv ~/dotfiles/tmux/tmux-session-manager.sh ~/.tmux-session-manager.sh

@@ -1,0 +1,40 @@
+# Keep Herdr's controls aligned with the tmux bindings in ../tmux/tmux.conf.
+[keys]
+prefix = "ctrl+a"
+
+# tmux: prefix+r reloads ~/.tmux.conf.
+reload_config = "prefix+r"
+
+# tmux-session-manager's prefix+f is closest to Herdr's workspace picker.
+workspace_picker = "prefix+f"
+
+# Pane navigation (tmux prefix+h/j/k/l).
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+l"
+
+# Standard tmux window controls, mapped to Herdr tabs.
+new_tab = "prefix+c"
+rename_tab = "prefix+comma"
+previous_tab = "prefix+p"
+next_tab = "prefix+n"
+switch_tab = "prefix+1..9"
+close_tab = "prefix+ampersand"
+
+# Standard tmux pane controls. A vertical divider creates side-by-side panes;
+# a horizontal divider creates stacked panes.
+split_vertical = "prefix+percent"
+split_horizontal = 'prefix+"'
+close_pane = "prefix+x"
+zoom = "prefix+z"
+
+# tmux prefix+[ enters scrollback/copy mode; Herdr opens scrollback in an editor.
+edit_scrollback = "prefix+["
+
+[theme]
+name = "gruvbox"
+auto_switch = false
+
+[ui]
+show_agent_labels_on_pane_borders = true
