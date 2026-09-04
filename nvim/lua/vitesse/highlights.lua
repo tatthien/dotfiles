@@ -41,7 +41,7 @@ function M.build(p)
     Question = { fg = p.keyword },
     QuickFixLine = { bg = p.selection },
     SpecialKey = { fg = p.fg_gutter },
-    Whitespace = { fg = p.fg_gutter },
+    Whitespace = { fg = p.whitespace },
 
     Search = { fg = p.fg, bg = p.search_bg },
     IncSearch = { fg = p.bg, bg = p.regex_escape },
@@ -251,6 +251,10 @@ function M.build(p)
     GitSignsChangedelete = { fg = p.modified },
     GitSignsTopdelete = { fg = p.removed },
     GitSignsUntracked = { fg = p.type },
+
+    -- snacks.indent defaults SnacksIndentScope to Special (p.property), too loud
+    -- for a per-line indent guide; use the softer comment tone instead.
+    SnacksIndentScope = { fg = p.comment },
   }
 end
 

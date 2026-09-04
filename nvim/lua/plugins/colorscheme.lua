@@ -1,11 +1,27 @@
 return {
+  -- {
+  --   "ellisonleao/gruvbox.nvim",
+  --   lazy = true,
+  --   opts = {
+  --     contrast = "hard",
+  --   },
+  --   config = function(_, opts)
+  --     require("gruvbox").setup(opts)
+  --   end,
+  -- },
   {
-    -- kept for manual use (`:Lazy load gruvbox.nvim` then `:colorscheme gruvbox`);
-    -- vitesse (nvim/colors/vitesse-{dark,light}.lua) is the active theme, see config/lazy.lua
-    "ellisonleao/gruvbox.nvim",
+    "projekt0n/github-nvim-theme",
     lazy = true,
-    config = function(_, opts)
-      require("gruvbox").setup(opts)
+    config = function()
+      require("github-theme").setup({
+        options = {
+          styles = {
+            comments = "italic",
+            keywords = "bold",
+            types = "italic,bold",
+          },
+        },
+      })
     end,
   },
 }

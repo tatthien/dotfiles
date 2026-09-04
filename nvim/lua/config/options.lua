@@ -20,6 +20,8 @@ vim.opt.listchars = {
 -- Enable tsgo for Typescript LSP
 vim.g.lazyvim_ts_lsp = "tsgo"
 
+vim.opt.cmdheight = 0
+
 -- Suppress eslint -32603 "Cannot read config" spam when a project has no eslint config
 local orig_notify = vim.notify
 vim.notify = function(msg, level, opts)

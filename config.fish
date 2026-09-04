@@ -16,7 +16,11 @@ set -gx PATH $HOME/.opencode/bin $PATH
 set -gx PATH $HOME/.docker/bin $PATH
 set -gx PATH $HOME/Library/Python/3.14/bin $PATH
 
-set -gx DOCKER_HOST unix://$HOME/.orbstack/run/docker.sock
+# set -gx DOCKER_HOST unix://$HOME/.config/colima/default/docker.sock
+
+# go
+set -gx GOROOT $HOME/.local/go
+set -gx PATH $GOROOT/bin $HOME/go/bin $PATH
 
 if set -q GHOSTTY_RESOURCES_DIR
     source "$GHOSTTY_RESOURCES_DIR"/shell-integration/fish/vendor_conf.d/ghostty-shell-integration.fish
@@ -39,6 +43,50 @@ fnm env --use-on-cd --shell fish | source
 
 # Direnv
 direnv hook fish | source
+
+# fzf (GitHub Light, matches nvim/ghostty/tmux)
+set -gx FZF_DEFAULT_OPTS "--color=fg:#1f2328,bg:#ffffff,hl:#0550ae,fg+:#1f2328,bg+:#e7eaf0,hl+:#cf222e,info:#57606a,border:#d0d7de,query:#1f2328,prompt:#cf222e,pointer:#6639ba,marker:#9a6700,spinner:#0550ae,header:#57606a,gutter:#ffffff,separator:#d0d7de,scrollbar:#6e7781,label:#6e7781,preview-fg:#1f2328,preview-bg:#f6f8fa,preview-border:#d0d7de"
+
+# Fish syntax highlighting (GitHub Light, matches nvim/ghostty/tmux)
+set -g fish_color_normal 1f2328
+set -g fish_color_command cf222e
+set -g fish_color_builtin 6639ba
+set -g fish_color_function 6639ba
+set -g fish_color_keyword 953800
+set -g fish_color_quote 0a3069
+set -g fish_color_redirection 0550ae
+set -g fish_color_end 6e7781
+set -g fish_color_error d1242f --bold
+set -g fish_color_param 9a6700
+set -g fish_color_valid_path --underline
+set -g fish_color_option 0969da
+set -g fish_color_comment 57606a
+set -g fish_color_selection 1f2328 --background=dae9f9
+set -g fish_color_operator 8250df
+set -g fish_color_escape 633c01
+set -g fish_color_autosuggestion 57606a
+set -g fish_color_cwd 1a7f37 --bold
+set -g fish_color_cwd_root d1242f --bold
+set -g fish_color_user 6639ba --bold
+set -g fish_color_host 0550ae --bold
+set -g fish_color_host_remote bc4c00 --bold
+set -g fish_color_status d1242f
+set -g fish_color_cancel d1242f --bold
+set -g fish_color_search_match --background=e1d1b3
+set -g fish_color_history_current cf222e --bold
+
+set -g fish_pager_color_progress 6e7781
+set -g fish_pager_color_prefix cf222e --bold
+set -g fish_pager_color_completion 1f2328
+set -g fish_pager_color_description 6e7781
+set -g fish_pager_color_selected_background --background=dae9f9
+set -g fish_pager_color_selected_prefix cf222e --bold
+set -g fish_pager_color_selected_completion 1f2328
+set -g fish_pager_color_selected_description 1f2328
+set -g fish_pager_color_secondary_background --background=f6f8fa
+set -g fish_pager_color_secondary_prefix cf222e
+set -g fish_pager_color_secondary_completion 1f2328
+set -g fish_pager_color_secondary_description 6e7781
 
 ###### ALIAS ######
 alias k='kubectl'

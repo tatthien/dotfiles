@@ -27,17 +27,17 @@ eval "$(printf '%s' "$input" | jq -r '
        think=\(if .thinking.enabled then "1" else "" end)"
 ')"
 
-# ── gruvbox palette (24-bit true colour) ──────────────────────────────────────
+# ── vitesse light palette (24-bit true colour) ─────────────────────────────────
 reset=$(printf '\033[0m')
 bold=$(printf '\033[1m')
-fg=$(printf '\033[38;2;235;219;178m')    # fg0     #ebdbb2
-gray=$(printf '\033[38;2;102;92;84m')    # bg3     #665c54  separators, empty gauge
-dim=$(printf '\033[38;2;146;131;116m')   # gray    #928374  reset times, thinking
-green=$(printf '\033[38;2;184;187;38m')  # green   #b8bb26  branch
-aqua=$(printf '\033[38;2;142;192;124m')  # aqua    #8ec07c  model, filled gauge
-yellow=$(printf '\033[38;2;250;189;47m') # yellow  #fabd2f
-orange=$(printf '\033[38;2;254;128;25m') # orange  #fe8019
-red=$(printf '\033[38;2;251;73;52m')     # red     #fb4934
+fg=$(printf '\033[38;2;57;58;52m')      # fg             #393a34  percentages
+gray=$(printf '\033[38;2;153;153;153m') # punctuation    #999999  separators, empty gauge
+dim=$(printf '\033[38;2;106;115;125m')  # fg_dim         #6a737d  labels, reset times, thinking
+green=$(printf '\033[38;2;30;117;79m')  # keyword        #1e754f  heat: safe
+aqua=$(printf '\033[38;2;46;128;143m')  # type           #2e808f  model, filled gauge
+yellow=$(printf '\033[38;2;189;164;55m') # regex_escape  #bda437
+orange=$(printf '\033[38;2;166;94;43m') # warning        #a65e2b  heat: approaching limit
+red=$(printf '\033[38;2;179;29;40m')    # error          #b31d28  heat: near limit
 
 # ── glyphs (raw UTF-8 bytes) ──────────────────────────────────────────────────
 g_sep=$(printf '\xe2\x94\x82') # U+2502  box-drawing vertical

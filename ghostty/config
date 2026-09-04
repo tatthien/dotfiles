@@ -5,10 +5,11 @@ font-size = 16
 # Window settings
 window-padding-balance = true
 window-decoration = true
+macos-titlebar-style = hidden
 
-# Theme: Vitesse (ported from antfu/vscode-theme-vitesse, matches nvim colorscheme)
+# Theme: GitHub Light (matches nvim colorscheme github_light)
 # switches with macOS appearance; theme files live in ghostty/themes/
-theme = dark:Vitesse Dark,light:Vitesse Light Soft
+theme = dark:Vitesse Dark,light:GitHub Light
 
 shell-integration = fish
 
