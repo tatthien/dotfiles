@@ -1,4 +1,32 @@
+## Writing style
+
+Never use em dashes (—) or en dashes (–) in any output — code, comments, commit messages, or prose. Use a regular hyphen with spaces instead (e.g. "X - Y"), or restructure the sentence with a comma or period.
+
+## Code comments
+
+Comment only what the code cannot say itself. Default to none.
+
+- **Only non-obvious "why".** Never restate what the code does, and never add field-level comments to self-explanatory fields.
+- **Keep the finding, drop the exposition.** If the point is one fact, it is one line. Do not spend a paragraph explaining, motivating, and restating a single constraint.
+- **Worth keeping:** external API quirks, gotchas invisible from the types, and any fact that cost real time to discover. Write these terse, not deleted.
+- **Grouping labels are fine** in long literal lists (a bare `// totals` above a run of entries), where they aid scanning rather than explain.
+
+Example of the target density:
+
+```ts
+// Too much
+/**
+ * Line queries must be scoped to the invoice's engagements as well as the invoice.
+ * `invoice_id` on its own makes the line item endpoints fail with a 500, so the engagement
+ * ids from the invoice header are always sent alongside it.
+ */
+
+// Right
+/** `invoice_id` alone makes the line endpoints 500, so the engagement ids always go with it. */
+```
+
 <!-- CODEGRAPH_START -->
+
 ## CodeGraph
 
 This project has a CodeGraph MCP server (`codegraph_*` tools) configured. CodeGraph is a tree-sitter-parsed knowledge graph of every symbol, edge, and file. Reads are sub-millisecond and return structural information grep cannot.
@@ -7,18 +35,18 @@ This project has a CodeGraph MCP server (`codegraph_*` tools) configured. CodeGr
 
 Use codegraph for **structural** questions — what calls what, what would break, where is X defined, what is X's signature. Use native grep/read only for **literal text** queries (string contents, comments, log messages) or after you already have a specific file open.
 
-| Question | Tool |
-|---|---|
-| "Where is X defined?" / "Find symbol named X" | `codegraph_search` |
-| "What calls function Y?" | `codegraph_callers` |
-| "What does Y call?" | `codegraph_callees` |
+| Question                                                  | Tool                                                                                 |
+| --------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| "Where is X defined?" / "Find symbol named X"             | `codegraph_search`                                                                   |
+| "What calls function Y?"                                  | `codegraph_callers`                                                                  |
+| "What does Y call?"                                       | `codegraph_callees`                                                                  |
 | "How does X reach/become Y? / trace the flow from X to Y" | `codegraph_trace` (one call = the whole path, incl. callback/React/JSX dynamic hops) |
-| "What would break if I changed Z?" | `codegraph_impact` |
-| "Show me Y's signature / source / docstring" | `codegraph_node` |
-| "Give me focused context for a task/area" | `codegraph_context` |
-| "See several related symbols' source at once" | `codegraph_explore` |
-| "What files exist under path/" | `codegraph_files` |
-| "Is the index healthy?" | `codegraph_status` |
+| "What would break if I changed Z?"                        | `codegraph_impact`                                                                   |
+| "Show me Y's signature / source / docstring"              | `codegraph_node`                                                                     |
+| "Give me focused context for a task/area"                 | `codegraph_context`                                                                  |
+| "See several related symbols' source at once"             | `codegraph_explore`                                                                  |
+| "What files exist under path/"                            | `codegraph_files`                                                                    |
+| "Is the index healthy?"                                   | `codegraph_status`                                                                   |
 
 ### Rules of thumb
 
@@ -31,5 +59,6 @@ Use codegraph for **structural** questions — what calls what, what would break
 
 ### If `.codegraph/` doesn't exist
 
-The MCP server returns "not initialized." Ask the user: *"I notice this project doesn't have CodeGraph initialized. Want me to run `codegraph init -i` to build the index?"*
+The MCP server returns "not initialized." Ask the user: _"I notice this project doesn't have CodeGraph initialized. Want me to run `codegraph init -i` to build the index?"_
+
 <!-- CODEGRAPH_END -->

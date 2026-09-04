@@ -1,6 +1,6 @@
 #!/bin/sh
 # Claude Code status line — three lines:
-#   1. model | context used | dir (branch*) | thinking
+#   1. model | context used | thinking
 #   2. current  <gauge>  N% · <reset time>     (the 5-hour rate-limit window)
 #   3. weekly   <gauge>  N% · <reset time>     (the 7-day rate-limit window)
 #
@@ -20,7 +20,6 @@ input=$(cat)
 eval "$(printf '%s' "$input" | jq -r '
   @sh "model=\(.model.display_name // "?")
        ctx=\(((.context_window.used_percentage // 0) | floor))
-       cwd=\(.workspace.current_dir // .cwd // ".")
        h5=\(((.rate_limits.five_hour.used_percentage // 0) | floor))
        h5r=\(.rate_limits.five_hour.resets_at // 0)
        d7=\(((.rate_limits.seven_day.used_percentage // 0) | floor))
@@ -89,15 +88,6 @@ when() { # epoch
 
 # ── line 1: model | context | dir (branch*) | thinking ────────────────────────
 l1="$bold$aqua$model$reset $gray$g_sep$reset $(heat "$ctx")$ctx%$reset"
-
-l1="$l1 $gray$g_sep$reset $fg$(basename "$cwd")$reset"
-branch=$(git -C "$cwd" symbolic-ref --quiet --short HEAD 2>/dev/null) ||
-  branch=$(git -C "$cwd" rev-parse --short HEAD 2>/dev/null) # detached: short sha
-if [ -n "$branch" ]; then
-  # any tracked edit or untracked file marks the tree dirty
-  [ -n "$(git -C "$cwd" status --porcelain 2>/dev/null | head -1)" ] && d='*' || d=''
-  l1="$l1 $green($branch$d)$reset"
-fi
 
 [ -n "$think" ] && l1="$l1 $gray$g_sep$reset $dim$g_off thinking$reset"
 
