@@ -6,8 +6,9 @@ font-size = 16
 window-padding-balance = true
 window-decoration = true
 
-# Theme
-theme = Gruvbox Dark
+# Theme: Vitesse (ported from antfu/vscode-theme-vitesse, matches nvim colorscheme)
+# switches with macOS appearance; theme files live in ghostty/themes/
+theme = dark:Vitesse Dark,light:Vitesse Light Soft
 
 shell-integration = fish
 
