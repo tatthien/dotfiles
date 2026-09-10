@@ -44,49 +44,51 @@ fnm env --use-on-cd --shell fish | source
 # Direnv
 direnv hook fish | source
 
-# fzf (GitHub Light, matches nvim/ghostty/tmux)
-set -gx FZF_DEFAULT_OPTS "--color=fg:#1f2328,bg:#ffffff,hl:#0550ae,fg+:#1f2328,bg+:#e7eaf0,hl+:#cf222e,info:#57606a,border:#d0d7de,query:#1f2328,prompt:#cf222e,pointer:#6639ba,marker:#9a6700,spinner:#0550ae,header:#57606a,gutter:#ffffff,separator:#d0d7de,scrollbar:#6e7781,label:#6e7781,preview-fg:#1f2328,preview-bg:#f6f8fa,preview-border:#d0d7de"
+# fzf (Catppuccin Macchiato, matches tmux)
+set -gx FZF_DEFAULT_OPTS "--color=fg:#cad3f5,bg:#24273a,hl:#ed8796,fg+:#cad3f5,bg+:#363a4f,hl+:#ed8796,info:#c6a0f6,border:#6e738d,query:#cad3f5,prompt:#c6a0f6,pointer:#f4dbd6,marker:#b7bdf8,spinner:#f4dbd6,header:#ed8796,gutter:#24273a,separator:#6e738d,scrollbar:#a5adcb,label:#cad3f5,preview-fg:#cad3f5,preview-bg:#1e2030,preview-border:#6e738d"
 
-# Fish syntax highlighting (GitHub Light, matches nvim/ghostty/tmux)
-set -g fish_color_normal 1f2328
-set -g fish_color_command cf222e
-set -g fish_color_builtin 6639ba
-set -g fish_color_function 6639ba
-set -g fish_color_keyword 953800
-set -g fish_color_quote 0a3069
-set -g fish_color_redirection 0550ae
-set -g fish_color_end 6e7781
-set -g fish_color_error d1242f --bold
-set -g fish_color_param 9a6700
-set -g fish_color_valid_path --underline
-set -g fish_color_option 0969da
-set -g fish_color_comment 57606a
-set -g fish_color_selection 1f2328 --background=dae9f9
-set -g fish_color_operator 8250df
-set -g fish_color_escape 633c01
-set -g fish_color_autosuggestion 57606a
-set -g fish_color_cwd 1a7f37 --bold
-set -g fish_color_cwd_root d1242f --bold
-set -g fish_color_user 6639ba --bold
-set -g fish_color_host 0550ae --bold
-set -g fish_color_host_remote bc4c00 --bold
-set -g fish_color_status d1242f
-set -g fish_color_cancel d1242f --bold
-set -g fish_color_search_match --background=e1d1b3
-set -g fish_color_history_current cf222e --bold
+# Fish syntax highlighting (Catppuccin Latte, matches nvim/ghostty/tmux)
+# set -g fish_color_normal 4c4f69
+# set -g fish_color_command d20f39
+# set -g fish_color_builtin 8839ef
+# set -g fish_color_function 8839ef
+# set -g fish_color_keyword fe640b
+# set -g fish_color_quote 1e66f5
+# set -g fish_color_redirection 209fb5
+# set -g fish_color_end 6c6f85
+# set -g fish_color_error e64553 --bold
+# set -g fish_color_param df8e1d
+# set -g fish_color_valid_path --underline
+# set -g fish_color_option 04a5e5
+# set -g fish_color_comment 5c5f77
+# set -g fish_color_selection 4c4f69 --background=bcc0cc
+# set -g fish_color_operator ea76cb
+# set -g fish_color_escape dd7878
+# set -g fish_color_autosuggestion 5c5f77
+# set -g fish_color_cwd 40a02b --bold
+# set -g fish_color_cwd_root e64553 --bold
+# set -g fish_color_user 8839ef --bold
+# set -g fish_color_host 1e66f5 --bold
+# set -g fish_color_host_remote fe640b --bold
+# set -g fish_color_status e64553
+# set -g fish_color_cancel e64553 --bold
+# set -g fish_color_search_match --background=ead3b4
+# set -g fish_color_history_current d20f39 --bold
+#
+# set -g fish_pager_color_progress 6c6f85
+# set -g fish_pager_color_prefix d20f39 --bold
+# set -g fish_pager_color_completion 4c4f69
+# set -g fish_pager_color_description 6c6f85
+# set -g fish_pager_color_selected_background --background=bcc0cc
+# set -g fish_pager_color_selected_prefix d20f39 --bold
+# set -g fish_pager_color_selected_completion 4c4f69
+# set -g fish_pager_color_selected_description 4c4f69
+# set -g fish_pager_color_secondary_background --background=e6e9ef
+# set -g fish_pager_color_secondary_prefix d20f39
+# set -g fish_pager_color_secondary_completion 4c4f69
+# set -g fish_pager_color_secondary_description 6c6f85
 
-set -g fish_pager_color_progress 6e7781
-set -g fish_pager_color_prefix cf222e --bold
-set -g fish_pager_color_completion 1f2328
-set -g fish_pager_color_description 6e7781
-set -g fish_pager_color_selected_background --background=dae9f9
-set -g fish_pager_color_selected_prefix cf222e --bold
-set -g fish_pager_color_selected_completion 1f2328
-set -g fish_pager_color_selected_description 1f2328
-set -g fish_pager_color_secondary_background --background=f6f8fa
-set -g fish_pager_color_secondary_prefix cf222e
-set -g fish_pager_color_secondary_completion 1f2328
-set -g fish_pager_color_secondary_description 6e7781
+fish_config theme choose catppuccin-macchiato
 
 ###### ALIAS ######
 alias k='kubectl'
@@ -108,7 +110,7 @@ alias gps='git push'
 alias gpu='git pull'
 alias gch='git checkout'
 alias gl='git log'
-alias glo='git log --oneline'
+alias glo='git log --pretty=format:"%C(yellow)%h%Creset %s %C(bold blue)(%an)%Creset"'
 alias gfa='git fetch --all'
 alias gsi='git stash --include-untracked'
 alias lg='lazygit'
@@ -116,6 +118,9 @@ alias lg='lazygit'
 alias cl='clear'
 
 alias mypr='gh pr list --author "@me"'
+
+# Agents
+alias oc='opencode'
 
 ###### ALIAS ######
 

@@ -24,4 +24,20 @@ return {
       })
     end,
   },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    lazy = true,
+    priority = 1000,
+    opts = {
+      flavour = "latte",
+      custom_highlights = function(colors)
+        return {
+          -- lighten listchars (tab/space/trail arrows) and eol/extends/precedes markers
+          Whitespace = { fg = colors.surface0 },
+          NonText = { fg = colors.surface0 },
+        }
+      end,
+    },
+  },
 }

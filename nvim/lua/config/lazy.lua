@@ -14,7 +14,6 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- github-nvim-theme (github_light), see nvim/lua/plugins/colorscheme.lua
 vim.o.background = "light"
 
 require("lazy").setup({
@@ -24,7 +23,7 @@ require("lazy").setup({
       "LazyVim/LazyVim",
       import = "lazyvim.plugins",
       opts = {
-        colorscheme = "github_light",
+        colorscheme = "catppuccin-macchiato",
       },
     },
     -- import/override with your plugins
@@ -36,6 +35,7 @@ require("lazy").setup({
     { import = "lazyvim.plugins.extras.lang.docker" },
     { import = "lazyvim.plugins.extras.lang.json" },
     { import = "lazyvim.plugins.extras.lang.python" },
+    { import = "lazyvim.plugins.extras.test.core" },
     { import = "lazyvim.plugins.extras.ai.copilot-native" },
     { import = "plugins" },
     { import = "plugins.overrides" },
