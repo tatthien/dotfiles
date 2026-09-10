@@ -1,6 +1,20 @@
 ## Writing style
 
-Never use em dashes (—) or en dashes (–) in any output — code, comments, commit messages, or prose. Use a regular hyphen with spaces instead (e.g. "X - Y"), or restructure the sentence with a comma or period.
+Never use em dashes (—) or double hyphens (--) as substitutes for them. Use commas, parentheses, colons, or restructure the sentence instead.
+
+Be concise.
+Avoid Claude-isms.
+
+Never use these phrases or patterns:
+
+- "load bearing"
+- "The core tension is…"
+- "It's not just X, it's Y"
+- "In today's [fast-paced/rapidly evolving] [landscape/world]…"
+- "It's worth noting that…"
+- "It is important to note that…"
+- "What nobody tells you is…"
+- "No X. No Y. Just Z."
 
 ## Code comments
 
