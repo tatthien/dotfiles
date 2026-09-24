@@ -4,8 +4,8 @@ font-size = 16
 
 # Window settings
 window-padding-balance = true
-window-decoration = false
-macos-titlebar-style = hidden
+# window-decoration = false
+# macos-titlebar-style = hidden
 
 # Theme: GitHub Light (matches nvim colorscheme github_light)
 # switches with macOS appearance; theme files live in ghostty/themes/

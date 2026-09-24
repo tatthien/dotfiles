@@ -113,6 +113,8 @@ alias gl='git log'
 alias glo='git log --pretty=format:"%C(yellow)%h%Creset %s %C(bold blue)(%an)%Creset"'
 alias gfa='git fetch --all'
 alias gsi='git stash --include-untracked'
+alias gmo='git merge origin/main'
+
 alias lg='lazygit'
 
 alias cl='clear'
@@ -121,6 +123,14 @@ alias mypr='gh pr list --author "@me"'
 
 # Agents
 alias oc='opencode'
+
+# gcloud
+alias gauth='gcloud auth login --brief'
+
+# Worktrunk
+alias wtl='wt list'
+alias wtj='wt jira'
+alias wts='wt switch'
 
 ###### ALIAS ######
 
