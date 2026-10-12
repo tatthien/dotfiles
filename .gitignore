@@ -3,3 +3,6 @@ nvim/plugged
 
 # Claude Code local settings hold the telemetry secret — never commit
 claude/settings.local.json
+
+# Mod type declarations the Claude Code engine writes on load
+claude/mods/*/.claude-plugin/types/

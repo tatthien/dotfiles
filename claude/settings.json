@@ -1,4 +1,7 @@
 {
+  "env": {
+    "CLAUDE_CODE_PLUGIN_DIRS": "~/dotfiles/claude/mods/clawd-spinner"
+  },
   "includeCoAuthoredBy": false,
   "permissions": {
     "allow": [

@@ -1,0 +1,1 @@
+{ "name": "clawd-spinner", "version": "0.1.0", "description": "Replaces the loading spinner text with an animated Claude mascot", "types": "./types/index.d.ts" }
