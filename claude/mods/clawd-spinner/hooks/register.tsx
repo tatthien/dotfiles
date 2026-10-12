@@ -1,6 +1,7 @@
 import { atom, read, update } from 'claude-code'
 import type { Register } from 'claude-code'
 
+import type { Clawd } from '../types'
 import { MASCOTS, draw, type Run } from './mascots'
 
 const state = atom({ plugin: 'clawd-spinner', key: 'state' } as const, { tick: 0, mascot: 0 })
@@ -22,6 +23,15 @@ export const register: Register = on => {
     timer = null
   }
 
+  on('engine.create', async ($, e, next) => {
+    const built = await next(e)
+    const clawd: Clawd = {
+      count: async () => MASCOTS.length,
+      frame: async ({ mascot, tick }) => draw(MASCOTS[mascot % MASCOTS.length]!, tick),
+    }
+
+    return { ...built, clawd }
+  })
 
   on('session.start', async ($, e, next) => {
     await $.command.register({ name: 'mascots', description: 'Show every spinner mascot, animated, in a pane' })

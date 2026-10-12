@@ -1,0 +1,1 @@
+{ "name": "prompt-enhancer", "version": "0.1.0", "description": "Offers to rewrite each prompt into a clearer one before it is sent", "types": "./types/index.d.ts", "dependencies": ["clawd-spinner"] }
