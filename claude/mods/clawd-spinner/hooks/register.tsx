@@ -89,8 +89,13 @@ export const register: Register = on => {
 }
 
 // The spinner can paint before turn.start's state write lands, so the next mascot is picked when the previous turn ends.
+// Offsetting by 1..n-1 never lands on the current mascot, so the same one never shows twice in a row.
 function pickNext($: Parameters<typeof read>[0]) {
-  return update($, state, () => ({ tick: 0, mascot: Math.floor(Math.random() * MASCOTS.length) }))
+  const n = MASCOTS.length
+  return update($, state, s => ({
+    tick: 0,
+    mascot: n > 1 ? (s.mascot + 1 + Math.floor(Math.random() * (n - 1))) % n : 0,
+  }))
 }
 
 function rows(Text: (props: any) => any, lines: Run[][]) {
