@@ -28,6 +28,9 @@ end
 
 set -gx LC_ALL en_US.UTF-8
 
+# Claude Code drops to 256 colors inside tmux unless told the terminal passes truecolor through (tmux.conf sets RGB)
+set -gx CLAUDE_CODE_TMUX_TRUECOLOR 1
+
 # Disable fish greeting
 set -U fish_greeting
 
