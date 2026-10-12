@@ -345,23 +345,6 @@ export const SPRITES: Sprite[] = [
     ],
   },
   {
-    name: 'artboard-24cla2',
-    palette: ['#d97757', '#ea9983', '#ffffff'],
-    rows: [
-      '.aaaaaaaaaaaaaa.',
-      '.aaaaaaaaaaaaaa.',
-      '.aabbbaaaabbbaa.',
-      '.abbbbaaaabbbba.',
-      '.bbbbbbaabbbbbb.',
-      'bbbbbbaaaaabbbbb',
-      'bbbbbaaccaaabbbb',
-      'bbbbbbbaabbbbbbb',
-      'bbbbbbaaaabbbbbb',
-      '.bbbba....abbbb.',
-      '..a..a....a..a..',
-    ],
-  },
-  {
     name: 'artboard-24cla3',
     palette: ['#27b6c1', '#0da084', '#d97757', '#48ff7c', '#2f2f38', '#ffffff'],
     rows: [
