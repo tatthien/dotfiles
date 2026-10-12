@@ -6,11 +6,9 @@ import { FRAME_MS, MASCOTS, draw, type Run } from './mascots'
 const state = atom({ plugin: 'clawd-spinner', key: 'state' } as const, { tick: 0, mascot: 0 })
 const galleryTick = atom({ plugin: 'clawd-spinner', key: 'galleryTick' } as const, 0)
 
-// The shimmer steps every tick; the mascot advances one frame per FRAME_MS.
+// The turn timer ticks every TICK_MS; the mascot advances one frame per FRAME_MS.
 const TICK_MS = 100
 const GALLERY = 'clawd-gallery'
-const GLOW = '#e4e4e4'
-const HALO = '#b4b4b4'
 
 export const register: Register = on => {
   let timer: { cancel: () => void } | null = null
@@ -60,15 +58,15 @@ export const register: Register = on => {
     return next(e)
   })
 
-  on('ui.render', { component: 'Spinner' }, async ($, e) => {
+  on('ui.render', { component: 'Spinner' }, async ($, e, next) => {
     const { Box, Text } = $.ui.resolve(e)
     const s = await read($, state)
     const lines = draw(MASCOTS[s.mascot % MASCOTS.length]!, Math.floor((s.tick * TICK_MS) / FRAME_MS), reduceMotion)
 
     return (
-      <Box flexDirection="row" alignItems="flex-end">
+      <Box flexDirection="column">
         <Box flexDirection="column">{rows(Text, lines)}</Box>
-        <Text> {shimmer(Text, e.props.message ?? 'Thinking', s.tick)}</Text>
+        {await next({ ...e, props: { ...e.props, word: 'Thinking' } })}
       </Box>
     )
   })
@@ -93,19 +91,6 @@ export const register: Register = on => {
 // The spinner can paint before turn.start's state write lands, so the next mascot is picked when the previous turn ends.
 function pickNext($: Parameters<typeof read>[0]) {
   return update($, state, () => ({ tick: 0, mascot: Math.floor(Math.random() * MASCOTS.length) }))
-}
-
-// A highlight sweeps left to right, one character per tick, with a short pause off each edge.
-function shimmer(Text: (props: any) => any, text: string, tick: number) {
-  const chars = [...text]
-  const pos = (tick % (chars.length + 6)) - 3
-
-  return chars.map((c, i) => {
-    const d = Math.abs(i - pos)
-    if (d === 0) return <Text key={i} color={GLOW}>{c}</Text>
-    if (d === 1) return <Text key={i} color={HALO}>{c}</Text>
-    return <Text key={i} dimColor>{c}</Text>
-  })
 }
 
 function rows(Text: (props: any) => any, lines: Run[][]) {
