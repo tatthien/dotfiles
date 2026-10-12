@@ -1,8 +1,7 @@
 declare module 'claude-code' {
   interface PluginState {
     'prompt-enhancer': {
-      pending: { text: string; mascot: number; isImproving: boolean } | null
-      tick: number
+      pending: { text: string; isImproving: boolean } | null
     }
   }
 }

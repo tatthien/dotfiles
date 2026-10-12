@@ -1,13 +1,11 @@
 import { atom, read, update } from 'claude-code'
 import type { Register } from 'claude-code'
 
-import type { Clawd } from '../types'
-import { MASCOTS, draw, type Run } from './mascots'
+import { FRAME_MS, MASCOTS, draw, type Run } from './mascots'
 
 const state = atom({ plugin: 'clawd-spinner', key: 'state' } as const, { tick: 0, mascot: 0 })
 const galleryTick = atom({ plugin: 'clawd-spinner', key: 'galleryTick' } as const, 0)
 
-const FRAME_MS = 250
 // The shimmer steps every tick; the mascot advances one frame per FRAME_MS.
 const TICK_MS = 100
 const GALLERY = 'clawd-gallery'
@@ -17,25 +15,18 @@ const HALO = '#b4b4b4'
 export const register: Register = on => {
   let timer: { cancel: () => void } | null = null
   let galleryTimer: { cancel: () => void } | null = null
+  let reduceMotion = false
 
   const stop = () => {
     timer?.cancel()
     timer = null
   }
 
-  on('engine.create', async ($, e, next) => {
-    const built = await next(e)
-    const clawd: Clawd = {
-      count: async () => MASCOTS.length,
-      frame: async ({ mascot, tick }) => draw(MASCOTS[mascot % MASCOTS.length]!, tick),
-    }
-
-    return { ...built, clawd }
-  })
-
   on('session.start', async ($, e, next) => {
     await $.command.register({ name: 'mascots', description: 'Show every spinner mascot, animated, in a pane' })
     await pickNext($)
+    // The terminal has no prefers-reduced-motion, so Claude Code's own setting stands in for it.
+    reduceMotion = (await $.settings.read()).prefersReducedMotion === true
 
     return next(e)
   })
@@ -52,7 +43,7 @@ export const register: Register = on => {
       await update($, galleryTick, n => n + 1)
     })
 
-    return { text: `Showing ${MASCOTS.length} mascots.` }
+    return { text: `Showing ${MASCOTS.length} ${MASCOTS.length === 1 ? 'mascot' : 'mascots'}.` }
   })
 
   on('turn.start', async ($, e, next) => {
@@ -72,7 +63,7 @@ export const register: Register = on => {
   on('ui.render', { component: 'Spinner' }, async ($, e) => {
     const { Box, Text } = $.ui.resolve(e)
     const s = await read($, state)
-    const lines = draw(MASCOTS[s.mascot % MASCOTS.length]!, Math.floor((s.tick * TICK_MS) / FRAME_MS))
+    const lines = draw(MASCOTS[s.mascot % MASCOTS.length]!, Math.floor((s.tick * TICK_MS) / FRAME_MS), reduceMotion)
 
     return (
       <Box flexDirection="row" alignItems="flex-end">
@@ -90,7 +81,7 @@ export const register: Register = on => {
       <Box flexDirection="row" flexWrap="wrap" columnGap={2}>
         {MASCOTS.map(m => (
           <Box key={m.name} flexDirection="column" marginBottom={1}>
-            {rows(Text, draw(m, tick))}
+            {rows(Text, draw(m, tick, reduceMotion))}
             <Text dimColor>{m.name}</Text>
           </Box>
         ))}
