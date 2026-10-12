@@ -5,6 +5,8 @@ const MIN_WORDS = 4;
 const PREVIEW_CHARS = 72;
 const YES = "Yes, polish it";
 const NO = "No, send as is";
+// A prompt starting with this is sent as typed (minus the prefix), without asking.
+const SKIP_PREFIX = ">>";
 
 // Set when an improved prompt is put in the box, so the person's own Enter sends it without asking again.
 let skipNext = false;
@@ -23,6 +25,11 @@ export const register: Register = (on) => {
     }
 
     const text = e.text.trim();
+    if (e.origin.kind === "composer" && text.startsWith(SKIP_PREFIX)) {
+      const rest = text.slice(SKIP_PREFIX.length).trimStart();
+      return next(rest ? { ...e, text: rest } : e);
+    }
+
     const words = text.split(/\s+/).length;
     // A plugin's resubmission loses attachments, extra context and @file expansion, so those prompts go straight through.
     const canResubmit =
