@@ -6,8 +6,12 @@ import { MASCOTS, draw, type Run } from './mascots'
 const state = atom({ plugin: 'clawd-spinner', key: 'state' } as const, { tick: 0, mascot: 0 })
 const galleryTick = atom({ plugin: 'clawd-spinner', key: 'galleryTick' } as const, 0)
 
-const TICK_MS = 250
+const FRAME_MS = 250
+// The shimmer steps every tick; the mascot advances one frame per FRAME_MS.
+const TICK_MS = 100
 const GALLERY = 'clawd-gallery'
+const GLOW = '#e4e4e4'
+const HALO = '#b4b4b4'
 
 export const register: Register = on => {
   let timer: { cancel: () => void } | null = null
@@ -27,7 +31,7 @@ export const register: Register = on => {
   on('command.run', { command: 'mascots' }, async $ => {
     await $.ui.open({ id: GALLERY, title: 'Mascots' })
     galleryTimer?.cancel()
-    galleryTimer = $.clock.every(TICK_MS, async () => {
+    galleryTimer = $.clock.every(FRAME_MS, async () => {
       if (!(await $.ui.panes()).some(p => p.id === GALLERY)) {
         galleryTimer?.cancel()
         galleryTimer = null
@@ -57,12 +61,12 @@ export const register: Register = on => {
   on('ui.render', { component: 'Spinner' }, async ($, e) => {
     const { Box, Text } = $.ui.resolve(e)
     const s = await read($, state)
-    const lines = draw(MASCOTS[s.mascot % MASCOTS.length]!, s.tick)
+    const lines = draw(MASCOTS[s.mascot % MASCOTS.length]!, Math.floor((s.tick * TICK_MS) / FRAME_MS))
 
     return (
       <Box flexDirection="row" alignItems="flex-end">
         <Box flexDirection="column">{rows(Text, lines)}</Box>
-        <Text dimColor>{` ${e.props.message ?? 'thinking'}`}</Text>
+        <Text> {shimmer(Text, e.props.message ?? 'Thinking', s.tick)}</Text>
       </Box>
     )
   })
@@ -81,6 +85,19 @@ export const register: Register = on => {
         ))}
       </Box>
     )
+  })
+}
+
+// A highlight sweeps left to right, one character per tick, with a short pause off each edge.
+function shimmer(Text: (props: any) => any, text: string, tick: number) {
+  const chars = [...text]
+  const pos = (tick % (chars.length + 6)) - 3
+
+  return chars.map((c, i) => {
+    const d = Math.abs(i - pos)
+    if (d === 0) return <Text key={i} color={GLOW}>{c}</Text>
+    if (d === 1) return <Text key={i} color={HALO}>{c}</Text>
+    return <Text key={i} dimColor>{c}</Text>
   })
 }
 
