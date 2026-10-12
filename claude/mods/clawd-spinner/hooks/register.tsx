@@ -22,8 +22,10 @@ export const register: Register = on => {
     timer = null
   }
 
+
   on('session.start', async ($, e, next) => {
     await $.command.register({ name: 'mascots', description: 'Show every spinner mascot, animated, in a pane' })
+    await pickNext($)
 
     return next(e)
   })
@@ -43,17 +45,16 @@ export const register: Register = on => {
     return { text: `Showing ${MASCOTS.length} mascots.` }
   })
 
-  on('turn.start', ($, e, next) => {
+  on('turn.start', async ($, e, next) => {
     stop()
-    const mascot = Math.floor(Math.random() * MASCOTS.length)
-    update($, state, () => ({ tick: 0, mascot }))
     timer = $.clock.every(TICK_MS, () => update($, state, s => ({ ...s, tick: s.tick + 1 })))
 
     return next(e)
   })
 
-  on('turn.complete', ($, e, next) => {
+  on('turn.complete', async ($, e, next) => {
     stop()
+    await pickNext($)
 
     return next(e)
   })
@@ -86,6 +87,11 @@ export const register: Register = on => {
       </Box>
     )
   })
+}
+
+// The spinner can paint before turn.start's state write lands, so the next mascot is picked when the previous turn ends.
+function pickNext($: Parameters<typeof read>[0]) {
+  return update($, state, () => ({ tick: 0, mascot: Math.floor(Math.random() * MASCOTS.length) }))
 }
 
 // A highlight sweeps left to right, one character per tick, with a short pause off each edge.
