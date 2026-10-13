@@ -19,6 +19,7 @@ ln -sfv ~/dotfiles/herdr/config.toml ~/.config/herdr/config.toml
 ln -sfv ~/dotfiles/tmux/tmux.conf ~/.tmux.conf
 ln -sfv ~/dotfiles/tmux/tmux-session-manager.sh ~/.tmux-session-manager.sh
 ln -sfv ~/dotfiles/tmux/tmux-sb.sh ~/.tmux-sb.sh
+ln -sfv ~/dotfiles/tmux/tmux-pane-namer.sh ~/.tmux-pane-namer.sh
 
 # Claude Code (settings.local.json stays local — it holds the telemetry secret)
 ln -sfv ~/dotfiles/claude/settings.json ~/.claude/settings.json
