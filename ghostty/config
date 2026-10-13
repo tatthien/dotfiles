@@ -21,3 +21,6 @@ keybind = ctrl+shift+h=goto_split:left
 keybind = ctrl+shift+l=goto_split:right
 keybind = ctrl+shift+k=goto_split:top
 keybind = ctrl+shift+j=goto_split:bottom
+
+# custom-shader = ~/ghostty-shaders/cursor_blaze.glsl
+custom-shader = ~/.config/ghostty/shaders/in-game-crt-cursor.glsl
