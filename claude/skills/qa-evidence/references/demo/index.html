@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Release checklist</title>
+    <style>
+      :root {
+        --ink: #16181d;
+        --muted: #656d7a;
+        --line: #e2e5ea;
+        --surface: #fff;
+        --canvas: #f5f6f8;
+        --accent: #2f6df6;
+        --danger: #c8342b;
+        --ok: #197a4b;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--canvas);
+        color: var(--ink);
+        font: 15px/1.5 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      }
+      .app {
+        max-width: 640px;
+        margin: 48px auto;
+        padding: 28px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+      }
+      .masthead { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+      h1 { margin: 0; font-size: 22px; letter-spacing: -0.01em; }
+      .subtitle { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+      button {
+        font: inherit; cursor: pointer; border-radius: 8px;
+        border: 1px solid var(--line); background: var(--surface); padding: 8px 14px;
+      }
+      button:hover { border-color: #c8cdd6; }
+      .publish { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+      .publish:hover { background: #2559d0; border-color: #2559d0; }
+      .publish-panel {
+        margin-top: 20px; padding: 14px 16px;
+        border: 1px solid var(--line); border-radius: 10px; background: #f8f9fb;
+      }
+      .publish-panel--published { border-color: #bfe3cf; background: #f1faf5; color: var(--ok); }
+      .publish-stage { margin: 0; font-size: 13px; font-weight: 600; }
+      .publish-steps {
+        list-style: none; margin: 10px 0 0; padding: 0;
+        display: grid; gap: 4px; font-size: 13px; color: var(--muted);
+      }
+      .publish-steps li::before { content: "✓ "; color: var(--ok); font-weight: 700; }
+      .publish-steps:empty { display: none; }
+      .progress {
+        margin-top: 10px; height: 6px; border-radius: 99px;
+        background: #e6e9ee; overflow: hidden;
+      }
+      .progress-bar { height: 100%; background: var(--accent); transition: width 260ms ease; }
+      .composer { display: flex; gap: 10px; margin-top: 20px; }
+      .composer-input {
+        flex: 1; font: inherit; padding: 9px 12px;
+        border: 1px solid var(--line); border-radius: 8px;
+      }
+      .composer-input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+      .error { margin: 10px 0 0; color: var(--danger); font-size: 13px; font-weight: 500; }
+      .filters { display: flex; gap: 6px; margin-top: 20px; }
+      .filters button[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+      .tasks { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 8px; }
+      .tasks--dragging { user-select: none; }
+      .task {
+        display: flex; align-items: center; gap: 12px; padding: 10px 12px;
+        border: 1px solid var(--line); border-radius: 10px; background: var(--surface);
+      }
+      .task-handle {
+        color: #aeb5c0; cursor: grab; padding: 0 2px;
+        font-size: 16px; line-height: 1; border: none; background: none;
+      }
+      .tasks--dragging .task-handle { cursor: grabbing; }
+      .task-check {
+        flex: 1; display: flex; align-items: center; gap: 10px;
+        border: none; background: none; padding: 0; text-align: left;
+      }
+      .task-check::before {
+        content: ""; width: 17px; height: 17px; flex: none;
+        border: 1.5px solid #c3c9d3; border-radius: 5px;
+      }
+      .task-check[aria-checked="true"]::before {
+        background: var(--ok) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6.2 4.6 8.8 10 3.4' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat;
+        border-color: var(--ok);
+      }
+      .task--done .task-title { color: var(--muted); text-decoration: line-through; }
+      .task-delete { color: var(--muted); font-size: 13px; padding: 5px 10px; }
+      .task-delete:hover { color: var(--danger); border-color: #eecac7; }
+      .empty {
+        margin: 16px 0 0; padding: 24px; text-align: center; color: var(--muted);
+        border: 1px dashed var(--line); border-radius: 10px;
+      }
+      .toast {
+        display: flex; align-items: center; justify-content: space-between; gap: 16px;
+        margin-top: 16px; padding: 11px 14px; border-radius: 10px;
+        background: var(--ink); color: #fff; font-size: 14px;
+      }
+      .toast-undo { background: none; border-color: #4a505c; color: #fff; padding: 5px 12px; font-weight: 600; }
+      .toast-undo:hover { border-color: #fff; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module">
+      // A deliberately small app with both shapes of behaviour: validation and
+      // empty states that a single frame settles, plus reordering, a staged job
+      // and undo, which only a recording can show. No build, no dependencies.
+
+      const STORAGE_KEY = "qa-evidence-demo/tasks";
+      const SEED = [
+        { id: "t1", title: "Write the release notes", done: false },
+        { id: "t2", title: "Ship the docs update", done: false },
+        { id: "t3", title: "Tag the release", done: false },
+        { id: "t4", title: "Announce in #engineering", done: true },
+      ];
+      const PUBLISH_STAGES = [
+        "Validating checklist",
+        "Building release",
+        "Uploading artifacts",
+      ];
+      const STAGE_MS = 600;
+      const UNDO_SECONDS = 5;
+      const FILTERS = [
+        { value: "all", label: "All" },
+        { value: "open", label: "Open" },
+        { value: "done", label: "Done" },
+      ];
+
+      class Store {
+        #state;
+        #listeners = new Set();
+
+        constructor() {
+          this.#state = {
+            tasks: load(),
+            filter: "all",
+            error: null,
+            publish: { phase: "idle" },
+            pendingDelete: null,
+          };
+        }
+
+        subscribe(listener) {
+          this.#listeners.add(listener);
+          listener(this.#state);
+        }
+
+        get state() {
+          return this.#state;
+        }
+
+        get visibleTasks() {
+          const { tasks, filter } = this.#state;
+          if (filter === "open") return tasks.filter((t) => !t.done);
+          if (filter === "done") return tasks.filter((t) => t.done);
+          return tasks;
+        }
+
+        addTask(title) {
+          const trimmed = title.trim();
+          if (trimmed.length === 0) {
+            return this.#patch({ error: "Give the task a title before adding it." });
+          }
+          if (this.#state.tasks.some((t) => t.title === trimmed)) {
+            return this.#patch({ error: `"${trimmed}" is already on the checklist.` });
+          }
+          this.#patch({
+            tasks: [...this.#state.tasks, { id: nextId(), title: trimmed, done: false }],
+            error: null,
+          });
+        }
+
+        toggleTask(id) {
+          this.#patch({
+            tasks: this.#state.tasks.map((t) =>
+              t.id === id ? { ...t, done: !t.done } : t,
+            ),
+          });
+        }
+
+        setFilter(filter) {
+          this.#patch({ filter });
+        }
+
+        moveTask(id, toIndex) {
+          const from = this.#state.tasks.findIndex((t) => t.id === id);
+          if (from === -1 || from === toIndex) return;
+          const tasks = [...this.#state.tasks];
+          const [moved] = tasks.splice(from, 1);
+          if (!moved) return;
+          tasks.splice(clamp(toIndex, 0, tasks.length), 0, moved);
+          this.#patch({ tasks });
+        }
+
+        // Removes the task immediately and offers a countdown to undo. It is
+        // only really gone once the countdown expires.
+        deleteTask(id) {
+          const index = this.#state.tasks.findIndex((t) => t.id === id);
+          const task = this.#state.tasks[index];
+          if (!task) return;
+
+          this.#patch({
+            tasks: this.#state.tasks.filter((t) => t.id !== id),
+            pendingDelete: { task, index, secondsLeft: UNDO_SECONDS },
+          });
+
+          const tick = () => {
+            const pending = this.#state.pendingDelete;
+            if (!pending || pending.task.id !== id) return;
+            const secondsLeft = pending.secondsLeft - 1;
+            if (secondsLeft <= 0) return this.#patch({ pendingDelete: null });
+            this.#patch({ pendingDelete: { ...pending, secondsLeft } });
+            setTimeout(tick, 1000);
+          };
+          setTimeout(tick, 1000);
+        }
+
+        undoDelete() {
+          const pending = this.#state.pendingDelete;
+          if (!pending) return;
+          const tasks = [...this.#state.tasks];
+          tasks.splice(clamp(pending.index, 0, tasks.length), 0, pending.task);
+          this.#patch({ tasks, pendingDelete: null });
+        }
+
+        // Completed stages accumulate rather than being replaced, so the panel
+        // ends up showing what actually ran, not just the last thing.
+        publish() {
+          if (this.#state.publish.phase === "running") return;
+          const enter = (step) => {
+            const stage = PUBLISH_STAGES[step];
+            if (!stage) {
+              return this.#patch({
+                publish: { phase: "published", completed: PUBLISH_STAGES, at: "just now" },
+              });
+            }
+            this.#patch({
+              publish: {
+                phase: "running",
+                stage,
+                completed: PUBLISH_STAGES.slice(0, step),
+                progress: Math.round(((step + 1) / (PUBLISH_STAGES.length + 1)) * 100),
+              },
+            });
+            setTimeout(() => enter(step + 1), STAGE_MS);
+          };
+          enter(0);
+        }
+
+        #patch(partial) {
+          this.#state = { ...this.#state, ...partial };
+          if (partial.tasks) save(this.#state.tasks);
+          for (const listener of this.#listeners) listener(this.#state);
+        }
+      }
+
+      // The shell is built once so typing, focus and an in-flight pointer drag
+      // survive every state change; only state-dependent parts re-render.
+      function mount(root, store) {
+        root.innerHTML = `
+          <main class="app">
+            <header class="masthead">
+              <div>
+                <h1>Release checklist</h1>
+                <p class="subtitle">v2.4.0 · drag to reorder</p>
+              </div>
+              <button class="publish" type="button">Publish release</button>
+            </header>
+            <section class="publish-panel" hidden></section>
+            <form class="composer">
+              <input class="composer-input" type="text" placeholder="Add a task" aria-label="Task title" />
+              <button class="composer-add" type="submit">Add task</button>
+            </form>
+            <p class="error" role="alert" hidden></p>
+            <nav class="filters" role="tablist" aria-label="Filter tasks"></nav>
+            <ul class="tasks" aria-label="Checklist"></ul>
+            <p class="empty" hidden></p>
+            <div class="toast-slot" aria-live="polite"></div>
+          </main>`;
+
+        const el = (selector) => root.querySelector(selector);
+        const panel = el(".publish-panel");
+        const form = el(".composer");
+        const input = el(".composer-input");
+        const error = el(".error");
+        const filters = el(".filters");
+        const list = el(".tasks");
+        const empty = el(".empty");
+        const toast = el(".toast-slot");
+
+        filters.innerHTML = FILTERS.map(
+          ({ value, label }) =>
+            `<button type="button" role="tab" data-filter="${value}">${label}</button>`,
+        ).join("");
+
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+          store.addTask(input.value);
+          if (store.state.error === null) input.value = "";
+        });
+        el(".publish").addEventListener("click", () => store.publish());
+        filters.addEventListener("click", (event) => {
+          const filter = event.target.closest("[data-filter]")?.dataset.filter;
+          if (filter) store.setFilter(filter);
+        });
+        list.addEventListener("click", (event) => {
+          const id = event.target.closest("[data-id]")?.dataset.id;
+          if (!id) return;
+          if (event.target.closest(".task-delete")) store.deleteTask(id);
+          else if (event.target.closest(".task-check")) store.toggleTask(id);
+        });
+        toast.addEventListener("click", (event) => {
+          if (event.target.closest(".toast-undo")) store.undoDelete();
+        });
+        enableReorder(list, store);
+
+        store.subscribe((state) => {
+          renderPublish(panel, state);
+          error.hidden = state.error === null;
+          error.textContent = state.error ?? "";
+          for (const button of filters.querySelectorAll("[data-filter]")) {
+            button.setAttribute(
+              "aria-selected",
+              String(button.dataset.filter === state.filter),
+            );
+          }
+          renderList(list, store.visibleTasks);
+          renderEmpty(empty, state, store.visibleTasks.length);
+          renderToast(toast, state);
+        });
+      }
+
+      function renderPublish(panel, state) {
+        const { publish } = state;
+        if (publish.phase === "idle") {
+          panel.hidden = true;
+          return;
+        }
+        panel.hidden = false;
+        panel.className = `publish-panel publish-panel--${publish.phase}`;
+        const heading =
+          publish.phase === "running"
+            ? `${publish.stage}…`
+            : `Release published ${publish.at}`;
+        const steps = publish.completed.map((s) => `<li>${s}</li>`).join("");
+        const progress =
+          publish.phase === "running"
+            ? `<div class="progress"><div class="progress-bar" style="width:${publish.progress}%"></div></div>`
+            : "";
+        panel.innerHTML = `<p class="publish-stage">${heading}</p>
+          <ol class="publish-steps">${steps}</ol>
+          ${progress}`;
+      }
+
+      function renderList(list, tasks) {
+        list.innerHTML = tasks
+          .map(
+            (task) => `
+            <li class="task${task.done ? " task--done" : ""}" data-id="${task.id}">
+              <button class="task-handle" type="button" aria-label="Reorder ${escapeHtml(task.title)}">⠿</button>
+              <button class="task-check" type="button" role="checkbox" aria-checked="${task.done}">
+                <span class="task-title">${escapeHtml(task.title)}</span>
+              </button>
+              <button class="task-delete" type="button" aria-label="Delete ${escapeHtml(task.title)}">Delete</button>
+            </li>`,
+          )
+          .join("");
+      }
+
+      function renderEmpty(node, state, visible) {
+        node.hidden = visible > 0;
+        node.textContent =
+          state.filter === "done"
+            ? "Nothing finished yet."
+            : state.filter === "open"
+              ? "Every task is done. Ship it."
+              : "The checklist is empty.";
+      }
+
+      function renderToast(slot, state) {
+        const pending = state.pendingDelete;
+        if (!pending) {
+          slot.innerHTML = "";
+          return;
+        }
+        slot.innerHTML = `
+          <div class="toast" role="status">
+            <span>Deleted "${escapeHtml(pending.task.title)}"</span>
+            <button class="toast-undo" type="button">Undo (${pending.secondsLeft})</button>
+          </div>`;
+      }
+
+      // Move and release are bound to the document rather than the row, so
+      // re-rendering mid-drag cannot drop the gesture.
+      function enableReorder(list, store) {
+        list.addEventListener("pointerdown", (event) => {
+          const id = event.target.closest("[data-id]")?.dataset.id;
+          if (!id || !event.target.closest(".task-handle")) return;
+
+          event.preventDefault();
+          list.classList.add("tasks--dragging");
+
+          const onMove = (move) => store.moveTask(id, indexAt(list, move.clientY));
+          const onUp = () => {
+            list.classList.remove("tasks--dragging");
+            document.removeEventListener("pointermove", onMove);
+            document.removeEventListener("pointerup", onUp);
+          };
+          document.addEventListener("pointermove", onMove);
+          document.addEventListener("pointerup", onUp);
+        });
+      }
+
+      /** Index of the row whose midpoint the pointer has passed. */
+      function indexAt(list, clientY) {
+        const rows = [...list.querySelectorAll("[data-id]")];
+        for (const [index, row] of rows.entries()) {
+          const box = row.getBoundingClientRect();
+          if (clientY < box.top + box.height / 2) return index;
+        }
+        return rows.length - 1;
+      }
+
+      function load() {
+        try {
+          return JSON.parse(localStorage.getItem(STORAGE_KEY)) ?? SEED;
+        } catch {
+          return SEED;
+        }
+      }
+      function save(tasks) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+      }
+      let counter = 0;
+      function nextId() {
+        counter += 1;
+        return `new-${counter}`;
+      }
+      function clamp(value, min, max) {
+        return Math.min(Math.max(value, min), max);
+      }
+      function escapeHtml(value) {
+        return value.replace(
+          /[&<>"']/g,
+          (c) =>
+            ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
+        );
+      }
+
+      mount(document.querySelector("#root"), new Store());
+    </script>
+  </body>
+</html>

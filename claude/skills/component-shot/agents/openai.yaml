@@ -1,0 +1,6 @@
+interface:
+  display_name: "Component Shot"
+  short_description: "Give agents visual access to React UI states"
+  default_prompt: "Use $component-shot to render and inspect the React UI while iterating on this change."
+policy:
+  allow_implicit_invocation: true

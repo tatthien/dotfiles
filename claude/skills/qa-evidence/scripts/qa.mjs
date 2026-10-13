@@ -1,0 +1,229 @@
+#!/usr/bin/env node
+import { spawnSync } from "node:child_process";
+import {
+  existsSync,
+  readFileSync,
+  rmSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
+import { basename, dirname, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import { parseArgs } from "node:util";
+import { playwrightOutputDir, qaDir, readRun, renderReport } from "./lib.mjs";
+
+const USAGE = `qa-evidence — record QA evidence and attach it to a pull request
+
+  qa.mjs run [-- <playwright args>]   Run the suite and record evidence
+  qa.mjs report                       Print the evidence report as Markdown
+  qa.mjs pr                           Open a pull request with it attached
+  qa.mjs update [<number>]            Replace an open pull request's body with it
+  qa.mjs comment [<number>]           Post it as a comment on a pull request
+
+Options
+  --config <file>    Playwright config to wrap (default: found in the repo)
+  --draft            Open the pull request as a draft (pr only)
+  --title <title>    Pull request title (pr only)
+  --base <branch>    Base branch (pr only)
+  --intro <file>     Markdown prepended to the evidence, e.g. a change summary
+  --dry-run          Print what would be sent without calling gh
+
+Your Playwright config is read, never written, and nothing is written into
+your repository: evidence lives in a per-repository temp directory.
+`;
+
+// GitHub rejects larger uploads. Failing here beats a half-uploaded report.
+const LIMITS = { image: 10 * 1024 * 1024, video: 100 * 1024 * 1024 };
+const CONFIG_NAMES = [
+  "playwright.config.ts",
+  "playwright.config.js",
+  "playwright.config.mjs",
+  "playwright.config.cjs",
+];
+const WRAPPER_NAME = ".qa-evidence.config.ts";
+const scriptDir = dirname(fileURLToPath(import.meta.url));
+
+function main() {
+  const separator = process.argv.indexOf("--");
+  const own =
+    separator === -1 ? process.argv.slice(2) : process.argv.slice(2, separator);
+  const passthrough = separator === -1 ? [] : process.argv.slice(separator + 1);
+
+  const { values, positionals } = parseArgs({
+    args: own,
+    allowPositionals: true,
+    options: {
+      config: { type: "string" },
+      draft: { type: "boolean", default: false },
+      title: { type: "string" },
+      base: { type: "string" },
+      intro: { type: "string" },
+      "dry-run": { type: "boolean", default: false },
+      help: { type: "boolean", default: false },
+    },
+  });
+
+  const command = positionals[0];
+  if (values.help || !command) return process.stdout.write(USAGE);
+
+  if (command === "run") return run(values.config, passthrough);
+
+  const body = buildBody(values.intro);
+  if (command === "report") return process.stdout.write(body);
+
+  if (command === "pr") {
+    const args = ["pr", "create"];
+    if (values.draft) args.push("--draft");
+    if (values.title) args.push("--title", values.title);
+    if (values.base) args.push("--base", values.base);
+    return gh(args, body, values["dry-run"]);
+  }
+
+  // Re-QA after review feedback: the body should show the current evidence,
+  // not the run from before the fix.
+  if (command === "update") {
+    const args = ["pr", "edit"];
+    if (positionals[1]) args.push(positionals[1]);
+    if (values.title) args.push("--title", values.title);
+    return gh(args, body, values["dry-run"]);
+  }
+
+  if (command === "comment") {
+    const args = ["pr", "comment"];
+    if (positionals[1]) args.push(positionals[1]);
+    return gh(args, body, values["dry-run"]);
+  }
+
+  fail(`Unknown command "${command}".\n\n${USAGE}`);
+}
+
+/**
+ * Runs Playwright through a generated config that layers evidence capture over
+ * the project's own. The wrapper is written beside the real config so every
+ * relative path in it — testDir, webServer.cwd, snapshots — resolves exactly as
+ * it normally would, and is deleted as soon as the run ends.
+ */
+function run(configOption, passthrough) {
+  const base = configOption ? resolve(configOption) : findConfig();
+  const wrapper = join(dirname(base), WRAPPER_NAME);
+  writeFileSync(wrapper, wrapperSource(basename(base)));
+
+  try {
+    const result = spawnSync(
+      "npx",
+      ["playwright", "test", "-c", wrapper, ...passthrough],
+      { stdio: "inherit" },
+    );
+    if (result.error) fail(`Could not run Playwright: ${result.error.message}`);
+    // A failing check is a finding, not a crash: the evidence is still written
+    // and still worth publishing, so the exit code is passed through as-is.
+    process.exitCode = result.status ?? 1;
+  } finally {
+    rmSync(wrapper, { force: true });
+  }
+}
+
+function findConfig() {
+  for (const name of CONFIG_NAMES) {
+    const candidate = resolve(process.cwd(), name);
+    if (existsSync(candidate)) return candidate;
+  }
+  fail(
+    `No Playwright config found in ${process.cwd()}.\nSet one up first (npm init playwright@latest), or pass --config <file>.`,
+  );
+}
+
+function wrapperSource(baseName) {
+  const reporter = join(scriptDir, "reporter.mjs");
+  return `// Generated by qa-evidence for one run. Safe to delete.
+import base from ${JSON.stringify(`./${baseName}`)};
+
+// Keep an explicit screenshot setting, but never leave a failure uncaptured.
+// Record at the viewport size: the default scales down to fit 800x800, which
+// makes small text in a recording hard to read on a pull request.
+const withEvidence = (use = {}) => ({
+  ...use,
+  screenshot: use.screenshot && use.screenshot !== "off" ? use.screenshot : "only-on-failure",
+  video: {
+    mode: "on",
+    ...(use.viewport ? { size: use.viewport } : {}),
+    show: {
+      actions: { cursor: "pointer", position: "bottom-left" },
+      test: { level: "step", position: "top-right" },
+    },
+  },
+});
+
+export default {
+  ...base,
+  // Playwright's own artifacts go to the temp directory too, so a run leaves
+  // no test-results/ folder behind in the repository.
+  outputDir: ${JSON.stringify(playwrightOutputDir())},
+  use: withEvidence(base.use),
+  projects: base.projects?.map((project) => ({
+    ...project,
+    // Playwright resolves project options over top-level ones; doing it here
+    // too means the recording size sees the viewport the test actually gets.
+    use: withEvidence({ ...base.use, ...project.use }),
+  })),
+  reporter: [["list"], [${JSON.stringify(reporter)}]],
+};
+`;
+}
+
+function buildBody(intro) {
+  let run;
+  try {
+    run = readRun();
+  } catch {
+    fail(`No evidence found in ${qaDir()}. Run \`qa.mjs run\` first.`);
+  }
+  const report = renderReport(run);
+  if (!intro) return report;
+  return `${readFileSync(intro, "utf8").trimEnd()}\n\n${report}`;
+}
+
+/**
+ * Media paths are absolute (the evidence lives in a temp directory) and gh runs
+ * from the repository so it can see the branch. gh rewrites absolute references
+ * in the body to the uploaded asset exactly as it does relative ones.
+ */
+function gh(args, body, dryRun) {
+  const files = readRun().tests.flatMap((test) =>
+    test.items.map((item) => item.file),
+  );
+  checkSizes(files);
+
+  const bodyFile = join(qaDir(), "body.md");
+  writeFileSync(bodyFile, body);
+
+  const full = [...args, "--body-file", bodyFile];
+  for (const file of files) full.push("--attach", file);
+
+  // Deliberately does not delegate to `gh --dry-run`, which still pushes the
+  // branch. A dry run here touches nothing but stdout.
+  if (dryRun) return process.stdout.write(`gh ${full.join(" ")}\n\n${body}`);
+
+  const result = spawnSync("gh", full, { stdio: "inherit" });
+  if (result.error) fail(`Could not run gh: ${result.error.message}`);
+  if (result.status !== 0) process.exit(result.status ?? 1);
+}
+
+function checkSizes(files) {
+  const tooBig = files.filter((file) => {
+    const limit = file.endsWith(".webm") ? LIMITS.video : LIMITS.image;
+    return statSync(file).size > limit;
+  });
+  if (tooBig.length > 0) {
+    fail(
+      `These files exceed GitHub's upload limit:\n${tooBig.map((f) => `  ${f}`).join("\n")}\nShorten the flow, or lower the recording size in your config.`,
+    );
+  }
+}
+
+function fail(message) {
+  process.stderr.write(`${message}\n`);
+  process.exit(1);
+}
+
+main();
