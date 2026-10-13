@@ -30,6 +30,10 @@
           {
             "type": "command",
             "command": "osascript -e 'display notification \"🔔 Claude needs your input\" with title \"Claude Code\"'"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/dotfiles/tmux/claude-status.sh waiting"
           }
         ]
       }
@@ -42,6 +46,15 @@
             "command": "osascript -e 'display notification \"🔔 Claude needs your attention\" with title \"Claude Code\"'"
           }
         ]
+      },
+      {
+        "matcher": "permission_prompt|elicitation_dialog",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/dotfiles/tmux/claude-status.sh waiting"
+          }
+        ]
       }
     ],
     "Stop": [
@@ -50,6 +63,71 @@
           {
             "type": "command",
             "command": "osascript -e 'display notification \"✅ Task completed\" with title \"Claude Code\"'"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/dotfiles/tmux/claude-status.sh done"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "AskUserQuestion",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/dotfiles/tmux/claude-status.sh waiting"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/dotfiles/tmux/claude-status.sh working"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/dotfiles/tmux/claude-status.sh working"
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/dotfiles/tmux/claude-status.sh working"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/dotfiles/tmux/claude-status.sh idle"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/dotfiles/tmux/claude-status.sh clear"
           }
         ]
       }
