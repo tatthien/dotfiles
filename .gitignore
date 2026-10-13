@@ -6,3 +6,6 @@ claude/settings.local.json
 
 # Mod type declarations the Claude Code engine writes on load
 claude/mods/*/.claude-plugin/types/
+
+# Skills Claude Code syncs from the claude.ai account (rewritten on every sync)
+claude/skills/synced/
