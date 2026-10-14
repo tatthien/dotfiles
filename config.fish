@@ -135,6 +135,9 @@ alias wtl='wt list'
 alias wtj='wt jira'
 alias wts='wt switch'
 
+# Tmux
+alias ta='tmux attach -t'
+
 ###### ALIAS ######
 
 ###### FUNCTIONS ######
