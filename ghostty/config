@@ -1,11 +1,14 @@
 # Font configuration
-font-family = JetBrainsMono Nerd Font
+# font-family = JetBrainsMono Nerd Font
+# font-family = Hack Nerd Font
+font-family = IoskeleyMonoTerm Nerd Font Mono
 font-size = 16
+# adjust-cell-height = 5%
 
 # Window settings
 window-padding-balance = true
-# window-decoration = false
-# macos-titlebar-style = hidden
+window-decoration = false
+macos-titlebar-style = hidden
 
 # Theme: GitHub Light (matches nvim colorscheme github_light)
 # switches with macOS appearance; theme files live in ghostty/themes/
@@ -22,5 +25,4 @@ keybind = ctrl+shift+l=goto_split:right
 keybind = ctrl+shift+k=goto_split:top
 keybind = ctrl+shift+j=goto_split:bottom
 
-# custom-shader = ~/ghostty-shaders/cursor_blaze.glsl
 custom-shader = ~/.config/ghostty/shaders/in-game-crt-cursor.glsl
