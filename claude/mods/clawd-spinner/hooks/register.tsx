@@ -7,7 +7,7 @@ const state = atom({ plugin: 'clawd-spinner', key: 'state' } as const, { tick: 0
 const galleryTick = atom({ plugin: 'clawd-spinner', key: 'galleryTick' } as const, 0)
 
 // The turn timer ticks every TICK_MS; the mascot advances one frame per FRAME_MS.
-const TICK_MS = 100
+const TICK_MS = 95
 const GALLERY = 'clawd-gallery'
 
 export const register: Register = on => {
