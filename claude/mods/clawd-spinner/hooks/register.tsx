@@ -59,6 +59,8 @@ export const register: Register = on => {
   })
 
   on('ui.render', { component: 'Spinner' }, async ($, e, next) => {
+    // Terminal only: the Claude desktop app keeps its own spinner.
+    if (e.surface !== 'terminal') return next(e)
     const { Box, Text } = $.ui.resolve(e)
     const s = await read($, state)
     const lines = draw(MASCOTS[s.mascot % MASCOTS.length]!, Math.floor((s.tick * TICK_MS) / FRAME_MS), reduceMotion)
@@ -71,7 +73,8 @@ export const register: Register = on => {
     )
   })
 
-  on('ui.render', { component: 'Pane', requestId: GALLERY }, async ($, e) => {
+  on('ui.render', { component: 'Pane', requestId: GALLERY }, async ($, e, next) => {
+    if (e.surface !== 'terminal') return next(e)
     const { Box, Text } = $.ui.resolve(e)
     const tick = await read($, galleryTick)
 
