@@ -50,6 +50,10 @@ keymap.set("n", "<A-l>", "<C-w>>")
 keymap.set("n", "<A-j>", "<C-w>+")
 keymap.set("n", "<A-k>", "<C-w>-")
 
+-- Maximize the window, or make all windows equal size
+keymap.set("n", "mm", "<C-w>|<C-w>_", opts)
+keymap.set("n", "MM", "<C-w>=", opts)
+
 -- Diagnostics
 keymap.set("n", "<C-j>", function()
   vim.diagnostic.goto_next()
