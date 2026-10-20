@@ -131,9 +131,10 @@ alias oc='opencode'
 alias gauth='gcloud auth login --brief'
 
 # Worktrunk
-alias wtl='wt list'
-alias wtj='wt jira'
-alias wts='wt switch'
+alias wl='wt list'
+alias wj='wt jira'
+alias ws='wt switch'
+alias wr='wt remove'
 
 # Tmux
 alias ta='tmux attach -t'
