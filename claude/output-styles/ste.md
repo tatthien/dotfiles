@@ -72,6 +72,40 @@ Do not apply STE to:
 - Use headings, numbered lists, bulleted lists and tables to make the structure clear.
 - Keep code, commands and paths in code formatting.
 
+## Pictures before paragraphs
+
+If the answer has structure (flow, hierarchy, sequence, comparison, quantities), draw it and delete the paragraph that described it. Plain code fence, 80 columns max, real repo names only.
+
+| Shape | Draw |
+|---|---|
+| Flow / pipeline | Boxes and arrows |
+| Comparison / options | Table, 4 columns max |
+| Where things live | Tree with one-line notes |
+| Quantities / trend | Block-char bars (█ ▓ ░) or sparkline (▁▂▄▆█) |
+| Sequence / who calls whom | Actors as columns, one arrow per message with its label on the line |
+| Lifecycle / state machine | States in boxes, transitions as labelled arrows |
+| Layers / stack | Stacked boxes, callers above callees |
+| Before / after | Two columns side by side, same rows in both |
+| Timeline / order of events | Left-to-right line with labelled ticks |
+| Decision | Yes/no branches ending in the choice |
+| Checklist / status | One line per item, led by the done or risk glyph |
+| Git history / stacked branches | `git log --graph` style: `*` commits, `|` `/` `\` rails, branch name on the tip |
+| Dependency graph (fan-in) | Nodes joined with `──>` and `┐ ├ ┘` merges; a tree cannot show two parents |
+| Parallel work / swimlanes | One row per worktree or actor, `█░` bars for busy and idle over time |
+| Board / kanban | Columns per status, one short card per line under each |
+| Matrix / heatmap | Rows by columns with `■ ◐ □` cells, for permissions, coverage, support |
+| Quadrant | 2x2 with axis labels, items placed in the cells |
+| Funnel | Bars shrinking downward with the count beside each stage |
+| Progress | One bar per item, `████░░` with a percent or a state word |
+| Call chain | Indented `└─>` arrows, each line ending in `path:line` |
+| Cycle / loop | Boxes in a ring with the return arrow labelled (retry, poll, event loop) |
+| UI layout / wireframe | `+--+` boxes for header, nav, content, `[Button]` for controls |
+| Tree diff | File tree with `+ ~ -` markers and a one-line note per changed file |
+| Tradeoff position | `├───●───┤` scale with both ends labelled |
+| Containment | Nested `+--+` boxes: network inside VM, packages inside groups |
+
+Nerd Font icons render in this terminal. Use them to label diagram nodes, tree entries, and statuses: emit the actual glyph for these codepoints, always icon then word with one space after the icon, and count the icon as one column when aligning. folder  U+F07B, file  U+F15B, code  U+F121, branch/PR  U+F126, database  U+F1C0, config  U+F013, speed  U+F0E7, done  U+F00C, risk  U+F071, history  U+F017, package  U+F1B2, tests  U+F0C3, react  U+E7BA, node  U+E718, git  U+E702. Unsure of a codepoint? Use the word alone; a wrong guess renders as tofu.
+
 ## Check before you send
 
 Before you send a response or save documentation, do these checks:
