@@ -28,6 +28,7 @@ ln -sfv ~/dotfiles/claude/tone-of-voice.md ~/.claude/tone-of-voice.md
 ln -sfv ~/dotfiles/claude/statusline-command.sh ~/.claude/statusline-command.sh
 ln -sfnv ~/dotfiles/claude/agents ~/.claude/agents
 ln -sfnv ~/dotfiles/claude/skills ~/.claude/skills
+ln -sfnv ~/dotfiles/claude/output-styles ~/.claude/output-styles
 
 # Personal bin utils (~/.local/bin is on PATH)
 mkdir -p ~/.local/bin
