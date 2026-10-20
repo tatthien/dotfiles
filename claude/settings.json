@@ -3,6 +3,7 @@
     "CLAUDE_CODE_PLUGIN_DIRS": "~/dotfiles/claude/mods/clawd-spinner:~/dotfiles/claude/mods/prompt-enhancer"
   },
   "includeCoAuthoredBy": false,
+  "outputStyle": "STE",
   "permissions": {
     "allow": [
       "mcp__codegraph__codegraph_search",
