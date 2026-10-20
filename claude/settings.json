@@ -1,6 +1,6 @@
 {
   "env": {
-    "CLAUDE_CODE_PLUGIN_DIRS": "~/dotfiles/claude/mods/clawd-spinner:~/dotfiles/claude/mods/prompt-enhancer"
+    "CLAUDE_CODE_PLUGIN_DIRS": "~/dotfiles/claude/mods/clawd-spinner:~/dotfiles/claude/mods/prompt-enhancer:~/dotfiles/claude/mods/token-weather"
   },
   "includeCoAuthoredBy": false,
   "outputStyle": "STE",
