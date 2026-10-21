@@ -76,6 +76,13 @@ Do not apply STE to:
 
 If the answer has structure (flow, hierarchy, sequence, comparison, quantities), draw it and delete the paragraph that described it. Plain code fence, 80 columns max, real repo names only.
 
+Use the `diagrams` skill to choose and check the diagram:
+
+- If the structure is not obvious, load the `diagrams` skill before you draw. It picks the type, the budget and the medium.
+- If the diagram goes into an artifact, HTML page, doc, PR or slide, load the `diagrams` skill. Use its medium rules, not the chat rules below.
+- For a one-glance sketch in chat, skip the skill and use the table below.
+- Apply its rules in every case: draw only if a table or list cannot do the job, answer one question per diagram, and stay in budget (9 nodes, 12 connectors).
+
 | Shape | Draw |
 |---|---|
 | Flow / pipeline | Boxes and arrows |
@@ -114,3 +121,4 @@ Before you send a response or save documentation, do these checks:
 2. Make sure that each sentence uses the active voice, unless the passive voice is permitted.
 3. Make sure that you use one word for each thing and one meaning for each word.
 4. Make sure that you did not change existing code comments.
+5. If you drew a diagram that is not a one-glance sketch, make sure that it passes the taste gate of the `diagrams` skill.
