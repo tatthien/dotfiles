@@ -25,4 +25,23 @@ describe("token-weather", () => {
     expect(await ui.find({ type: "Text", text: /▲ \+98\.3k last turn/ })).toBeDefined();
     await ui.unmount();
   });
+
+  test("the band stays off outside the terminal", async ($, on) => {
+    on("session.start", ($, e) => ({ cwd: e.cwd }));
+    on("session.usage", () => ({
+      value: { startedAt: 0, rateLimits: [], context: { tokens: 36_100, window: 200_000, percent: 18 } },
+    }));
+    on("ui.render", ($, e) => $.ui.resolve(e).Text({ children: "engine" }));
+
+    await $.session.start({ surface: "desktop", isInteractive: true, cwd: "/work" } as any);
+    const ui = await $.ui.mount({
+      plugin: "token-weather",
+      surface: "desktop",
+      component: "AbovePrompt",
+      props: { hasSurvey: false, isWorking: false, maxRows: 10, bodyColumns: 120 },
+    } as any);
+    expect(await ui.find({ type: "Text", text: /engine/ })).toBeDefined();
+    expect(await ui.find({ type: "Text", text: /of context/ })).toBeUndefined();
+    await ui.unmount();
+  });
 });

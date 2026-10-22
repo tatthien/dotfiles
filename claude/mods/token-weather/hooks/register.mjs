@@ -28,7 +28,7 @@ export function register(on) {
 
   on("ui.render", { component: "AbovePrompt" }, async ($, e, next) => {
     const { value: history = [] } = await $.state.get(readings);
-    if (e.props.hasSurvey || history.length === 0) {
+    if (e.surface !== "terminal" || e.props.hasSurvey || history.length === 0) {
       return next(e);
     }
     const { Box, Text } = $.ui.resolve(e);
