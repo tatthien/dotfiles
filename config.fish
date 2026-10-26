@@ -139,6 +139,9 @@ alias wr='wt remove'
 # Tmux
 alias ta='tmux attach -t'
 
+# Herdr
+alias h='herdr'
+
 ###### ALIAS ######
 
 ###### FUNCTIONS ######
