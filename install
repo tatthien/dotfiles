@@ -14,6 +14,9 @@ ln -sfv ~/dotfiles/worktrunk ~/.config
 # Herdr (keep runtime sockets, logs, and sessions in ~/.config/herdr itself)
 mkdir -p ~/.config/herdr
 ln -sfv ~/dotfiles/herdr/config.toml ~/.config/herdr/config.toml
+if command -v herdr >/dev/null; then
+  herdr plugin link ~/dotfiles/herdr/plugins/workspace-picker
+fi
 
 # Tmux
 ln -sfv ~/dotfiles/tmux/tmux.conf ~/.tmux.conf
