@@ -1,0 +1,20 @@
+id = "workspace-picker"
+name = "Workspace picker"
+version = "0.1.0"
+min_herdr_version = "0.9.5"
+description = "Search workspaces with fzf in a popup and focus the one you pick."
+platforms = ["macos"]
+
+[[actions]]
+id = "open"
+title = "Open workspace picker"
+contexts = ["global"]
+command = ["sh", "-c", "exec \"$HERDR_BIN_PATH\" plugin pane open --plugin workspace-picker --entrypoint picker"]
+
+[[panes]]
+id = "picker"
+title = "​"
+placement = "popup"
+width = "60%"
+height = "50%"
+command = ["sh", "pick.sh"]
