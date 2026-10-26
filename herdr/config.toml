@@ -1,3 +1,4 @@
+onboarding = false
 # Keep Herdr's controls aligned with the tmux bindings in ../tmux/tmux.conf.
 [keys]
 prefix = "ctrl+a"
@@ -5,14 +6,14 @@ prefix = "ctrl+a"
 # tmux: prefix+r reloads ~/.tmux.conf.
 reload_config = "prefix+r"
 
-# tmux-session-manager's prefix+f is closest to Herdr's workspace picker.
-workspace_picker = "prefix+f"
-
 # Pane navigation (tmux prefix+h/j/k/l).
 focus_pane_left = "prefix+h"
 focus_pane_down = "prefix+j"
 focus_pane_up = "prefix+k"
 focus_pane_right = "prefix+l"
+
+# tmux prefix+$ renames the session, closest to Herdr's workspace.
+rename_workspace = "prefix+$"
 
 # Standard tmux window controls, mapped to Herdr tabs.
 new_tab = "prefix+c"
@@ -29,12 +30,45 @@ split_horizontal = 'prefix+"'
 close_pane = "prefix+x"
 zoom = "prefix+z"
 
+# tmux prefix+T renames the pane.
+rename_pane = "prefix+shift+t"
+
 # tmux prefix+[ enters scrollback/copy mode; Herdr opens scrollback in an editor.
 edit_scrollback = "prefix+["
 
 [theme]
-name = "gruvbox"
+name = "catppuccin"
 auto_switch = false
+
+# Catppuccin macchiato, matching tmux/themes/catppuccin-macchiato.conf.
+[theme.custom]
+sidebar_bg = "#1e2030"
+active_row_bg = "#363a4f"
+selection_bg = "#494d64"
+accent = "#f5bde6"
+red = "#ed8796"
+green = "#a6da95"
+blue = "#8aadf4"
+yellow = "#eed49f"
+text = "#cad3f5"
 
 [ui]
 show_agent_labels_on_pane_borders = true
+agent_panel_sort = "spaces"
+tab_bar_right = [{ type = "datetime", format = "%a %Y-%m-%d %H:%M" }]
+status_indicators = "symbols"
+
+[experimental]
+kitty_graphics = true
+
+# Replaces the built-in workspace picker (plugins/workspace-picker).
+[[keys.command]]
+key = "prefix+f"
+type = "plugin_action"
+command = "workspace-picker.open"
+description = "workspace picker"
+
+[[keys.command]]
+key = "prefix+d" # many macOS terminals swallow alt+
+type = "plugin_action"
+command = "persiyanov.reviewr.toggle"
