@@ -33,6 +33,9 @@ zoom = "prefix+z"
 # tmux prefix+T renames the pane.
 rename_pane = "prefix+shift+t"
 
+# Opens the "new worktree" modal.
+new_worktree = "prefix+w"
+
 # tmux prefix+[ enters scrollback/copy mode; Herdr opens scrollback in an editor.
 edit_scrollback = "prefix+["
 
@@ -53,10 +56,18 @@ yellow = "#eed49f"
 text = "#cad3f5"
 
 [ui]
+sidebar_width = 36
+sidebar_max_width = 48
+sidebar_collapsed_mode = "hidden"
 show_agent_labels_on_pane_borders = true
 agent_panel_sort = "spaces"
-tab_bar_right = [{ type = "datetime", format = "%a %Y-%m-%d %H:%M" }]
+tab_bar_right = [
+  { type = "text", text = "Hop An Minh" },
+  { type = "datetime", format = "%a %Y-%m-%d %H:%M" },
+]
+tab_bar_right_separator = " · "
 status_indicators = "symbols"
+window_title = "{hostname}: {workspace}"
 
 [experimental]
 kitty_graphics = true
