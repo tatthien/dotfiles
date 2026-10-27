@@ -27,17 +27,15 @@ eval "$(printf '%s' "$input" | jq -r '
        think=\(if .thinking.enabled then "1" else "" end)"
 ')"
 
-# ── github_light palette (24-bit true colour) ──────────────────────────────────
+# ── Catppuccin Macchiato palette (24-bit true colour) ──────────────────────────
 reset=$(printf '\033[0m')
 bold=$(printf '\033[1m')
-fg=$(printf '\033[38;2;31;35;40m')     # fg.default     #1f2328  percentages
-gray=$(printf '\033[38;2;110;119;129m') # gray           #6e7781  separators, empty gauge
-dim=$(printf '\033[38;2;87;96;106m')   # comment        #57606a  labels, reset times, thinking
-green=$(printf '\033[38;2;26;127;55m') # success.fg     #1a7f37  heat: safe
-aqua=$(printf '\033[38;2;27;124;131m') # cyan           #1b7c83  model, filled gauge
-yellow=$(printf '\033[38;2;154;103;0m') # attention.fg  #9a6700
-orange=$(printf '\033[38;2;188;76;0m') # severe.fg      #bc4c00  heat: approaching limit
-red=$(printf '\033[38;2;209;36;47m')   # danger.fg      #d1242f  heat: near limit
+gray=$(printf '\033[38;2;128;135;162m')  # overlay1  #8087a2  separators, dot
+dim=$(printf '\033[38;2;165;173;203m')   # subtext0  #a5adcb  labels, thinking
+green=$(printf '\033[38;2;166;218;149m') # green     #a6da95  heat: safe
+aqua=$(printf '\033[38;2;139;213;202m')  # teal      #8bd5ca  model
+orange=$(printf '\033[38;2;245;169;127m') # peach    #f5a97f  heat: approaching limit
+red=$(printf '\033[38;2;237;135;150m')   # red       #ed8796  heat: near limit
 
 # ── glyphs (raw UTF-8 bytes) ──────────────────────────────────────────────────
 g_sep=$(printf '\xe2\x94\x82') # U+2502  box-drawing vertical
