@@ -1,5 +1,4 @@
 const HISTORY = 12;
-const BARS = "▁▂▃▄▅▆▇█";
 const FORECAST = [
   { upTo: 25, icon: "☀", word: "Clear", color: "yellow" },
   { upTo: 50, icon: "☁", word: "Cloudy", color: "cyan" },
@@ -32,7 +31,7 @@ export function register(on) {
       return next(e);
     }
     const { Box, Text } = $.ui.resolve(e);
-    return band(Box, Text, history, e.props.bodyColumns);
+    return band(Box, Text, history);
   });
 }
 
@@ -45,7 +44,7 @@ async function takeReading($) {
   await $.state.set(readings, [...history, { tokens, window: context.window, percent }].slice(-HISTORY));
 }
 
-function band(Box, Text, history, columns) {
+function band(Box, Text, history) {
   const now = history[history.length - 1];
   const f = FORECAST.find((b) => now.percent < b.upTo);
   const parts = [
@@ -53,19 +52,10 @@ function band(Box, Text, history, columns) {
     Text({ children: `  ${now.percent}% of context` }),
     Text({ dimColor: true, children: `  ${short(now.tokens)} / ${short(now.window)}` }),
   ];
-  if (columns >= 60) {
-    parts.push(Text({ dimColor: true, children: "   last turns " }));
-    parts.push(Text({ color: f.color, children: sparkline(history) }));
-    if (history.length > 1) {
-      parts.push(Text({ dimColor: true, children: trend(history) }));
-    }
+  if (history.length > 1) {
+    parts.push(Text({ dimColor: true, children: trend(history) }));
   }
   return Box({ flexDirection: "row", paddingX: 1, children: parts });
-}
-
-function sparkline(history) {
-  const top = Math.max(...history.map((r) => r.tokens), 1);
-  return history.map((r) => BARS[Math.floor((r.tokens / top) * (BARS.length - 1))]).join("");
 }
 
 function trend(history) {
