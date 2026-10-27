@@ -1,8 +1,8 @@
 #!/bin/sh
 # Claude Code status line — three lines:
 #   1. model | context used | thinking
-#   2. current  <gauge>  N% · <reset time>     (the 5-hour rate-limit window)
-#   3. weekly   <gauge>  N% · <reset time>     (the 7-day rate-limit window)
+#   2. current  N% · <reset time>     (the 5-hour rate-limit window)
+#   3. weekly   N% · <reset time>     (the 7-day rate-limit window)
 #
 # Receives the Status hook JSON on stdin. Field names verified against
 # Claude Code 2.1.220: .model.display_name, .context_window.used_percentage,
@@ -41,10 +41,7 @@ red=$(printf '\033[38;2;209;36;47m')   # danger.fg      #d1242f  heat: near limi
 
 # ── glyphs (raw UTF-8 bytes) ──────────────────────────────────────────────────
 g_sep=$(printf '\xe2\x94\x82') # U+2502  box-drawing vertical
-g_on=$(printf '\xe2\x96\x88')  # U+2588  full block   — current gauge, used cell
-g_off=$(printf '\xe2\x96\x91') # U+2591  light shade  — current gauge, free cell
-g_on_wk=$(printf '\xe2\x96\x93')  # U+2593  dark shade   — weekly gauge, used cell
-g_off_wk=$(printf '\xe2\x96\x92') # U+2592  medium shade — weekly gauge, free cell
+g_off=$(printf '\xe2\x96\x91') # U+2591  light shade  — thinking marker
 g_dot=$(printf '\xc2\xb7')     # U+00B7  middot
 
 # green under half, orange approaching the limit, red near it
@@ -56,23 +53,6 @@ heat() { # pct
   else
     printf '%s' "$green"
   fi
-}
-
-# 10-cell gauge: one cell per 10%, filled cells coloured by heat
-gauge() { # pct on_glyph off_glyph
-  n=$((${1} / 10))
-  [ "$n" -gt 10 ] && n=10
-  [ "$n" -lt 0 ] && n=0
-  f='' e='' i=0
-  while [ "$i" -lt "$n" ]; do
-    f="$f$2"
-    i=$((i + 1))
-  done
-  while [ "$i" -lt 10 ]; do
-    e="$e$3"
-    i=$((i + 1))
-  done
-  printf '%s%s%s%s%s' "$(heat "$1")" "$f" "$gray" "$e" "$reset"
 }
 
 # reset time: clock only when it lands today, otherwise "mon d, clock"
@@ -94,12 +74,12 @@ l1="$bold$aqua$model$reset $gray$g_sep$reset $(heat "$ctx")$ctx%$reset"
 [ -n "$think" ] && l1="$l1 $gray$g_sep$reset $dim$g_off thinking$reset"
 
 # ── lines 2+3: the two rate-limit windows ─────────────────────────────────────
-# label padded to 7 so both gauges start in the same column
-l2=$(printf '%s%-7s%s %s %s%3d%%%s %s%s %s%s' \
-  "$dim" current "$reset" "$(gauge "$h5" "$g_on" "$g_off")" \
-  "$fg" "$h5" "$reset" "$gray" "$g_dot" "$(when "$h5r")" "$reset")
-l3=$(printf '%s%-7s%s %s %s%3d%%%s %s%s %s%s' \
-  "$dim" weekly "$reset" "$(gauge "$d7" "$g_on_wk" "$g_off_wk")" \
-  "$fg" "$d7" "$reset" "$gray" "$g_dot" "$(when "$d7r")" "$reset")
+# label padded to 7 so both percentages start in the same column
+l2=$(printf '%s%-7s%s %s%3d%%%s %s%s %s%s' \
+  "$dim" current "$reset" \
+  "$(heat "$h5")" "$h5" "$reset" "$gray" "$g_dot" "$(when "$h5r")" "$reset")
+l3=$(printf '%s%-7s%s %s%3d%%%s %s%s %s%s' \
+  "$dim" weekly "$reset" \
+  "$(heat "$d7")" "$d7" "$reset" "$gray" "$g_dot" "$(when "$d7r")" "$reset")
 
 printf '%s\n%s\n%s\n' "$l1" "$l2" "$l3"
