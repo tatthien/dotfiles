@@ -9,12 +9,16 @@ platforms = ["macos"]
 id = "open"
 title = "Open workspace picker"
 contexts = ["global"]
-command = ["sh", "-c", "exec \"$HERDR_BIN_PATH\" plugin pane open --plugin workspace-picker --entrypoint picker"]
+command = [
+  "sh",
+  "-c",
+  "exec \"$HERDR_BIN_PATH\" plugin pane open --plugin workspace-picker --entrypoint picker",
+]
 
 [[panes]]
 id = "picker"
 title = "​"
 placement = "popup"
-width = "60%"
-height = "50%"
+width = "40%"
+height = "40%"
 command = ["sh", "pick.sh"]
