@@ -2,11 +2,19 @@
 herdr="${HERDR_BIN_PATH:-herdr}"
 dir=$(cd "$(dirname "$0")" && pwd)
 
-# Prints "label<TAB>id<TAB>linked<TAB>checkout_path", in Herdr order.
+# Prints "label<TAB>id<TAB>linked<TAB>checkout_path", sorted by label.
+# A linked worktree's label gets its parent workspace's label as a prefix.
 list() {
   "$herdr" workspace list | jq -r '
-    .result.workspaces[]
-    | "\(.label)\t\(.workspace_id)\t\(.worktree.is_linked_worktree // false)\t\(.worktree.checkout_path // "")"'
+    .result.workspaces as $all
+    | $all[]
+    | (.worktree // {}) as $wt
+    | ([$all[] | select(.worktree.repo_key == $wt.repo_key and (.worktree.is_linked_worktree | not))][0].label // $wt.repo_name) as $parent
+    | (if $wt.is_linked_worktree and (.label | startswith($parent) | not)
+        then $parent + "-" + .label
+        else .label end) as $name
+    | "\($name)\t\(.workspace_id)\t\(.worktree.is_linked_worktree // false)\t\(.worktree.checkout_path // "")"' |
+    LC_ALL=C sort -f -t "$(printf '\t')" -k1,1
 }
 
 if [ "$1" = list ]; then
