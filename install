@@ -10,6 +10,7 @@ ln -sfv ~/dotfiles/starship.toml ~/.config
 ln -sfv ~/dotfiles/config.fish ~/.config/fish
 ln -sfv ~/dotfiles/gitignore ~/.config/.gitignore
 ln -sfv ~/dotfiles/worktrunk ~/.config
+ln -sfnv ~/dotfiles/rex ~/.config/rex
 
 # Herdr (keep runtime sockets, logs, and sessions in ~/.config/herdr itself)
 mkdir -p ~/.config/herdr
