@@ -14,7 +14,16 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-vim.o.background = "light"
+-- Match the Rex Merino themes, which follow the macOS appearance
+local function macos_colorscheme()
+  local dark = vim.fn.system({ "defaults", "read", "-g", "AppleInterfaceStyle" }):match("Dark")
+  local name = dark and "github_dark_default" or "github_light_default"
+  if vim.g.colors_name ~= name then
+    vim.cmd.colorscheme(name)
+  end
+end
+
+vim.api.nvim_create_autocmd("FocusGained", { callback = macos_colorscheme })
 
 require("lazy").setup({
   spec = {
@@ -23,7 +32,7 @@ require("lazy").setup({
       "LazyVim/LazyVim",
       import = "lazyvim.plugins",
       opts = {
-        colorscheme = "catppuccin-macchiato",
+        colorscheme = macos_colorscheme,
       },
     },
     -- import/override with your plugins
