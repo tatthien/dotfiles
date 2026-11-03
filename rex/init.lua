@@ -29,6 +29,21 @@ pbind("p", "client.tab.previous")
 pbind("shift+7", "client.tab.close")
 pbind("w", "client.tab.close")
 pbind(",", "client.tab.rename")
+
+rex.action {
+  name = "tab_picker",
+  title = "Pick Tab",
+  run = function(ctx)
+    rex.call("session.new_layer", {
+      session_id = ctx.session_id,
+      bounds = { 0.3, 0.25, 0.4, 0.4 },
+      focus = true,
+      layout = { block = { flavor = "com.superlogical.terminal.shell", options = { command = { os.getenv("HOME") .. "/.config/rex/rex-tabs" } } } },
+    })
+  end,
+}
+pbind("t", "tab_picker")
+pbind("s", "client.sidebar.filter.focus")
 -- tmux windows count from 0, Rex tabs from 1
 for i = 0, 9 do
   pbind(tostring(i), "client.tab.goto", { index = i + 1 })

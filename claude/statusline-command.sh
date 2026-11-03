@@ -27,15 +27,15 @@ eval "$(printf '%s' "$input" | jq -r '
        think=\(if .thinking.enabled then "1" else "" end)"
 ')"
 
-# ── Catppuccin Macchiato palette (24-bit true colour) ──────────────────────────
+# ── ANSI palette: the terminal theme (Rex Merino light/dark) picks the colours ──
 reset=$(printf '\033[0m')
 bold=$(printf '\033[1m')
-gray=$(printf '\033[38;2;128;135;162m')  # overlay1  #8087a2  separators, dot
-dim=$(printf '\033[38;2;165;173;203m')   # subtext0  #a5adcb  labels, thinking
-green=$(printf '\033[38;2;166;218;149m') # green     #a6da95  heat: safe
-aqua=$(printf '\033[38;2;139;213;202m')  # teal      #8bd5ca  model
-orange=$(printf '\033[38;2;245;169;127m') # peach    #f5a97f  heat: approaching limit
-red=$(printf '\033[38;2;237;135;150m')   # red       #ed8796  heat: near limit
+gray=$(printf '\033[90m')   # bright black  separators, dot
+dim=$(printf '\033[37m')    # white         labels, thinking
+green=$(printf '\033[32m')  # green         heat: safe
+aqua=$(printf '\033[36m')   # cyan          model
+orange=$(printf '\033[33m') # yellow        heat: approaching limit
+red=$(printf '\033[31m')    # red           heat: near limit
 
 # ── glyphs (raw UTF-8 bytes) ──────────────────────────────────────────────────
 g_sep=$(printf '\xe2\x94\x82') # U+2502  box-drawing vertical

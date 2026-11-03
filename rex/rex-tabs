@@ -1,0 +1,18 @@
+#!/bin/bash
+# Pick a tab from every Rex session with fzf and show it.
+set -euo pipefail
+
+# Rex remaps the 256-color grays per theme, so use only default and ANSI colors to match it
+colors='bg+:-1,gutter:-1,fg+:-1:bold,hl:4,hl+:4:bold,pointer:4,prompt:4,info:8,separator:8,scrollbar:8'
+
+pick=$(
+  rex ls --json | jq -r '.sessions[].session_id' | while read -r sid; do
+    rex window ls -s "$sid" --json |
+      jq -r '.session_id as $sid | .label as $s | .windows[] | [$sid, .window_id, "\($s)  ›  \(.label)"] | @tsv'
+  done | FZF_DEFAULT_OPTS= fzf --color="$colors" --delimiter='\t' --with-nth=3 --reverse --prompt='tab> '
+) || exit 0
+
+IFS=$'\t' read -r sid wid _ <<<"$pick"
+# session.select needs Remote Control in the app; window focus does not, but may not change the session on screen
+rex do session.select session_id="$sid" window_id="$wid" &>/dev/null ||
+  rex window focus -s "$sid" "$wid"
