@@ -27,6 +27,7 @@ pbind("c", "client.tab.new")
 pbind("n", "client.tab.next")
 pbind("p", "client.tab.previous")
 pbind("shift+7", "client.tab.close")
+pbind("w", "client.tab.close")
 pbind(",", "client.tab.rename")
 -- tmux windows count from 0, Rex tabs from 1
 for i = 0, 9 do
